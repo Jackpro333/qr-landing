@@ -4,158 +4,312 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>물건 기억 태그</title>
-<meta name="description" content="물건에 QR 태그를 붙이면 그 물건의 사연과 수리·소유 이력이 주인이 바뀌어도 따라갑니다.">
+<meta name="description" content="물건에 작은 태그를 붙이면 그 물건의 사연과 노래, 사진, 수리 기록이 주인이 바뀌어도 따라갑니다.">
+<meta name="theme-color" content="#f1ebe2">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Nanum+Myeongjo:wght@700;800&family=Noto+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Gowun+Dodum&family=Nanum+Pen+Script&family=IBM+Plex+Mono:wght@500;600&display=swap">
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
 <style>
 :root{
-  --bg:#eff1ec; --surface:#ffffff; --fg:#1c221f; --muted:#5c655f; --line:#d9ddd6;
-  --accent:#9a6a14; --accent-ink:#ffffff; --pine:#1f4d3a;
-  --ok:#2f7a46; --warn:#a3611a; --bad:#b0302b;
-  --own:var(--accent); --story:#2f6f8f; --fix:#8a6d1d; --note:#5a55a8;
-  --hero-bg:var(--surface); --hero-fg:var(--fg); --hero-muted:var(--muted); --hero-line:var(--line);
-  --quote-bg:var(--surface); --quote-fg:var(--fg);
-  --field:#ffffff;
-  --display:"Nanum Myeongjo","Gowun Batang",serif;
-  --storyface:"Gowun Batang","Nanum Myeongjo",serif;
-  --body:"Noto Sans KR",system-ui,-apple-system,"Apple SD Gothic Neo",sans-serif;
+  --bg:#f1ebe2; --paper:#fbf8f3; --ink:#2b2420; --soft:#6d6158; --line:#ddd1c2;
+  --accent:#b5701b; --accent-ink:#fff8ee; --moss:#55704d; --rose:#b9776c; --kraft:#d9be92; --kraft-ink:#4a3a26;
+  --field:#fffdf9; --shadow:rgba(70,45,20,.14); --ok:#3f7a46; --bad:#a83a2f; --warn:#a3611a;
+  --k-own:var(--accent); --k-story:var(--rose); --k-fix:var(--moss); --k-note:#7a6aa8; --k-song:#3f7d8c;
+  --hero-bg:var(--paper); --hero-ink:var(--ink); --hero-soft:var(--soft); --hero-line:var(--line);
+  --quote-bg:var(--paper); --quote-ink:var(--ink);
+  --grain-opacity:.22;
+  --serif:"Gowun Batang","Noto Serif KR","Apple SD Gothic Neo",serif;
+  --sans:"Gowun Dodum","Noto Sans KR","Apple SD Gothic Neo",system-ui,sans-serif;
+  --hand:"Nanum Pen Script","Gowun Dodum",cursive;
   --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
   color-scheme:light;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#121613; --surface:#1a201c; --fg:#e7ebe6; --muted:#9ca59f; --line:#2b332e;
-  --accent:#d9a443; --accent-ink:#1b1405; --pine:#7fc4a1;
-  --ok:#6cc58a; --warn:#e0a35a; --bad:#ef7a73;
-  --story:#79b8d6; --fix:#d6b45a; --note:#a9a4f0; --field:#141915;
+  --bg:#1b1714; --paper:#25201b; --ink:#f0e7db; --soft:#b3a698; --line:#3a322b;
+  --accent:#e3a650; --accent-ink:#2a1a06; --moss:#93b487; --rose:#d9a198; --kraft:#a88a5c; --kraft-ink:#1f170d;
+  --field:#1f1a16; --shadow:rgba(0,0,0,.45); --ok:#7cc487; --bad:#ef8a7d; --warn:#e7ad62;
+  --k-note:#b3a6e0; --k-song:#7fc0cf; --grain-opacity:.1;
   color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#121613; --surface:#1a201c; --fg:#e7ebe6; --muted:#9ca59f; --line:#2b332e;
-  --accent:#d9a443; --accent-ink:#1b1405; --pine:#7fc4a1;
-  --ok:#6cc58a; --warn:#e0a35a; --bad:#ef7a73;
-  --story:#79b8d6; --fix:#d6b45a; --note:#a9a4f0; --field:#141915;
+  --bg:#1b1714; --paper:#25201b; --ink:#f0e7db; --soft:#b3a698; --line:#3a322b;
+  --accent:#e3a650; --accent-ink:#2a1a06; --moss:#93b487; --rose:#d9a198; --kraft:#a88a5c; --kraft-ink:#1f170d;
+  --field:#1f1a16; --shadow:rgba(0,0,0,.45); --ok:#7cc487; --bad:#ef8a7d; --warn:#e7ad62;
+  --k-note:#b3a6e0; --k-song:#7fc0cf; --grain-opacity:.1;
   color-scheme:dark}
 body.xmas{
-  --bg:#0c2219; --surface:rgba(18,58,42,.72); --fg:#f7f3ea; --muted:#c9d8cf; --line:rgba(201,216,207,.22);
-  --accent:#e6c36a; --accent-ink:#1d1606; --own:#e6c36a; --story:#f2a9a9; --fix:#9fd6b4; --note:#c9c2ff;
-  --hero-bg:#f7f3ea; --hero-fg:#1d2a23; --hero-muted:#4d5d54; --hero-line:#b9c4bd;
-  --quote-bg:linear-gradient(160deg,#b3202e 0%,#7d1420 100%); --quote-fg:#f7f3ea;
-  --field:rgba(255,255,255,.07);
+  --bg:#0c2219; --paper:rgba(18,58,42,.78); --ink:#f7f3ea; --soft:#c9d8cf; --line:rgba(201,216,207,.22);
+  --accent:#e6c36a; --accent-ink:#1d1606; --field:rgba(255,255,255,.07);
+  --k-own:#e6c36a; --k-story:#f2a9a9; --k-fix:#9fd6b4; --k-note:#c9c2ff; --k-song:#9ad7e6;
+  --hero-bg:#f7f3ea; --hero-ink:#1d2a23; --hero-soft:#4d5d54; --hero-line:#b9c4bd;
+  --quote-bg:linear-gradient(160deg,#b3202e 0%,#7d1420 100%); --quote-ink:#f7f3ea;
+  --grain-opacity:0;
   color-scheme:dark;
   background:radial-gradient(120% 70% at 50% 0%,#18513a 0%,#123a2a 40%,#0c2219 100%) fixed,#0c2219;
 }
 *{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.65;
-  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
-  padding-block:calc(env(safe-area-inset-top,0px) + 28px) calc(env(safe-area-inset-bottom,0px) + 64px);overflow-x:hidden}
-a{color:var(--accent)}
-h1,h2,h3{margin:0;text-wrap:balance}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.75;letter-spacing:-.005em;
+  padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px));
+  padding-block:calc(env(safe-area-inset-top,0px) + 22px) calc(env(safe-area-inset-bottom,0px) + 56px);overflow-x:hidden;word-break:keep-all;overflow-wrap:break-word}
+.grain{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:var(--grain-opacity);mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .24 0 0 0 0 .14 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .grain{mix-blend-mode:screen}}
+:root[data-theme="dark"] .grain{mix-blend-mode:screen}
+a{color:var(--accent);text-underline-offset:3px}
+h1,h2,h3{margin:0;text-wrap:balance;font-family:var(--serif);font-weight:700;letter-spacing:-.01em}
 p{margin:0}
 [hidden]{display:none!important}
-.wrap{position:relative;z-index:1;max-width:580px;margin:0 auto;display:grid;gap:24px}
-.wrap.wide{max-width:1080px}
+.wrap{position:relative;z-index:1;max-width:620px;margin:0 auto;display:grid;gap:26px}
+.wrap.wide{max-width:1100px}
+.wrap.home{max-width:1120px;gap:0}
 .mono{font-family:var(--mono)}
-.muted{color:var(--muted)}
-.small{font-size:.86rem}
+.hand{font-family:var(--hand);font-size:1.35em;line-height:1.2;color:var(--accent)}
+.soft{color:var(--soft)}
+.small{font-size:.88rem}
 .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .spread{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
-.topline{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;font-family:var(--mono);font-size:.8rem;letter-spacing:.05em;color:var(--muted)}
+.topline{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;font-size:.86rem;color:var(--soft)}
 .topline a{color:inherit;text-decoration:none}
-.topline .season{color:var(--accent)}
-.brand{font-family:var(--display);font-weight:800;font-size:1.15rem;letter-spacing:.01em;color:var(--fg);text-decoration:none}
-.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;display:grid;gap:14px;min-width:0}
-.panel h2{font-size:1.05rem}
-.notice{border:1px dashed var(--accent);border-radius:12px;padding:14px 16px;display:grid;gap:4px;font-size:.92rem}
+.topline .season{color:var(--accent);font-family:var(--mono);font-size:.8rem;letter-spacing:.06em}
+.brand{display:inline-flex;align-items:center;gap:9px;font-family:var(--serif);font-weight:700;font-size:1.06rem;color:var(--ink);text-decoration:none;letter-spacing:-.01em}
+.brand-mark{width:16px;height:22px;background:var(--kraft);clip-path:polygon(22% 0,78% 0,100% 18%,100% 100%,0 100%,0 18%);position:relative;flex:none}
+.brand-mark::after{content:"";position:absolute;left:50%;top:5px;width:5px;height:5px;margin-left:-2.5px;border-radius:50%;background:var(--bg)}
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:22px;display:grid;gap:14px;min-width:0}
+.panel h2{font-size:1.08rem}
+.notice{border:1px dashed var(--accent);border-radius:12px;padding:14px 16px;display:grid;gap:4px;font-size:.93rem;background:color-mix(in srgb,var(--paper) 70%,transparent)}
 .notice b{color:var(--accent)}
-.err{color:var(--bad);font-size:.9rem}
-.okmsg{color:var(--ok);font-size:.9rem}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;font:inherit;font-weight:700;font-size:.93rem;border-radius:10px;padding:10px 16px;cursor:pointer;
-  border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);text-decoration:none;min-height:42px}
-.btn.ghost{background:transparent;color:var(--fg);border-color:var(--line)}
-.btn.small{padding:6px 10px;min-height:34px;font-size:.84rem}
-.btn.danger{background:transparent;color:var(--bad);border-color:var(--bad)}
+.err{color:var(--bad);font-size:.92rem}
+.okmsg{color:var(--ok);font-size:.92rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font:inherit;font-weight:700;font-size:.95rem;border-radius:999px;padding:11px 20px;cursor:pointer;
+  border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);text-decoration:none;min-height:44px;transition:transform .15s ease,box-shadow .15s ease}
+.btn:hover{transform:translateY(-1px);box-shadow:0 6px 16px var(--shadow)}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn.small{padding:6px 12px;min-height:34px;font-size:.85rem}
+.btn.danger{background:transparent;color:var(--bad);border-color:color-mix(in srgb,var(--bad) 60%,transparent)}
 .btn.danger.armed{background:var(--bad);color:#fff}
-.btn:disabled{opacity:.55;cursor:progress}
-.btn:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,.seg button:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
-form{display:grid;gap:14px}
+.btn:disabled{opacity:.55;cursor:progress;transform:none;box-shadow:none}
+.btn:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,.seg button:focus-visible,summary:focus-visible,.tile:focus-visible,.yt-play:focus-visible,.pl-item:focus-visible,.lb button:focus-visible,.picker:focus-within{outline:3px solid var(--accent);outline-offset:2px}
+form{display:grid;gap:16px}
 .field{display:grid;gap:6px;min-width:0}
-.field label,.field .lbl{font-weight:700;font-size:.9rem}
-.field .hint{font-size:.8rem;color:var(--muted)}
+.field label,.field .lbl{font-weight:700;font-size:.92rem}
+.field .hint{font-size:.82rem;color:var(--soft)}
 .req{color:var(--bad);margin-left:2px}
-input,textarea,select{font:inherit;color:var(--fg);background:var(--field);border:1px solid var(--line);border-radius:10px;padding:10px 12px;width:100%;min-width:0}
-textarea{min-height:110px;resize:vertical;font-family:var(--storyface);line-height:1.6}
+input,textarea,select{font:inherit;color:var(--ink);background:var(--field);border:1px solid var(--line);border-radius:12px;padding:11px 13px;width:100%;min-width:0}
+input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--soft) 75%,transparent)}
+textarea{min-height:120px;resize:vertical;font-family:var(--serif);line-height:1.7}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .choices{display:flex;gap:8px;flex-wrap:wrap}
-.choices label{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:6px 12px;cursor:pointer;font-weight:500;font-size:.9rem}
+.choices label{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:7px 14px;cursor:pointer;font-weight:400;font-size:.92rem;background:var(--field)}
 .choices input{width:auto;margin:0;accent-color:var(--accent)}
 .choices label:has(input:checked){border-color:var(--accent);color:var(--accent);font-weight:700}
-details.panel>summary{cursor:pointer;font-weight:700;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px}
+details.panel>summary{cursor:pointer;font-weight:700;font-family:var(--serif);list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px}
 details.panel>summary::-webkit-details-marker{display:none}
-details.panel>summary::after{content:"+";font-family:var(--mono);color:var(--muted);font-size:1.1rem}
+details.panel>summary::after{content:"+";font-family:var(--mono);color:var(--soft);font-size:1.15rem}
 details.panel[open]>summary::after{content:"−"}
-.hero{position:relative;background:var(--hero-bg);color:var(--hero-fg);border:1px solid var(--line);border-radius:18px;padding:30px 24px 24px;display:grid;gap:8px}
-body.xmas .hero{border:2px solid #e6c36a;box-shadow:0 18px 40px rgba(0,0,0,.35);padding-top:38px}
-body.xmas .hero::before{content:"";position:absolute;top:14px;left:50%;width:16px;height:16px;margin-left:-8px;border-radius:50%;background:#0c2219;box-shadow:0 0 0 3px #e6c36a}
-.ribbon{position:absolute;top:-10px;right:20px;background:var(--pine);color:#fff;font-size:.74rem;font-weight:700;letter-spacing:.06em;padding:6px 12px 10px;clip-path:polygon(0 0,100% 0,100% 100%,50% 80%,0 100%)}
+#toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 24px);transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:11px 18px;border-radius:999px;font-size:.92rem;z-index:80;max-width:calc(100% - 32px);box-shadow:0 10px 26px var(--shadow)}
+
+.nav{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-bottom:10px}
+.nav-links{display:flex;gap:18px;font-size:.92rem}
+.nav-links a{color:var(--soft);text-decoration:none}
+.nav-links a:hover{color:var(--ink)}
+.h-hero{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center;padding-block:56px 72px}
+.h-hero .eyebrow{font-family:var(--hand);font-size:1.7rem;color:var(--accent);line-height:1}
+.h-hero h1{font-size:clamp(2.2rem,5.2vw,3.7rem);line-height:1.22;margin-top:14px}
+.h-hero h1 em{font-style:normal;background:linear-gradient(transparent 62%,color-mix(in srgb,var(--accent) 28%,transparent) 62%)}
+.h-hero .lead{font-family:var(--serif);font-size:1.16rem;line-height:1.85;color:var(--soft);max-width:30em;margin-top:22px}
+.h-hero .cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:30px}
+.hang-wrap{position:relative;height:470px;display:flex;justify-content:center}
+.hang{position:relative;width:250px;transform-origin:50% 0;animation:sway 7s ease-in-out infinite alternate}
+@keyframes sway{from{transform:rotate(-2.4deg)}to{transform:rotate(2.2deg)}}
+@media (prefers-reduced-motion: reduce){.hang{animation:none;transform:rotate(-1.5deg)}}
+.nail{position:absolute;left:50%;top:-6px;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:var(--soft);box-shadow:0 2px 0 var(--shadow)}
+.string{position:absolute;left:50%;top:0;width:60px;height:120px;margin-left:-30px;overflow:visible}
+.ktag{position:absolute;top:112px;left:0;right:0;min-height:300px;background:linear-gradient(170deg,color-mix(in srgb,var(--kraft) 92%,#fff) 0%,var(--kraft) 70%);color:var(--kraft-ink);
+  clip-path:polygon(20% 0,80% 0,100% 13%,100% 100%,0 100%,0 13%);padding:62px 26px 26px;display:grid;gap:10px;align-content:start;filter:drop-shadow(0 14px 22px var(--shadow))}
+.ktag .hole{position:absolute;left:50%;top:22px;width:20px;height:20px;margin-left:-10px;border-radius:50%;background:var(--bg);box-shadow:inset 0 0 0 4px color-mix(in srgb,var(--kraft-ink) 25%,transparent)}
+.ktag-no{font-family:var(--mono);font-size:.78rem;letter-spacing:.12em;opacity:.75}
+.ktag-item{font-family:var(--serif);font-weight:700;font-size:1.3rem;border-bottom:1px dashed color-mix(in srgb,var(--kraft-ink) 40%,transparent);padding-bottom:8px}
+.ktag-note{font-family:var(--hand);font-size:1.7rem;line-height:1.22}
+.ktag-foot{font-size:.82rem;opacity:.8;margin-top:6px}
+.h-sec{padding-block:64px;border-top:1px solid var(--line);display:grid;gap:30px}
+.h-sec-head{display:grid;gap:8px;max-width:38em}
+.h-sec-head h2{font-size:clamp(1.6rem,3.4vw,2.3rem);line-height:1.3}
+.h-sec-head p{color:var(--soft);font-family:var(--serif);font-size:1.06rem}
+.tag-sample{display:inline-block;justify-self:start;font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;color:var(--soft);border:1px dashed var(--line);border-radius:999px;padding:1px 10px}
+.polas{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;padding:10px 6px 4px}
+.pola{background:#fffdf8;color:#2b2420;padding:14px 14px 18px;box-shadow:0 1px 2px rgba(0,0,0,.08),0 14px 28px var(--shadow);display:grid;gap:10px;transition:transform .25s ease}
+.pola:nth-child(1){transform:rotate(-2.2deg)} .pola:nth-child(2){transform:rotate(1.6deg) translateY(14px)} .pola:nth-child(3){transform:rotate(-.8deg)}
+.pola:hover{transform:rotate(0) translateY(-4px)}
+@media (prefers-reduced-motion: reduce){.pola{transition:none}}
+.pola-photo{aspect-ratio:1;display:grid;place-items:center;border-radius:2px}
+.pola-photo svg{width:62%;height:62%;color:#3a2f28}
+.pola:nth-child(1) .pola-photo{background:#f3dcd5} .pola:nth-child(2) .pola-photo{background:#dbe5d3} .pola:nth-child(3) .pola-photo{background:#efe0c4}
+.pola-cap{font-family:var(--hand);font-size:1.45rem;line-height:1.2}
+.pola-meta{display:flex;justify-content:space-between;font-size:.78rem;color:#7a6c60;font-family:var(--mono);letter-spacing:.04em}
+.song-split{display:grid;grid-template-columns:.9fr 1.1fr;gap:44px;align-items:center}
+.vinyl-wrap{position:relative;max-width:340px;width:100%;justify-self:center}
+.sleeve{position:absolute;left:-6%;top:6%;width:78%;aspect-ratio:1;background:var(--moss);border-radius:4px;box-shadow:0 12px 26px var(--shadow);display:grid;align-content:start;padding:16px;color:#f4efe4}
+.sleeve span{max-width:42%}
+.sleeve span{font-family:var(--hand);font-size:1.6rem;line-height:1.1}
+.vinyl{position:relative;margin-left:auto;width:82%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,#1e1916 0 30%,transparent 30%),repeating-radial-gradient(circle,#211b18 0 2px,#2c2521 2px 4px);box-shadow:0 16px 30px var(--shadow);animation:spin 18s linear infinite}
+.vinyl::after{content:"";position:absolute;inset:34%;border-radius:50%;background:radial-gradient(circle,#1b1714 0 9%,var(--accent) 9% 100%)}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion: reduce){.vinyl{animation:none}}
+.mock-song{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:16px;display:grid;grid-template-columns:72px 1fr;gap:14px;align-items:center;max-width:430px;box-shadow:0 10px 24px var(--shadow)}
+.mock-thumb{aspect-ratio:1;border-radius:10px;background:linear-gradient(135deg,var(--k-song),color-mix(in srgb,var(--k-song) 40%,var(--bg)));display:grid;place-items:center}
+.mock-thumb::after{content:"";width:0;height:0;border-left:15px solid #fff;border-top:10px solid transparent;border-bottom:10px solid transparent;margin-left:4px}
+.mock-song b{display:block;font-family:var(--serif);font-size:1.02rem;line-height:1.4}
+.mock-song span{font-size:.82rem;color:var(--soft)}
+.feats{display:flex;gap:10px;flex-wrap:wrap}
+.feat{border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:.9rem;background:var(--paper)}
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px;counter-reset:s}
+.steps li{counter-increment:s;display:grid;gap:8px;align-content:start;padding-top:16px;border-top:2px solid var(--ink)}
+.steps li::before{content:counter(s,decimal-leading-zero);font-family:var(--mono);font-size:.8rem;color:var(--accent);letter-spacing:.08em}
+.steps b{font-family:var(--serif);font-size:1.12rem}
+.steps p{color:var(--soft);font-size:.95rem}
+.cats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.cat{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:20px;display:grid;gap:10px;align-content:start}
+.cat svg{width:46px;height:46px;color:var(--accent)}
+.cat b{font-family:var(--serif);font-size:1.08rem}
+.cat p{color:var(--soft);font-size:.94rem}
+.promise{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:26px}
+.promise div{display:grid;gap:6px;align-content:start}
+.promise b{font-family:var(--serif);font-size:1.08rem}
+.promise p{color:var(--soft);font-size:.95rem}
+.promise .hand{font-size:2rem}
+.open-card{background:var(--ink);color:var(--bg);border-radius:22px;padding:40px clamp(22px,5vw,56px);display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:center}
+.open-card h2{font-size:clamp(1.5rem,3vw,2rem);color:var(--bg)}
+.open-card p{opacity:.8;font-family:var(--serif)}
+.open-card input{background:color-mix(in srgb,var(--bg) 10%,transparent);color:var(--bg);border-color:color-mix(in srgb,var(--bg) 30%,transparent);font-family:var(--mono)}
+.open-card input::placeholder{color:color-mix(in srgb,var(--bg) 55%,transparent)}
+.open-card .btn{background:var(--accent);border-color:var(--accent)}
+.foot{padding-top:36px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--soft);font-size:.88rem}
+.foot a{color:inherit}
+
+.hero{position:relative;background:var(--hero-bg);color:var(--hero-ink);border:1px solid var(--line);border-radius:20px;padding:40px 26px 24px;display:grid;gap:8px;box-shadow:0 12px 30px var(--shadow)}
+.hero::before{content:"";position:absolute;top:16px;left:50%;width:16px;height:16px;margin-left:-8px;border-radius:50%;background:var(--bg);box-shadow:inset 0 0 0 3px var(--kraft)}
+body.xmas .hero{border:2px solid #e6c36a}
+body.xmas .hero::before{background:#0c2219;box-shadow:0 0 0 3px #e6c36a}
+.ribbon{position:absolute;top:-10px;right:20px;background:var(--moss);color:var(--paper);font-size:.76rem;font-weight:700;letter-spacing:.04em;padding:6px 12px 11px;clip-path:polygon(0 0,100% 0,100% 100%,50% 80%,0 100%)}
 body.xmas .ribbon{background:#b3202e;color:#f7f3ea}
-.eyebrow{font-family:var(--mono);font-size:.76rem;letter-spacing:.08em;color:var(--accent)}
-body.xmas .eyebrow{color:#b3202e}
-.hero h1{font-family:var(--display);font-weight:800;font-size:2.2rem;line-height:1.18}
+.eyebrow-code{font-family:var(--mono);font-size:.76rem;letter-spacing:.1em;color:var(--accent)}
+body.xmas .eyebrow-code{color:#b3202e}
+.hero h1{font-size:2.2rem;line-height:1.22}
 body.xmas .hero h1{color:#123a2a}
-.hero .spec{color:var(--hero-muted)}
-.owner{display:flex;gap:10px;align-items:center;flex-wrap:wrap;border-top:1px dashed var(--hero-line);padding-top:12px;margin-top:6px}
+.hero .spec{color:var(--hero-soft);font-family:var(--serif)}
+.owner{display:flex;gap:10px;align-items:center;flex-wrap:wrap;border-top:1px dashed var(--hero-line);padding-top:12px;margin-top:8px}
 .owner b{font-size:1.04rem}
-.badge{background:var(--pine);color:#fff;font-weight:700;font-size:.8rem;border-radius:999px;padding:3px 12px;letter-spacing:.03em}
+.badge{background:var(--moss);color:var(--paper);font-weight:700;font-size:.8rem;border-radius:999px;padding:3px 12px}
 body.xmas .badge{background:#123a2a;color:#e6c36a}
-blockquote{margin:0;padding:22px 24px;border-radius:16px;background:var(--quote-bg);color:var(--quote-fg);border:1px solid var(--line);font-family:var(--storyface);font-size:1.28rem;line-height:1.6;text-wrap:pretty;white-space:pre-line}
-blockquote::before{content:"“";display:block;font-size:2.2rem;line-height:.6;color:var(--accent);font-family:var(--display)}
-body.xmas blockquote{border-color:rgba(230,195,106,.5);box-shadow:0 12px 30px rgba(0,0,0,.3)}
-body.xmas blockquote::before{content:"❄";font-size:1.2rem;line-height:1.2;color:#e6c36a}
-.sec-title{font-family:var(--display);font-size:1.12rem;color:var(--fg)}
-body.xmas .sec-title{color:#e6c36a}
+.counts{display:flex;gap:14px;flex-wrap:wrap;font-size:.84rem;color:var(--hero-soft)}
+blockquote{margin:0;padding:24px 26px;border-radius:18px;background:var(--quote-bg);color:var(--quote-ink);border:1px solid var(--line);font-family:var(--serif);font-size:1.3rem;line-height:1.75;text-wrap:pretty;white-space:pre-line;position:relative}
+blockquote::before{content:"“";position:absolute;top:-6px;left:18px;font-size:3.4rem;line-height:1;color:var(--accent);font-family:var(--serif)}
+blockquote cite{display:block;margin-top:10px;font-style:normal;font-family:var(--hand);font-size:1.45rem;color:var(--accent)}
+body.xmas blockquote{border-color:rgba(230,195,106,.5)}
+body.xmas blockquote::before{content:"❄";font-size:1.3rem;top:10px;color:#e6c36a}
+body.xmas blockquote cite{color:#f7e2a8}
+.sec{display:grid;gap:12px}
+.sec-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+.sec-head h2{font-size:1.25rem}
+body.xmas .sec-head h2{color:#e6c36a}
+.sec-head .hand{font-size:1.4rem}
+
+.song-card{background:var(--paper);border:1px solid var(--line);border-radius:18px;overflow:hidden;display:grid;box-shadow:0 10px 26px var(--shadow)}
+.yt{position:relative;aspect-ratio:16/9;background:#111}
+.yt iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.yt-play{position:absolute;inset:0;border:0;padding:0;cursor:pointer;background:#111;display:block;width:100%}
+.yt-play img{width:100%;height:100%;object-fit:cover;display:block;opacity:.92;transition:opacity .2s}
+.yt-play:hover img{opacity:1}
+.yt-btn{position:absolute;left:50%;top:50%;width:68px;height:68px;margin:-34px 0 0 -34px;border-radius:50%;background:rgba(20,16,14,.72);backdrop-filter:blur(2px);display:grid;place-items:center;box-shadow:0 6px 18px rgba(0,0,0,.35)}
+.yt-btn::after{content:"";border-left:20px solid #fff;border-top:13px solid transparent;border-bottom:13px solid transparent;margin-left:5px}
+.song-meta{padding:18px 20px 20px;display:grid;gap:6px}
+.song-who{font-size:.8rem;font-weight:700;letter-spacing:.04em;color:var(--k-song)}
+.song-meta h3{font-size:1.18rem}
+.song-meta p{font-family:var(--serif);color:var(--soft);white-space:pre-line}
+.playlist{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.pl-item{width:100%;display:grid;grid-template-columns:64px 1fr auto;gap:12px;align-items:center;text-align:left;font:inherit;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:8px 12px 8px 8px;cursor:pointer}
+.pl-item[aria-current="true"]{border-color:var(--k-song);box-shadow:0 0 0 1px var(--k-song) inset}
+.pl-item img{width:64px;aspect-ratio:16/9;object-fit:cover;border-radius:6px;display:block}
+.pl-item b{display:block;font-size:.95rem;line-height:1.35}
+.pl-item span{font-size:.8rem;color:var(--soft)}
+.pl-item time{font-family:var(--mono);font-size:.78rem;color:var(--soft)}
+
+.album{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.tile{position:relative;aspect-ratio:1;border:0;padding:0;border-radius:12px;overflow:hidden;cursor:zoom-in;background:var(--line);display:block;width:100%}
+.tile img,.tile video{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s ease}
+.tile:hover img,.tile:hover video{transform:scale(1.04)}
+.tile .vbadge{position:absolute;right:8px;bottom:8px;background:rgba(20,16,14,.7);color:#fff;font-size:.72rem;border-radius:999px;padding:2px 9px}
+@media (prefers-reduced-motion: reduce){.tile img,.tile video{transition:none}}
+
 .timeline{list-style:none;margin:0;padding:0;display:grid}
-.ev{display:grid;grid-template-columns:4.8rem 1fr;gap:14px;padding:14px 0;border-top:1px solid var(--line)}
-.ev>div{min-width:0;display:grid;gap:2px;border-left:3px solid var(--own);padding-left:14px}
-.ev time{font-family:var(--mono);font-size:.84rem;color:var(--muted);font-variant-numeric:tabular-nums;padding-top:2px}
-.ev .chip{justify-self:start;font-size:.72rem;font-weight:700;letter-spacing:.06em;color:var(--own)}
-.ev h3{font-size:1rem}
-.ev p{color:var(--muted);font-family:var(--storyface);white-space:pre-line;overflow-wrap:anywhere}
-.ev.k-story>div{border-left-color:var(--story)} .ev.k-story .chip{color:var(--story)}
-.ev.k-fix>div{border-left-color:var(--fix)} .ev.k-fix .chip{color:var(--fix)}
-.ev.k-note>div{border-left-color:var(--note)} .ev.k-note .chip{color:var(--note)}
+.ev{display:grid;grid-template-columns:4.9rem 1fr;gap:14px;padding:16px 0;border-top:1px solid var(--line)}
+.ev>div{min-width:0;display:grid;gap:4px;border-left:3px solid var(--k-own);padding-left:15px}
+.ev time{font-family:var(--mono);font-size:.84rem;color:var(--soft);font-variant-numeric:tabular-nums;padding-top:3px}
+.ev .chip{justify-self:start;font-size:.74rem;font-weight:700;letter-spacing:.05em;color:var(--k-own)}
+.ev h3{font-size:1.04rem;font-family:var(--sans)}
+.ev p{color:var(--soft);font-family:var(--serif);white-space:pre-line;overflow-wrap:anywhere}
+.ev.k-story>div{border-left-color:var(--k-story)} .ev.k-story .chip{color:var(--k-story)}
+.ev.k-fix>div{border-left-color:var(--k-fix)} .ev.k-fix .chip{color:var(--k-fix)}
+.ev.k-note>div{border-left-color:var(--k-note)} .ev.k-note .chip{color:var(--k-note)}
+.ev.k-song>div{border-left-color:var(--k-song)} .ev.k-song .chip{color:var(--k-song)}
+.strip{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.strip .tile{width:72px;height:72px;aspect-ratio:auto;border-radius:8px}
+.strip .more{display:grid;place-items:center;width:72px;height:72px;border-radius:8px;background:var(--line);color:var(--ink);font-size:.85rem;border:0;cursor:pointer;font:inherit}
+.ev-song{display:inline-flex;align-items:center;gap:8px;margin-top:6px;font:inherit;font-size:.88rem;color:var(--k-song);background:transparent;border:1px solid color-mix(in srgb,var(--k-song) 45%,transparent);border-radius:999px;padding:4px 12px 4px 10px;cursor:pointer;justify-self:start}
+.ev-song::before{content:"";border-left:8px solid currentColor;border-top:5px solid transparent;border-bottom:5px solid transparent}
+.ev-del{justify-self:start;margin-top:6px}
+
+.compose .seg{display:inline-flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:var(--field);justify-self:start}
+.seg button{font:inherit;font-size:.9rem;background:transparent;color:var(--ink);border:0;padding:8px 15px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg);font-weight:700}
+.picker{display:grid;gap:4px;justify-items:center;text-align:center;border:1.5px dashed var(--line);border-radius:14px;padding:20px;cursor:pointer;background:var(--field);color:var(--soft);font-size:.9rem;position:relative}
+.picker b{color:var(--ink);font-size:.98rem}
+.picker input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.picker.drag{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 8%,var(--field))}
+.previews{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:8px}
+.pv{position:relative;aspect-ratio:1;border-radius:10px;overflow:hidden;background:var(--line)}
+.pv img,.pv video{width:100%;height:100%;object-fit:cover;display:block}
+.pv button{position:absolute;top:4px;right:4px;width:26px;height:26px;border-radius:50%;border:0;background:rgba(20,16,14,.72);color:#fff;font-size:15px;line-height:1;cursor:pointer}
+.pv .vbadge{position:absolute;left:6px;bottom:6px;background:rgba(20,16,14,.7);color:#fff;font-size:.68rem;border-radius:999px;padding:1px 7px}
+.yt-preview{display:grid;grid-template-columns:120px 1fr;gap:12px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:8px;background:var(--field)}
+.yt-preview img{width:120px;aspect-ratio:16/9;object-fit:cover;border-radius:8px;display:block}
+.yt-preview b{display:block;font-size:.94rem;line-height:1.4}
+.yt-preview span{font-size:.8rem;color:var(--soft)}
+.progress{font-size:.9rem;color:var(--soft)}
 .keybox{font-family:var(--mono);font-size:.95rem;background:var(--field);border:1px dashed var(--accent);border-radius:10px;padding:10px 12px;overflow-wrap:anywhere;user-select:all}
 .bigcode{font-family:var(--mono);font-weight:600;font-size:2rem;letter-spacing:.18em;color:var(--accent);text-align:center;padding:10px;border:2px dashed var(--accent);border-radius:12px;user-select:all}
+
+.lb{position:fixed;inset:0;z-index:70;background:rgba(14,11,9,.92);display:grid;grid-template-rows:auto 1fr auto;padding:calc(env(safe-area-inset-top,0px) + 10px) max(12px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 14px) max(12px,env(safe-area-inset-left,0px));color:#f4ede4}
+.lb-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.lb-stage{display:grid;place-items:center;min-height:0;position:relative}
+.lb-stage img,.lb-stage video{max-width:100%;max-height:100%;object-fit:contain;border-radius:6px}
+.lb-cap{text-align:center;font-family:var(--serif);font-size:.98rem;opacity:.9;padding-top:10px}
+.lb button{font:inherit;color:#f4ede4;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:999px;padding:8px 14px;cursor:pointer}
+.lb .lb-prev,.lb .lb-next{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;padding:0;font-size:1.3rem}
+.lb .lb-prev{left:4px} .lb .lb-next{right:4px}
+
 .stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
-.stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;gap:2px}
+.stat{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px 16px;display:grid;gap:2px}
 .stat b{font-family:var(--mono);font-size:1.6rem;font-variant-numeric:tabular-nums;line-height:1.2}
-.stat span{font-size:.8rem;color:var(--muted);letter-spacing:.04em}
+.stat span{font-size:.82rem;color:var(--soft)}
 .genrow{display:grid;grid-template-columns:8rem 1fr auto;gap:12px;align-items:end}
 .toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between}
-.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
-.seg button{font:inherit;font-size:.86rem;background:transparent;color:var(--fg);border:0;padding:8px 12px;cursor:pointer}
-.seg button[aria-pressed="true"]{background:var(--fg);color:var(--bg);font-weight:700}
+.tseg{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
 .search{max-width:260px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;display:grid;gap:10px;align-content:start;min-width:0}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:14px;display:grid;gap:10px;align-content:start;min-width:0}
 .card.fresh{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent) inset}
-.card .qr{background:#fff;border-radius:8px;padding:6px;aspect-ratio:1;max-width:100%}
+.card .qr{background:#fff;border-radius:10px;padding:6px;aspect-ratio:1;max-width:100%}
 .card .qr svg{display:block;width:100%;height:100%}
 .card .meta{display:grid;gap:2px;min-width:0}
-.card .meta b{overflow-wrap:anywhere}
-.pill{justify-self:start;font-size:.74rem;font-weight:700;border-radius:999px;padding:2px 10px;border:1px solid currentColor}
-.pill.s-new{color:var(--muted)}
-.pill.s-own{color:var(--ok)}
-.pill.s-move{color:var(--warn)}
+.pill{justify-self:start;font-size:.75rem;font-weight:700;border-radius:999px;padding:2px 10px;border:1px solid currentColor}
+.pill.s-new{color:var(--soft)} .pill.s-own{color:var(--ok)} .pill.s-move{color:var(--warn)}
 .card .acts{display:flex;gap:6px;flex-wrap:wrap}
-.empty{border:1px dashed var(--line);border-radius:14px;padding:28px;text-align:center;color:var(--muted)}
-.steps{list-style:none;margin:0;padding:0;display:grid;gap:12px;counter-reset:s}
-.steps li{display:grid;grid-template-columns:2rem 1fr;gap:10px;counter-increment:s}
-.steps li::before{content:counter(s);font-family:var(--mono);font-weight:600;color:var(--accent);border:1px solid var(--accent);border-radius:50%;width:1.8rem;height:1.8rem;display:grid;place-items:center;font-size:.85rem}
-.lead{font-family:var(--storyface);font-size:1.18rem;line-height:1.7}
-.home-h1{font-family:var(--display);font-weight:800;font-size:2.4rem;line-height:1.15}
-#toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 24px);transform:translateX(-50%);background:var(--fg);color:var(--bg);padding:10px 16px;border-radius:10px;font-size:.9rem;z-index:50;max-width:calc(100% - 32px);box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.empty{border:1px dashed var(--line);border-radius:16px;padding:30px;text-align:center;color:var(--soft)}
+.page-title{font-size:1.9rem}
+
 #snow{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
 .lights{position:fixed;top:0;left:0;right:0;height:44px;z-index:0;pointer-events:none}
 .lights svg{display:block;width:100%;height:44px}
@@ -163,25 +317,42 @@ body.xmas .sec-title{color:#e6c36a}
 .bulb:nth-child(3n){animation-delay:.8s}
 .bulb:nth-child(3n+1){animation-delay:1.6s}
 @keyframes twinkle{0%,100%{opacity:1}50%{opacity:.35}}
+@media (prefers-reduced-motion: reduce){.bulb{animation:none}}
 body.xmas{padding-top:calc(env(safe-area-inset-top,0px) + 56px)}
 .print-area{display:none}
+
+@media (max-width:900px){
+  .h-hero{grid-template-columns:1fr;padding-block:30px 48px;gap:10px}
+  .hang-wrap{height:450px}
+  .song-split{grid-template-columns:1fr;gap:30px}
+  .steps{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .cats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .open-card{grid-template-columns:1fr}
+}
 @media (max-width:720px){
+  .polas{grid-template-columns:1fr;max-width:330px;margin:0 auto;gap:34px}
+  .pola:nth-child(2){transform:rotate(1.6deg)}
+  .promise{grid-template-columns:1fr;gap:20px}
   .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
   .genrow{grid-template-columns:1fr}
   .search{max-width:none;flex:1 1 100%}
 }
-@media (max-width:460px){
+@media (max-width:480px){
+  body{font-size:15.5px}
   .two{grid-template-columns:1fr}
-  .hero h1{font-size:1.8rem}
-  .home-h1{font-size:1.9rem}
-  .ev{grid-template-columns:4rem 1fr;gap:10px}
+  .hero h1{font-size:1.85rem}
+  .ev{grid-template-columns:4.1rem 1fr;gap:10px}
+  .steps,.cats{grid-template-columns:1fr}
+  .h-sec{padding-block:48px}
+  .yt-preview{grid-template-columns:96px 1fr}
+  .yt-preview img{width:96px}
+  .nav-links{gap:14px}
 }
-@media (prefers-reduced-motion: reduce){.bulb{animation:none}}
 @media print{
   body{background:#fff!important;color:#000;padding:0}
   body>*:not(.print-area){display:none!important}
   .print-area{display:grid!important;grid-template-columns:repeat(3,1fr);gap:8mm}
-  .pcell{break-inside:avoid;border:1px dashed #999;border-radius:4mm;padding:5mm;text-align:center;display:grid;gap:2mm;font-family:var(--body)}
+  .pcell{break-inside:avoid;border:1px dashed #999;border-radius:4mm;padding:5mm;text-align:center;display:grid;gap:2mm;font-family:var(--sans)}
   .pcell svg{width:100%;height:auto}
   .pcell b{font-family:var(--mono);font-size:12pt}
   .pcell span{font-size:8pt;color:#444}
@@ -189,14 +360,18 @@ body.xmas{padding-top:calc(env(safe-area-inset-top,0px) + 56px)}
 </style>
 </head>
 <body>
-<main class="wrap" id="app" aria-live="polite"><p class="muted">불러오는 중…</p></main>
+<div class="grain" aria-hidden="true"></div>
+<main class="wrap" id="app" aria-live="polite"><p class="soft">불러오는 중…</p></main>
 <div id="toast" role="status" hidden></div>
 <div class="print-area" id="print"></div>
 <script>
 const CONFIG = {
   SUPABASE_URL: "https://byghmpyqwqaggpcbtkgz.supabase.co",
   SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5Z2htcHlxd3FhZ2dwY2J0a2d6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQyODgzOTcsImV4cCI6MjEwOTg2NDM5N30.Xez0LUo3BhdmbkG1eODrnO6U7QcxBr5acI8aFUCxmc4",
-  SITE_URL: "https://jackpro333.github.io/qr-landing/"
+  SITE_URL: "https://jackpro333.github.io/qr-landing/",
+  BUCKET: "memtag-media",
+  MAX_FILES: 10,
+  MAX_VIDEO_MB: 50
 };
 
 const $ = (s, r = document) => r.querySelector(s);
@@ -211,12 +386,23 @@ const ERR = {
   no_tag: "등록되지 않은 태그예요.",
   bad_item: "물건 이름을 1~60자로 적어 주세요.",
   bad_owner: "이름을 1~30자로 적어 주세요.",
-  too_long: "글이 너무 길어요. 조금 줄여 주세요.",
+  bad_title: "제목을 1~80자로 적어 주세요.",
+  too_long: "글이 너무 길어요. 1,000자 안으로 줄여 주세요.",
   bad_kind: "기록 종류를 다시 골라 주세요.",
+  bad_youtube: "유튜브 링크를 알아보지 못했어요. 유튜브 앱의 '공유 → 링크 복사'로 받은 주소를 붙여 주세요.",
+  bad_media: "올릴 수 없는 파일이 있어요. 사진(JPG·PNG·WEBP·GIF)과 동영상(MP4·MOV·WEBM)만 가능해요.",
+  too_big: "동영상은 한 개에 50MB까지 올릴 수 있어요.",
+  too_many_files: "한 번에 10개까지 첨부할 수 있어요.",
+  too_many: "짧은 시간에 파일을 너무 많이 올렸어요. 한 시간 뒤에 다시 시도해 주세요.",
+  cannot_delete: "내가 주인일 때 남긴 기록만 지울 수 있어요.",
+  video_demo: "체험 모드에서는 동영상을 저장할 수 없어요. 사진은 돼요.",
+  storage_full: "체험 모드 저장 공간이 가득 찼어요. 사진 수를 줄여 주세요.",
+  upload: "파일을 올리지 못했어요. 인터넷 연결과 파일 크기를 확인해 주세요.",
   login: "이메일 또는 비밀번호가 맞지 않아요.",
   network: "서버에 연결하지 못했어요. 인터넷 연결을 확인하고 다시 시도해 주세요."
 };
-const KIND = { "소유": "own", "사연": "story", "수리": "fix", "기록": "note" };
+const KIND = { "소유": "own", "사연": "story", "수리": "fix", "기록": "note", "노래": "song" };
+const KIND_LABEL = { "소유": "소유", "사연": "사연", "수리": "수리·정비", "기록": "메모", "노래": "노래" };
 
 function h(tag, props, ...kids) {
   const el = document.createElement(tag);
@@ -234,11 +420,12 @@ function h(tag, props, ...kids) {
   }
   return el;
 }
+const hideBroken = e => { e.target.style.visibility = "hidden"; };
+const svg = markup => h("span", { html: markup, "aria-hidden": "true", style: "display:contents" });
 
 function field(label, control, opts = {}) {
-  const id = control.id;
   return h("div", { class: "field" },
-    h("label", { for: id }, label, opts.req ? h("span", { class: "req", "aria-hidden": "true" }, "*") : null),
+    h("label", { for: control.id }, label, opts.req ? h("span", { class: "req", "aria-hidden": "true" }, "*") : null),
     control,
     opts.hint ? h("span", { class: "hint" }, opts.hint) : null);
 }
@@ -275,10 +462,11 @@ function monthNow() {
 }
 const monthInput = v => (v || "").replace("-", ".");
 const monthValue = () => monthNow().replace(".", "-");
+const ownerLabel = n => n === 1 ? "초대 주인" : n > 1 ? n + "번째 주인" : "이전 주인";
 
 const store = {
   get(k) { try { return localStorage.getItem(k); } catch { return null; } },
-  set(k, v) { try { localStorage.setItem(k, v); } catch {} },
+  set(k, v) { try { localStorage.setItem(k, v); return true; } catch { return false; } },
   del(k) { try { localStorage.removeItem(k); } catch {} }
 };
 const keyOf = id => store.get("memtag-key-" + id);
@@ -297,7 +485,7 @@ function toast(msg) {
   t.textContent = msg;
   t.hidden = false;
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => { t.hidden = true; }, 2600);
+  toastTimer = setTimeout(() => { t.hidden = true; }, 2800);
 }
 
 async function copy(text) {
@@ -326,27 +514,94 @@ function sortEntries(list) {
     (a.happened_on || "").localeCompare(b.happened_on || "") || (a.created_at || "").localeCompare(b.created_at || ""));
 }
 
+function parseYouTube(input) {
+  const s = (input || "").trim();
+  if (!s) return null;
+  if (/^[A-Za-z0-9_-]{11}$/.test(s)) return s;
+  let u;
+  try { u = new URL(/^https?:\/\//i.test(s) ? s : "https://" + s); } catch { return null; }
+  const host = u.hostname.replace(/^(www|m|music)\./, "");
+  let id = null;
+  if (host === "youtu.be") id = u.pathname.slice(1).split("/")[0];
+  else if (host === "youtube.com" || host === "youtube-nocookie.com") {
+    if (u.pathname === "/watch") id = u.searchParams.get("v");
+    else { const m = u.pathname.match(/^\/(?:embed|shorts|live|v)\/([^/?#]+)/); if (m) id = m[1]; }
+  }
+  return id && /^[A-Za-z0-9_-]{11}$/.test(id) ? id : null;
+}
+const ytThumb = id => "https://i.ytimg.com/vi/" + id + "/hqdefault.jpg";
+const ytEmbed = id => "https://www.youtube-nocookie.com/embed/" + id + "?autoplay=1&rel=0&playsinline=1";
+async function ytTitle(id) {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 5000);
+  try {
+    const r = await fetch("https://noembed.com/embed?url=" + encodeURIComponent("https://www.youtube.com/watch?v=" + id), { signal: ctrl.signal });
+    const j = await r.json();
+    return j && j.title ? { title: j.title, author: j.author_name || "" } : null;
+  } catch { return null; } finally { clearTimeout(timer); }
+}
+
+function ytPlayer(id, title) {
+  const box = h("div", { class: "yt" });
+  const btn = h("button", { class: "yt-play", type: "button", "aria-label": (title || "노래") + " 재생" },
+    h("img", { src: ytThumb(id), alt: "", loading: "lazy", onerror: hideBroken }), h("span", { class: "yt-btn", "aria-hidden": "true" }));
+  btn.addEventListener("click", () => {
+    box.replaceChildren(h("iframe", { src: ytEmbed(id), title: title || "유튜브 영상", allow: "autoplay; encrypted-media; picture-in-picture; fullscreen", allowfullscreen: true, referrerpolicy: "strict-origin-when-cross-origin" }));
+  });
+  box.append(btn);
+  return box;
+}
+
+const mediaSrc = m => m.data || (CONFIG.SUPABASE_URL + "/storage/v1/object/public/" + CONFIG.BUCKET + "/" + m.path);
+const EXT = { "image/jpeg": "jpg", "image/png": "png", "image/webp": "webp", "image/gif": "gif", "video/mp4": "mp4", "video/webm": "webm", "video/quicktime": "mov" };
+const MIME = { jpg: "image/jpeg", jpeg: "image/jpeg", png: "image/png", webp: "image/webp", gif: "image/gif", mp4: "video/mp4", webm: "video/webm", mov: "video/quicktime" };
+function extOf(file) {
+  if (EXT[file.type]) return EXT[file.type];
+  const m = (file.name || "").toLowerCase().match(/\.([a-z0-9]+)$/);
+  return m && MIME[m[1]] ? m[1] : "";
+}
+const typeOf = file => (file.type || "").startsWith("video/") || /\.(mp4|mov|webm)$/i.test(file.name || "") ? "video" : "image";
+
+async function shrinkImage(file, max, quality) {
+  if (file.type === "image/gif") return file;
+  try {
+    const bmp = await createImageBitmap(file, { imageOrientation: "from-image" });
+    const scale = Math.min(1, max / Math.max(bmp.width, bmp.height));
+    const w = Math.round(bmp.width * scale), hgt = Math.round(bmp.height * scale);
+    const cv = document.createElement("canvas");
+    cv.width = w; cv.height = hgt;
+    cv.getContext("2d").drawImage(bmp, 0, 0, w, hgt);
+    bmp.close && bmp.close();
+    const blob = await new Promise(ok => cv.toBlob(ok, "image/jpeg", quality));
+    if (!blob) return file;
+    return new File([blob], (file.name || "photo").replace(/\.[^.]+$/, "") + ".jpg", { type: "image/jpeg" });
+  } catch {
+    if (EXT[file.type]) return file;
+    throw new Error("bad_media");
+  }
+}
+const blobToDataUrl = blob => new Promise((ok, bad) => { const r = new FileReader(); r.onload = () => ok(r.result); r.onerror = bad; r.readAsDataURL(blob); });
+
 const Local = {
   mode: "demo",
   load() {
     try { return JSON.parse(store.get("memtag-demo")) || { tags: {}, entries: [], secrets: {} }; }
     catch { return { tags: {}, entries: [], secrets: {} }; }
   },
-  save(d) { store.set("memtag-demo", JSON.stringify(d)); },
+  save(d) { if (!store.set("memtag-demo", JSON.stringify(d))) throw new Error("storage_full"); },
   blank(id, label) {
     return { id, label: label || "", item: "", spec: "", owner_name: "", owner_count: 0, theme: "basic",
       transfer_pending: false, created_at: new Date().toISOString(), claimed_at: null };
   },
-  entry(id, kind, title, body, when) {
-    return { id: randomId(), tag_id: id, kind, title, body: body || "", happened_on: when || monthNow(), created_at: new Date().toISOString() };
+  entry(id, kind, title, body, when, extra) {
+    return Object.assign({ id: randomId() + randomId(), tag_id: id, kind, title, body: body || "", happened_on: when || monthNow(),
+      created_at: new Date().toISOString(), youtube: null, media: [], owner_no: 0 }, extra || {});
   },
   async session() { return { email: "체험 모드" }; },
   async isAdmin() { return true; },
   async signIn() {},
   async signOut() {},
-  async listTags() {
-    return Object.values(this.load().tags).sort((a, b) => b.created_at.localeCompare(a.created_at));
-  },
+  async listTags() { return Object.values(this.load().tags).sort((a, b) => b.created_at.localeCompare(a.created_at)); },
   async createTags(n, label) {
     const d = this.load(), out = [];
     for (let i = 0; i < n; i++) {
@@ -389,14 +644,32 @@ const Local = {
     Object.assign(t, { item: f.item.trim(), spec: f.spec.trim(), owner_name: f.owner.trim(), owner_count: 1,
       theme: f.theme === "xmas" ? "xmas" : "basic", claimed_at: new Date().toISOString() });
     d.secrets[id] = { owner_hash: await sha(tok) };
-    d.entries.push(this.entry(id, "소유", "초대 주인이 이야기를 시작했어요", f.story, f.since || monthNow()));
+    d.entries.push(this.entry(id, "소유", "초대 주인이 이야기를 시작했어요", f.story, f.since || monthNow(), { owner_no: 1 }));
     this.save(d);
+  },
+  async uploadMedia(id, tok, file, type) {
+    await this.check(this.load(), id, tok);
+    if (type === "video") throw new Error("video_demo");
+    const small = await shrinkImage(file, 900, .72);
+    return { path: "demo/" + randomId(), type: "image", data: await blobToDataUrl(small) };
   },
   async addEntry(id, tok, f) {
     const d = this.load();
     await this.check(d, id, tok);
-    if (!["사연", "수리", "기록"].includes(f.kind)) throw new Error("bad_kind");
-    d.entries.push(this.entry(id, f.kind, f.title.trim(), f.body, f.date || monthNow()));
+    if (!["사연", "수리", "기록", "노래"].includes(f.kind)) throw new Error("bad_kind");
+    if (!f.title.trim()) throw new Error("bad_title");
+    if (f.kind === "노래" && !f.youtube) throw new Error("bad_youtube");
+    d.entries.push(this.entry(id, f.kind, f.title.trim(), f.body, f.date || monthNow(),
+      { youtube: f.youtube || null, media: f.media || [], owner_no: d.tags[id].owner_count }));
+    this.save(d);
+  },
+  async deleteEntry(id, tok, entryId) {
+    const d = this.load();
+    await this.check(d, id, tok);
+    const n = d.tags[id].owner_count;
+    const i = d.entries.findIndex(e => e.id === entryId && e.tag_id === id && e.owner_no === n && e.kind !== "소유");
+    if (i < 0) throw new Error("cannot_delete");
+    d.entries.splice(i, 1);
     this.save(d);
   },
   async updateTag(id, tok, f) {
@@ -426,7 +699,7 @@ const Local = {
     if (!(s && s.transfer_hash && s.transfer_hash === await sha(code.trim().toUpperCase()) && s.transfer_expires > Date.now())) throw new Error("bad_code");
     t.owner_name = owner.trim(); t.owner_count += 1; t.transfer_pending = false;
     Object.assign(s, { owner_hash: await sha(tok), transfer_hash: null, transfer_expires: null });
-    d.entries.push(this.entry(id, "소유", t.owner_count + "번째 주인에게 양도되었어요", story));
+    d.entries.push(this.entry(id, "소유", t.owner_count + "번째 주인에게 양도되었어요", story, monthNow(), { owner_no: t.owner_count }));
     this.save(d);
     return t.owner_count;
   }
@@ -474,9 +747,19 @@ const Remote = {
     await this.rpc("claim_tag", { p_id: id, p_item: f.item, p_spec: f.spec, p_owner: f.owner, p_since: f.since,
       p_story: f.story, p_theme: f.theme, p_token: tok });
   },
-  async addEntry(id, tok, f) {
-    await this.rpc("add_entry", { p_id: id, p_token: tok, p_kind: f.kind, p_title: f.title, p_body: f.body, p_date: f.date });
+  async uploadMedia(id, tok, file, type) {
+    const ext = extOf(file);
+    if (!ext) throw new Error("bad_media");
+    const path = await this.rpc("request_upload", { p_id: id, p_token: tok, p_type: type, p_ext: ext });
+    const { error } = await this.client.storage.from(CONFIG.BUCKET).upload(path, file, { contentType: MIME[ext], upsert: false, cacheControl: "31536000" });
+    if (error) throw new Error("upload: " + error.message);
+    return { path, type };
   },
+  async addEntry(id, tok, f) {
+    await this.rpc("add_entry", { p_id: id, p_token: tok, p_kind: f.kind, p_title: f.title, p_body: f.body, p_date: f.date,
+      p_media: (f.media || []).map(m => ({ path: m.path, type: m.type })), p_youtube: f.youtube || null });
+  },
+  async deleteEntry(id, tok, entryId) { await this.rpc("delete_entry", { p_id: id, p_token: tok, p_entry: entryId }); },
   async updateTag(id, tok, f) {
     await this.rpc("update_tag", { p_id: id, p_token: tok, p_item: f.item, p_spec: f.spec, p_theme: f.theme });
   },
@@ -495,14 +778,12 @@ function qrMatrix(text) {
   q.make();
   return q;
 }
-
 function qrSvg(text) {
   const q = qrMatrix(text), n = q.getModuleCount(), m = 4, size = n + m * 2;
   let d = "";
   for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) if (q.isDark(r, c)) d += "M" + (c + m) + " " + (r + m) + "h1v1h-1z";
   return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + size + " " + size + '" shape-rendering="crispEdges" role="img" aria-label="QR 코드"><rect width="' + size + '" height="' + size + '" fill="#fff"/><path d="' + d + '" fill="#000"/></svg>';
 }
-
 function qrPng(id) {
   const q = qrMatrix(tagUrl(id)), n = q.getModuleCount(), s = 12, m = 4, w = (n + m * 2) * s, cap = 84;
   const cv = document.createElement("canvas");
@@ -515,19 +796,16 @@ function qrPng(id) {
   x.font = "600 30px 'IBM Plex Mono', monospace";
   x.fillText("#" + id, w / 2, w + 22);
   x.fillStyle = "#555";
-  x.font = "20px 'Noto Sans KR', sans-serif";
+  x.font = "20px 'Gowun Dodum', sans-serif";
   x.fillText("찍으면 이 물건의 이야기가 열려요", w / 2, w + 58);
   return cv.toDataURL("image/png");
 }
-
 function downloadPng(id) {
   const a = h("a", { href: qrPng(id), download: "memtag-" + id + ".png" });
   document.body.append(a); a.click(); a.remove();
 }
-
 function printTags(list) {
-  const area = $("#print");
-  area.replaceChildren(...list.map(t => h("div", { class: "pcell" },
+  $("#print").replaceChildren(...list.map(t => h("div", { class: "pcell" },
     h("div", { html: qrSvg(tagUrl(t.id)) }),
     h("b", null, "#" + t.id),
     h("span", null, "찍으면 이 물건의 이야기가 열려요"))));
@@ -573,9 +851,118 @@ function setTheme(theme) {
   snowStop = () => { alive = false; cancelAnimationFrame(raf); removeEventListener("resize", onResize); };
 }
 
+const ART = {
+  guitar: '<svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M44 58c-10-6-24-2-28 10-4 11 3 21 12 24 3 1 6 4 7 8 3 10 16 13 25 6 9-7 9-19 2-26-3-3-3-7-1-10 5-8-1-18-10-17-4 1-5 6-7 5z"/><circle cx="44" cy="80" r="7"/><path d="M50 74 96 26"/><path d="m92 22 10-8 6 6-8 10z"/><path d="M33 90l8 8"/></svg>',
+  camera: '<svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="16" y="40" width="88" height="54" rx="9"/><path d="M42 40l7-11h22l7 11"/><circle cx="60" cy="67" r="17"/><circle cx="60" cy="67" r="8"/><path d="M86 50h8"/><path d="M24 50h8"/></svg>',
+  bike: '<svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="30" cy="78" r="18"/><circle cx="90" cy="78" r="18"/><path d="M30 78l20-28h28l12 28"/><path d="M50 50l12 28 16-28"/><path d="M62 78H30"/><path d="M44 43h12"/><path d="M76 42l4-6h8"/></svg>',
+  book: '<svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M60 38c-12-8-30-8-42-4v52c12-4 30-4 42 4 12-8 30-8 42-4V34c-12-4-30-4-42 4z"/><path d="M60 38v52"/><path d="M28 48c8-2 16-1 22 2M28 58c8-2 16-1 22 2M70 50c6-3 14-4 22-2M70 60c6-3 14-4 22-2"/></svg>',
+  heart: '<path d="M96 30c-3-6-11-6-13 0-2-6-10-6-13 0-3 7 6 13 13 18 7-5 16-11 13-18z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>',
+  notes: '<g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M88 22v20"/><circle cx="84" cy="43" r="4"/><path d="M88 22l12-4v18"/><circle cx="96" cy="37" r="4"/></g>',
+  moon: '<path d="M98 18a14 14 0 1 0 8 22 11 11 0 1 1-8-22z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>'
+};
+const withExtra = (base, extra) => base.replace("</svg>", extra + "</svg>");
+
+function renderHome() {
+  setTheme("basic");
+  document.title = "물건 기억 태그";
+  app.className = "wrap home";
+  const code = h("input", { id: "home-code", placeholder: "태그 코드 (예: k7m2qx9)", autocomplete: "off", autocapitalize: "off", spellcheck: "false" });
+  const pola = (art, cap, who, when) => h("figure", { class: "pola", style: "margin:0" },
+    h("div", { class: "pola-photo" }, svg(art)),
+    h("figcaption", { class: "pola-cap" }, cap),
+    h("div", { class: "pola-meta" }, h("span", null, who), h("span", null, when)));
+  const cat = (art, title, text) => h("div", { class: "cat" }, svg(art), h("b", null, title), h("p", null, text));
+  mount(
+    h("header", { class: "nav" },
+      h("a", { href: homeUrl(), class: "brand" }, h("span", { class: "brand-mark" }), "물건 기억 태그"),
+      h("nav", { class: "nav-links", "aria-label": "바로가기" },
+        h("a", { href: "#how" }, "쓰는 법"),
+        h("a", { href: "#open" }, "태그 열기"),
+        h("a", { href: adminUrl() }, "관리자"))),
+    h("section", { class: "h-hero" },
+      h("div", null,
+        h("p", { class: "eyebrow" }, "물건의 두 번째 삶을 위해"),
+        h("h1", null, "주인이 바뀌어도,", h("br"), h("em", null, "이야기는 물건에"), " 남아요"),
+        h("p", { class: "lead" }, "중고 기타에 붙은 작은 태그를 찍으면 이 기타가 세 명의 주인을 거쳤고, 첫 주인은 이걸로 친구 결혼식 축가를 불렀다는 이야기가 열려요. 사연과 노래, 사진, 수리 기록이 물건을 따라 다음 사람에게 건너갑니다."),
+        h("div", { class: "cta" },
+          h("a", { class: "btn", href: "#open" }, "내 태그 열어 보기"),
+          h("a", { class: "btn ghost", href: "#how" }, "어떻게 쓰나요"))),
+      h("div", { class: "hang-wrap", "aria-hidden": "true" },
+        h("div", { class: "hang" },
+          h("span", { class: "nail" }),
+          svg('<svg class="string" viewBox="0 0 60 120"><path d="M30 2 C 26 40, 34 80, 30 124" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" style="color:var(--soft)"/></svg>'),
+          h("div", { class: "ktag" },
+            h("span", { class: "hole" }),
+            h("span", { class: "ktag-no" }, "NO. 0001"),
+            h("p", { class: "ktag-item" }, "어쿠스틱 기타"),
+            h("p", { class: "ktag-note" }, "첫 주인은 이 기타로", h("br"), "친구 결혼식 축가를", h("br"), "불렀다."),
+            h("p", { class: "ktag-foot" }, "주인 3명 · 노래 3곡 · 사진 12장"))))),
+    h("section", { class: "h-sec" },
+      h("div", { class: "h-sec-head" },
+        h("span", { class: "tag-sample" }, "예시 이야기"),
+        h("h2", null, "기타 한 대, 주인 세 명"),
+        h("p", null, "태그를 찍으면 이 물건이 거쳐 온 시간이 순서대로 펼쳐져요. 이름은 사라져도 그날의 장면은 남습니다.")),
+      h("div", { class: "polas" },
+        pola(withExtra(ART.guitar, ART.heart), "친구 결혼식 축가. 떨려서 두 번 틀렸다", "첫 번째 주인", "2017 봄"),
+        pola(withExtra(ART.guitar, ART.notes), "토요일마다 한강 버스킹. 비 오는 날만 쉬었다", "두 번째 주인", "2020 여름"),
+        pola(withExtra(ART.guitar, ART.moon), "자취방에서 매일 밤 삼십 분. 옆집은 아직 모른다", "지금 주인", "2026 겨울"))),
+    h("section", { class: "h-sec" },
+      h("div", { class: "song-split" },
+        h("div", { class: "vinyl-wrap", "aria-hidden": "true" },
+          h("div", { class: "sleeve" }, h("span", null, "이 물건과", h("br"), "듣는 노래")),
+          h("div", { class: "vinyl" })),
+        h("div", { style: "display:grid;gap:22px" },
+          h("div", { class: "h-sec-head" },
+            h("h2", null, "주인마다 노래 한 곡을 남겨요"),
+            h("p", null, "이 물건을 보면 떠오르는 노래를 유튜브 링크로 붙여 두면, 다음 주인은 그 노래를 틀어 놓고 이야기를 읽어요. 그날 찍은 사진과 짧은 영상도 함께 남길 수 있어요.")),
+          h("div", { class: "mock-song" },
+            h("div", { class: "mock-thumb" }),
+            h("div", null,
+              h("span", null, "두 번째 주인이 고른 노래 · 예시"),
+              h("b", null, "비 그친 한강에서 처음 부른 곡"),
+              h("span", null, "링크만 붙이면 페이지에서 바로 재생돼요"))),
+          h("div", { class: "feats" },
+            h("span", { class: "feat" }, "유튜브 노래"), h("span", { class: "feat" }, "사진"), h("span", { class: "feat" }, "동영상"),
+            h("span", { class: "feat" }, "수리·정비 기록"), h("span", { class: "feat" }, "다음 주인에게 남기는 메모"))))),
+    h("section", { class: "h-sec", id: "how" },
+      h("div", { class: "h-sec-head" },
+        h("h2", null, "이렇게 이어져요"),
+        h("p", null, "앱을 깔 필요 없이 폰 카메라로 찍기만 하면 돼요.")),
+      h("ol", { class: "steps" },
+        h("li", null, h("b", null, "태그를 붙여요"), h("p", null, "작은 QR 스티커 하나를 물건 안쪽이나 바닥에 붙여요.")),
+        h("li", null, h("b", null, "처음 찍은 사람이 초대 주인"), h("p", null, "물건 이름과 첫 사연을 적으면 그 물건만의 페이지가 생겨요.")),
+        h("li", null, h("b", null, "이야기를 쌓아요"), h("p", null, "사연, 노래, 사진, 동영상, 수리 기록을 언제든 더해요.")),
+        h("li", null, h("b", null, "넘길 땐 양도 코드"), h("p", null, "새 주인이 코드를 넣는 순간 소유권이 넘어가요. 내 이름은 지워지고 이야기만 남아요.")))),
+    h("section", { class: "h-sec" },
+      h("div", { class: "h-sec-head" },
+        h("h2", null, "처음엔 이런 물건부터"),
+        h("p", null, "이력이 곧 가치가 되는 물건들이에요.")),
+      h("div", { class: "cats" },
+        cat(ART.book, "물려주는 전공책", "선배의 밑줄과 시험 팁까지 함께 넘겨요. 캠퍼스에서 가장 먼저 시작해요."),
+        cat(ART.guitar, "기타와 악기", "누가 어떤 곡을 연주했는지가 소리만큼 소중해요."),
+        cat(ART.camera, "필름 카메라", "셔터를 언제 고쳤는지 남아 있으면 믿고 살 수 있어요."),
+        cat(ART.bike, "자전거", "체인과 브레이크 정비 기록이 곧 안전 기록이에요."))),
+    h("section", { class: "h-sec" },
+      h("div", { class: "promise" },
+        h("div", null, h("span", { class: "hand" }, "하나."), h("b", null, "이전 주인의 이름은 남지 않아요"), h("p", null, "양도가 끝나면 이름은 지워지고, 그 사람이 남긴 사연만 다음 주인에게 건네져요.")),
+        h("div", null, h("span", { class: "hand" }, "둘."), h("b", null, "글은 지금 주인만 써요"), h("p", null, "주인 열쇠가 있는 기기에서만 기록을 남기고 고칠 수 있어요.")),
+        h("div", null, h("span", { class: "hand" }, "셋."), h("b", null, "누구나 읽을 수 있어요"), h("p", null, "중고로 사기 전에 태그만 찍어 봐도 이 물건이 어떻게 지내 왔는지 알 수 있어요.")))),
+    h("section", { class: "h-sec", id: "open", style: "border-top:0" },
+      h("div", { class: "open-card" },
+        h("div", { style: "display:grid;gap:8px" },
+          h("h2", null, "손에 든 물건에 태그가 있나요?"),
+          h("p", null, "QR을 찍기 어려우면 태그 아래 적힌 코드를 넣어 주세요.")),
+        h("form", { onsubmit: e => { e.preventDefault(); const v = code.value.trim().toLowerCase().replace(/^#/, ""); if (v) location.href = tagUrl(v); } },
+          h("label", { for: "home-code", class: "small", style: "opacity:.8" }, "태그 코드"),
+          h("div", { class: "row" }, h("div", { style: "flex:1 1 200px" }, code), h("button", { class: "btn", type: "submit" }, "이야기 열기"))))),
+    h("footer", { class: "foot" },
+      h("span", null, "물건 기억 태그 — 주인이 바뀌어도 이야기는 남도록"),
+      h("span", null, DB.mode === "demo" ? "체험 모드 · " : "", h("a", { href: adminUrl() }, "관리자"))));
+}
+
 function topline(right) {
   return h("div", { class: "topline" },
-    h("a", { href: homeUrl(), class: "brand" }, "물건 기억 태그"),
+    h("a", { href: homeUrl(), class: "brand" }, h("span", { class: "brand-mark" }), "물건 기억 태그"),
     right);
 }
 
@@ -583,36 +970,13 @@ function demoNotice(extra) {
   if (DB.mode !== "demo") return null;
   return h("div", { class: "notice" },
     h("b", null, "체험 모드"),
-    h("span", null, "지금은 이 브라우저에만 저장돼요. 다른 사람 폰에서 찍어도 같은 이야기가 보이게 하려면 설치 가이드대로 Supabase를 연결하세요."),
-    extra ? h("span", { class: "muted small" }, extra) : null);
-}
-
-function renderHome() {
-  setTheme("basic");
-  const code = h("input", { id: "home-code", placeholder: "예: k7m2qx9", autocomplete: "off", autocapitalize: "off", spellcheck: "false" });
-  app.className = "wrap";
-  mount(
-    topline(h("a", { href: adminUrl() }, "관리자 →")),
-    h("section", { class: "hero" },
-      h("span", { class: "eyebrow" }, "OBJECT MEMORY TAG"),
-      h("h1", { class: "home-h1" }, "물건에 기억을 붙이는 태그"),
-      h("p", { class: "lead" }, "태그를 찍으면 그 물건이 거쳐 온 주인과 사연, 수리 기록이 열려요. 주인이 바뀌어도 이야기는 물건을 따라갑니다.")),
-    demoNotice(),
-    h("section", { class: "panel" },
-      h("h2", null, "이렇게 써요"),
-      h("ol", { class: "steps" },
-        h("li", null, h("span", null, h("b", null, "관리자가 QR 태그를 만들어요. "), "QR 하나마다 그 물건만의 페이지가 함께 생겨요.")),
-        h("li", null, h("span", null, h("b", null, "처음 찍은 사람이 초대 주인이 돼요. "), "물건 이름과 첫 사연을 적으면 페이지가 완성돼요.")),
-        h("li", null, h("span", null, h("b", null, "사연과 수리 기록을 계속 쌓아요. "), "주인 열쇠가 있는 기기에서만 쓸 수 있어요.")),
-        h("li", null, h("span", null, h("b", null, "팔거나 물려줄 때는 양도 코드를 건네요. "), "새 주인이 태그를 찍고 코드를 넣으면 소유권이 넘어가요. 이전 주인의 이름은 남지 않아요.")))),
-    h("section", { class: "panel" },
-      h("h2", null, "태그 코드로 열기"),
-      h("form", { onsubmit: e => { e.preventDefault(); const v = code.value.trim().toLowerCase().replace(/^#/, ""); if (v) location.href = tagUrl(v); } },
-        h("div", { class: "row" }, h("div", { style: "flex:1 1 200px" }, code), h("button", { class: "btn", type: "submit" }, "열기")))));
+    h("span", null, "지금은 이 브라우저에만 저장돼요. 다른 사람 폰에서도 같은 이야기가 보이려면 Supabase 연결 정보를 넣어 주세요."),
+    extra ? h("span", { class: "soft small" }, extra) : null);
 }
 
 async function renderAdmin() {
   setTheme("basic");
+  document.title = "관리자 · 물건 기억 태그";
   app.className = "wrap wide";
   let session = null;
   try { session = await DB.session(); } catch {}
@@ -622,7 +986,7 @@ async function renderAdmin() {
   if (!admin) {
     mount(topline(null), h("section", { class: "panel" },
       h("h2", null, "관리자 권한이 없는 계정이에요"),
-      h("p", { class: "muted" }, session.email + " 계정은 관리자 목록에 없어요. 설치 가이드의 '관리자 이메일 등록' 단계를 확인하세요."),
+      h("p", { class: "soft" }, session.email + " 계정은 관리자 목록에 없어요. 설치 가이드의 '관리자 이메일 등록' 단계를 확인하세요."),
       h("div", null, h("button", { class: "btn ghost", type: "button", onclick: async () => { await DB.signOut(); renderAdmin(); } }, "로그아웃"))));
     return;
   }
@@ -630,7 +994,7 @@ async function renderAdmin() {
   const state = { tags: [], filter: "all", search: "", fresh: new Set() };
   const statsEl = h("div", { class: "stats" });
   const gridEl = h("div", { class: "grid" });
-  const countEl = h("span", { class: "muted small" });
+  const countEl = h("span", { class: "soft small" });
   const genCount = h("input", { id: "gen-count", type: "number", min: "1", max: "100", value: "4", inputmode: "numeric" });
   const genLabel = h("input", { id: "gen-label", maxlength: "30", placeholder: "예: 캠퍼스 1차, 기타 동호회" });
   const genMsg = h("p", { class: "small", hidden: true });
@@ -646,7 +1010,8 @@ async function renderAdmin() {
   });
 
   const segBtns = [["all", "전체"], ["new", "미등록"], ["own", "주인 있음"], ["move", "양도 중"]].map(([k, label]) =>
-    h("button", { type: "button", "aria-pressed": String(k === state.filter), onclick: () => { state.filter = k; segBtns.forEach(b => b.setAttribute("aria-pressed", String(b.dataset.k === k))); paint(); }, "data-k": k }, label));
+    h("button", { type: "button", "aria-pressed": String(k === state.filter), "data-k": k,
+      onclick: () => { state.filter = k; segBtns.forEach(b => b.setAttribute("aria-pressed", String(b.dataset.k === k))); paint(); } }, label));
 
   function statusOf(t) {
     if (t.transfer_pending) return ["s-move", "양도 중"];
@@ -675,8 +1040,8 @@ async function renderAdmin() {
       h("div", { class: "spread" }, h("b", { class: "mono" }, "#" + t.id), h("span", { class: "pill " + cls }, label)),
       h("div", { class: "meta" },
         h("b", null, t.item || "아직 주인 없음"),
-        t.owner_count > 0 ? h("span", { class: "muted small" }, "현재 주인 " + t.owner_name + " · " + (t.owner_count === 1 ? "초대 주인" : t.owner_count + "번째 주인")) : null,
-        h("span", { class: "muted small" }, (t.label ? t.label + " · " : "") + new Date(t.created_at).toLocaleDateString("ko-KR"))),
+        t.owner_count > 0 ? h("span", { class: "soft small" }, "현재 주인 " + t.owner_name + " · " + ownerLabel(t.owner_count)) : null,
+        h("span", { class: "soft small" }, (t.label ? t.label + " · " : "") + new Date(t.created_at).toLocaleDateString("ko-KR"))),
       h("div", { class: "acts" },
         h("a", { class: "btn small", href: tagUrl(t.id), target: "_blank", rel: "noopener" }, "페이지 열기"),
         h("button", { class: "btn small ghost", type: "button", onclick: () => downloadPng(t.id) }, "PNG 저장"),
@@ -686,12 +1051,12 @@ async function renderAdmin() {
 
   function paint() {
     const all = state.tags;
-    const n = { all: all.length, own: all.filter(t => t.owner_count > 0).length, move: all.filter(t => t.transfer_pending).length };
+    const own = all.filter(t => t.owner_count > 0).length, move = all.filter(t => t.transfer_pending).length;
     statsEl.replaceChildren(
-      h("div", { class: "stat" }, h("b", null, n.all), h("span", null, "전체 태그")),
-      h("div", { class: "stat" }, h("b", null, n.own), h("span", null, "주인 등록")),
-      h("div", { class: "stat" }, h("b", null, n.all - n.own), h("span", null, "미등록")),
-      h("div", { class: "stat" }, h("b", null, n.move), h("span", null, "양도 중")));
+      h("div", { class: "stat" }, h("b", null, all.length), h("span", null, "전체 태그")),
+      h("div", { class: "stat" }, h("b", null, own), h("span", null, "주인 등록")),
+      h("div", { class: "stat" }, h("b", null, all.length - own), h("span", null, "미등록")),
+      h("div", { class: "stat" }, h("b", null, move), h("span", null, "양도 중")));
     const list = visible();
     countEl.textContent = list.length + "개 표시 중";
     gridEl.replaceChildren(...(list.length ? list.map(card) : [h("div", { class: "empty", style: "grid-column:1/-1" },
@@ -730,18 +1095,18 @@ async function renderAdmin() {
     topline(h("span", { class: "row" },
       h("span", null, DB.mode === "demo" ? "체험 모드" : session.email),
       DB.mode === "live" ? h("button", { class: "btn small ghost", type: "button", onclick: async () => { await DB.signOut(); renderAdmin(); } }, "로그아웃") : null)),
-    h("div", { class: "spread" }, h("h1", { class: "home-h1", style: "font-size:1.8rem" }, "관리자"), h("a", { href: homeUrl(), class: "small" }, "서비스 첫 화면 보기")),
+    h("div", { class: "spread" }, h("h1", { class: "page-title" }, "관리자"), h("a", { href: homeUrl(), class: "small" }, "서비스 첫 화면 보기")),
     demoNotice("QR에 담기는 주소: " + baseUrl() + "?t=코드"),
     statsEl,
     h("section", { class: "panel" }, h("h2", null, "새 QR 만들기"), genForm),
     h("section", { class: "panel" },
       h("div", { class: "toolbar" },
-        h("div", { class: "row" }, h("div", { class: "seg", role: "group", "aria-label": "상태로 거르기" }, segBtns), countEl),
+        h("div", { class: "row" }, h("div", { class: "seg tseg", role: "group", "aria-label": "상태로 거르기" }, segBtns), countEl),
         h("div", { class: "row", style: "flex:1 1 260px;justify-content:flex-end" },
           search,
           h("button", { class: "btn ghost", type: "button", onclick: () => { const l = visible(); if (l.length) printTags(l); else toast("인쇄할 태그가 없어요"); } }, "보이는 QR 인쇄"))),
       gridEl));
-  statsEl.replaceChildren(h("p", { class: "muted" }, "불러오는 중…"));
+  statsEl.replaceChildren(h("p", { class: "soft" }, "불러오는 중…"));
   try { state.tags = await DB.listTags(); paint(); }
   catch (e) { gridEl.replaceChildren(h("p", { class: "err" }, errMsg(e))); }
 }
@@ -754,7 +1119,7 @@ function renderLogin() {
   app.className = "wrap";
   mount(topline(null), h("section", { class: "panel" },
     h("h2", null, "관리자 로그인"),
-    h("p", { class: "muted small" }, "Supabase에서 만든 관리자 계정으로 로그인하세요."),
+    h("p", { class: "soft small" }, "Supabase에서 만든 관리자 계정으로 로그인하세요."),
     h("form", { onsubmit: async e => {
       e.preventDefault();
       await busy(btn, async () => {
@@ -767,7 +1132,48 @@ function renderLogin() {
 function renderFatal(text) {
   setTheme("basic");
   app.className = "wrap";
-  mount(topline(null), h("section", { class: "panel" }, h("h2", null, "페이지를 열 수 없어요"), h("p", { class: "muted" }, text)));
+  mount(topline(null), h("section", { class: "panel" }, h("h2", null, "페이지를 열 수 없어요"), h("p", { class: "soft" }, text)));
+}
+
+function openLightbox(items, start) {
+  let i = start;
+  const prevFocus = document.activeElement;
+  const stage = h("div", { class: "lb-stage" });
+  const cap = h("p", { class: "lb-cap" });
+  const count = h("span", { class: "mono small" });
+  const close = h("button", { type: "button", "aria-label": "닫기" }, "닫기");
+  const prev = h("button", { class: "lb-prev", type: "button", "aria-label": "이전" }, "‹");
+  const next = h("button", { class: "lb-next", type: "button", "aria-label": "다음" }, "›");
+  const box = h("div", { class: "lb", role: "dialog", "aria-modal": "true", "aria-label": "사진과 영상 크게 보기" },
+    h("div", { class: "lb-top" }, count, close), stage, cap);
+  const show = () => {
+    const it = items[i];
+    const el = it.m.type === "video"
+      ? h("video", { src: mediaSrc(it.m), controls: true, autoplay: true, playsinline: true })
+      : h("img", { src: mediaSrc(it.m), alt: it.title });
+    stage.replaceChildren(el, items.length > 1 ? prev : null, items.length > 1 ? next : null);
+    cap.textContent = it.title + (it.when ? " · " + it.when : "");
+    count.textContent = (i + 1) + " / " + items.length;
+  };
+  const go = d => { i = (i + d + items.length) % items.length; show(); };
+  const end = () => { box.remove(); removeEventListener("keydown", onKey); document.body.style.overflow = ""; prevFocus && prevFocus.focus && prevFocus.focus(); };
+  const onKey = e => { if (e.key === "Escape") end(); else if (e.key === "ArrowLeft") go(-1); else if (e.key === "ArrowRight") go(1); };
+  close.addEventListener("click", end);
+  prev.addEventListener("click", () => go(-1));
+  next.addEventListener("click", () => go(1));
+  box.addEventListener("click", e => { if (e.target === box || e.target === stage) end(); });
+  addEventListener("keydown", onKey);
+  document.body.style.overflow = "hidden";
+  document.body.append(box);
+  show();
+  close.focus();
+}
+
+function tile(it, list, idx, cls) {
+  const inner = it.m.type === "video"
+    ? [h("video", { src: mediaSrc(it.m) + "#t=0.1", muted: true, playsinline: true, preload: "metadata" }), h("span", { class: "vbadge" }, "영상")]
+    : [h("img", { src: mediaSrc(it.m), alt: it.title, loading: "lazy", onerror: hideBroken })];
+  return h("button", { class: "tile" + (cls ? " " + cls : ""), type: "button", "aria-label": it.title + " 크게 보기", onclick: () => openLightbox(list, idx) }, inner);
 }
 
 async function renderTag(id, flash) {
@@ -778,7 +1184,7 @@ async function renderTag(id, flash) {
     app.className = "wrap";
     mount(topline(null), h("section", { class: "panel" },
       h("h2", null, "등록되지 않은 태그예요"),
-      h("p", { class: "muted" }, "#" + id + " 코드로 만든 태그가 없어요. QR이 훼손됐거나 삭제된 태그일 수 있어요.")));
+      h("p", { class: "soft" }, "#" + id + " 코드로 만든 태그가 없어요. QR이 훼손됐거나 삭제된 태그일 수 있어요.")));
     return;
   }
   const { tag, entries } = data;
@@ -791,31 +1197,97 @@ async function renderTag(id, flash) {
   let owner = false;
   try { owner = await DB.isOwner(id, tok); } catch {}
 
-  const first = entries.find(e => e.body && e.body.trim());
-  const nth = tag.owner_count === 1 ? "초대 주인" : tag.owner_count + "번째 주인";
+  const first = entries.find(e => e.kind === "소유" && e.body && e.body.trim()) || entries.find(e => e.body && e.body.trim() && e.kind !== "노래");
+  const songs = entries.filter(e => e.kind === "노래" && e.youtube).sort((a, b) => (b.created_at || "").localeCompare(a.created_at || ""));
+  const album = [];
+  entries.slice().reverse().forEach(e => (e.media || []).forEach(m => album.push({ m, title: e.title, when: e.happened_on, entry: e.id })));
+  const nth = ownerLabel(tag.owner_count);
+
+  let songSec = null, playSong = null;
+  if (songs.length) {
+    const feature = h("div");
+    const items = [];
+    const select = s => {
+      feature.replaceChildren(h("article", { class: "song-card" },
+        ytPlayer(s.youtube, s.title),
+        h("div", { class: "song-meta" },
+          h("span", { class: "song-who" }, ownerLabel(s.owner_no) + "이 고른 노래 · " + s.happened_on),
+          h("h3", null, s.title),
+          s.body ? h("p", null, s.body) : null)));
+      items.forEach(b => b.setAttribute("aria-current", String(b.dataset.id === s.id)));
+    };
+    playSong = s => { select(s); feature.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "center" }); const b = feature.querySelector(".yt-play"); b && b.click(); };
+    const list = songs.length > 1 ? h("ol", { class: "playlist" }, songs.map(s => {
+      const b = h("button", { class: "pl-item", type: "button", "data-id": s.id, onclick: () => select(s) },
+        h("img", { src: ytThumb(s.youtube), alt: "", loading: "lazy", onerror: hideBroken }),
+        h("span", null, h("b", null, s.title), h("span", null, ownerLabel(s.owner_no) + "이 고른 노래")),
+        h("time", null, s.happened_on));
+      items.push(b);
+      return h("li", null, b);
+    })) : null;
+    select(songs[0]);
+    songSec = h("section", { class: "sec", id: "songs" },
+      h("div", { class: "sec-head" }, h("h2", null, "이 물건과 함께 듣는 노래"), h("span", { class: "hand" }, songs.length > 1 ? "주인들이 남긴 " + songs.length + "곡" : "주인이 남긴 한 곡")),
+      feature, list);
+  }
+
+  const albumSec = album.length ? h("section", { class: "sec" },
+    h("div", { class: "sec-head" }, h("h2", null, "사진과 영상"), h("span", { class: "soft small" }, album.length + "개")),
+    h("div", { class: "album" }, album.map((it, i) => tile(it, album, i)))) : null;
+
+  const tlItem = e => {
+    const mine = owner && e.owner_no === tag.owner_count && e.kind !== "소유";
+    const media = (e.media || []);
+    const start = album.findIndex(a => a.entry === e.id);
+    let del = null;
+    if (mine) {
+      del = h("button", { class: "btn small danger ev-del", type: "button" }, "이 기록 지우기");
+      let armed = null;
+      del.addEventListener("click", async () => {
+        if (!armed) { del.classList.add("armed"); del.textContent = "한 번 더 누르면 지워져요"; armed = setTimeout(() => { del.classList.remove("armed"); del.textContent = "이 기록 지우기"; armed = null; }, 3500); return; }
+        clearTimeout(armed);
+        await busy(del, async () => { try { await DB.deleteEntry(id, tok, e.id); toast("기록을 지웠어요"); renderTag(id); } catch (err) { toast(errMsg(err)); } });
+      });
+    }
+    return h("li", { class: "ev k-" + (KIND[e.kind] || "own") },
+      h("time", null, e.happened_on),
+      h("div", null,
+        h("span", { class: "chip" }, KIND_LABEL[e.kind] || e.kind),
+        h("h3", null, e.title),
+        e.body ? h("p", null, e.body) : null,
+        media.length ? h("div", { class: "strip" },
+          media.slice(0, 4).map((m, k) => tile(album[start + k], album, start + k)),
+          media.length > 4 ? h("button", { class: "more", type: "button", onclick: () => openLightbox(album, start + 4) }, "+" + (media.length - 4)) : null) : null,
+        e.kind === "노래" && e.youtube && playSong ? h("button", { class: "ev-song", type: "button", onclick: () => playSong(e) }, "이 노래 듣기") : null,
+        del));
+  };
 
   const parts = [
     topline(h("span", { class: "season" }, tag.theme === "xmas" ? "Merry Christmas" : "#" + tag.id)),
     flash || null,
     h("section", { class: "hero" },
       h("span", { class: "ribbon" }, tag.owner_count === 1 ? (tag.theme === "xmas" ? "따끈따끈 신상" : "첫 번째 이야기") : tag.owner_count + "번째 이야기"),
-      h("span", { class: "eyebrow" }, "기억 태그 #" + tag.id),
+      h("span", { class: "eyebrow-code" }, "기억 태그 #" + tag.id),
       h("h1", null, tag.item),
       tag.spec ? h("p", { class: "spec" }, tag.spec) : null,
-      h("div", { class: "owner" }, h("b", null, (tag.owner_count === 1 ? "초대 주인 " : "현재 주인 ") + tag.owner_name), h("span", { class: "badge" }, nth))),
-    first ? h("blockquote", null, first.body) : null,
-    h("section", { style: "display:grid;gap:6px" },
-      h("h2", { class: "sec-title" }, "이 물건의 기록"),
-      h("ol", { class: "timeline" }, entries.map(e => h("li", { class: "ev k-" + (KIND[e.kind] || "own") },
-        h("time", null, e.happened_on),
-        h("div", null, h("span", { class: "chip" }, e.kind), h("h3", null, e.title), e.body ? h("p", null, e.body) : null))))),
+      h("div", { class: "owner" }, h("b", null, (tag.owner_count === 1 ? "초대 주인 " : "현재 주인 ") + tag.owner_name), h("span", { class: "badge" }, nth)),
+      h("div", { class: "counts" },
+        h("span", null, "기록 " + entries.length + "개"),
+        songs.length ? h("span", null, "노래 " + songs.length + "곡") : null,
+        album.length ? h("span", null, "사진·영상 " + album.length + "개") : null)),
+    first ? h("blockquote", null, first.body, h("cite", null, "— " + ownerLabel(first.owner_no || 1) + "의 첫 이야기")) : null,
+    songSec,
+    albumSec,
+    h("section", { class: "sec" },
+      h("div", { class: "sec-head" }, h("h2", null, "이 물건의 기록"), h("span", { class: "soft small" }, "오래된 순")),
+      h("ol", { class: "timeline" }, entries.map(tlItem)))
   ];
 
   if (owner) parts.push(...ownerPanels(tag, tok));
   else if (tag.transfer_pending) parts.push(acceptPanel(tag));
   if (!owner) parts.push(keyPanel(tag));
-  parts.push(h("p", { class: "muted small" }, "이전 주인의 이름은 공개되지 않고 사연만 남습니다."));
-  mount(...parts);
+  parts.push(h("p", { class: "soft small", style: "text-align:center" }, "이전 주인의 이름은 공개되지 않고 사연만 남습니다."));
+  mount(parts);
 }
 
 function renderClaim(tag, auto) {
@@ -823,17 +1295,17 @@ function renderClaim(tag, auto) {
   const spec = h("input", { id: "c-spec", maxlength: "80", placeholder: "예: 드레드노트 바디, 스프루스 상판" });
   const ownerIn = h("input", { id: "c-owner", maxlength: "30", required: true, placeholder: "예: 김현우" });
   const since = h("input", { id: "c-since", type: "month", value: monthValue() });
-  const story = h("textarea", { id: "c-story", maxlength: "1000", required: true, placeholder: "이 물건과 함께한 첫 이야기를 적어 주세요. 예: 친구 결혼식에서 이 기타로 축가를 불렀어요." });
+  const story = h("textarea", { id: "c-story", maxlength: "1000", required: true, placeholder: "이 물건과 함께한 첫 장면을 적어 주세요. 예: 친구 결혼식에서 이 기타로 축가를 불렀어요." });
   const msg = h("p", { class: "err", hidden: true });
   const btn = h("button", { class: "btn", type: "submit" }, "이 물건의 초대 주인 되기");
   mount(
-    topline(h("span", null, "#" + tag.id)),
+    topline(h("span", { class: "season" }, "#" + tag.id)),
     demoNotice(auto ? "이 기기에서 처음 연 태그라 체험용으로 새로 만들었어요." : null),
     h("section", { class: "hero" },
       h("span", { class: "ribbon" }, "새 태그"),
-      h("span", { class: "eyebrow" }, "기억 태그 #" + tag.id),
+      h("span", { class: "eyebrow-code" }, "기억 태그 #" + tag.id),
       h("h1", null, "아직 주인이 없는 태그예요"),
-      h("p", { class: "spec" }, "이 태그를 붙인 물건의 첫 이야기를 남겨 주세요. 처음 등록한 사람이 초대 주인이 돼요.")),
+      h("p", { class: "spec" }, "이 태그를 붙인 물건의 첫 이야기를 남겨 주세요. 처음 등록한 사람이 초대 주인이 돼요. 노래와 사진은 등록한 다음 바로 더할 수 있어요.")),
     h("section", { class: "panel" },
       h("form", { onsubmit: async e => {
         e.preventDefault();
@@ -851,7 +1323,7 @@ function renderClaim(tag, auto) {
         field("한 줄 설명", spec, { hint: "모델, 색, 특징 등" }),
         h("div", { class: "two" }, field("내 이름 또는 닉네임", ownerIn, { req: true, hint: "다음 주인에게 넘기면 공개되지 않아요" }), field("언제부터 함께했나요", since)),
         field("첫 사연", story, { req: true }),
-        h("div", { class: "field" }, h("span", { class: "lbl" }, "페이지 테마"), choices("c-theme", [["basic", "기본"], ["xmas", "크리스마스"]], "basic")),
+        h("div", { class: "field" }, h("span", { class: "lbl" }, "페이지 분위기"), choices("c-theme", [["basic", "기본"], ["xmas", "크리스마스"]], "basic")),
         msg,
         h("div", null, btn))));
 }
@@ -859,34 +1331,150 @@ function renderClaim(tag, auto) {
 function keyNotice(id, tok, fresh) {
   return h("section", { class: "panel" },
     h("h2", null, fresh ? "등록 완료! 주인 열쇠를 꼭 저장하세요" : "주인 열쇠"),
-    h("p", { class: "muted small" }, "이 기기에는 자동으로 저장됐어요. 폰을 바꾸거나 브라우저 기록을 지우면 이 열쇠가 있어야 다시 글을 쓰고 양도할 수 있어요. 메모 앱 등에 보관하세요."),
+    h("p", { class: "soft small" }, "이 기기에는 자동으로 저장됐어요. 폰을 바꾸거나 브라우저 기록을 지우면 이 열쇠가 있어야 다시 글을 쓰고 양도할 수 있어요. 메모 앱에 보관해 두세요."),
     h("div", { class: "keybox" }, tok),
     h("div", null, h("button", { class: "btn ghost small", type: "button", onclick: () => copy(tok) }, "열쇠 복사")));
 }
 
+function composer(tag, tok) {
+  const id = tag.id;
+  const KINDS = [["사연", "사연"], ["노래", "노래"], ["수리", "수리·정비"], ["기록", "메모"]];
+  const TEXT = {
+    "사연": { title: "제목", tph: "예: 첫 버스킹 공연", body: "내용", bph: "어떤 일이 있었나요? 그날의 날씨, 함께한 사람, 소리까지 적어도 좋아요." },
+    "노래": { title: "노래 제목", tph: "링크를 붙이면 자동으로 채워져요", body: "이 노래를 고른 이유", bph: "이 물건을 보면 떠오르는 장면을 적어 주세요." },
+    "수리": { title: "무엇을 고쳤나요", tph: "예: 줄 교체, 셔터막 수리", body: "자세한 내용", bph: "어디서, 얼마에, 무엇을 고쳤는지 남기면 다음 주인이 믿고 쓸 수 있어요." },
+    "기록": { title: "제목", tph: "예: 다음 주인에게 하는 부탁", body: "내용", bph: "보관법, 버릇, 주의할 점 같은 것들" }
+  };
+  let kind = "사연";
+  let files = [];
+  let ytId = null;
+
+  const title = h("input", { id: "e-title", maxlength: "80", required: true });
+  const date = h("input", { id: "e-date", type: "month", value: monthValue() });
+  const body = h("textarea", { id: "e-body", maxlength: "1000" });
+  const titleLbl = h("label", { for: "e-title" });
+  const bodyLbl = h("label", { for: "e-body" });
+  const yt = h("input", { id: "e-yt", type: "url", inputmode: "url", placeholder: "https://youtu.be/…", autocomplete: "off" });
+  const ytPrev = h("div", { hidden: true });
+  const ytWrap = h("div", { class: "field" }, h("label", { for: "e-yt" }, "유튜브 링크", h("span", { class: "req", "aria-hidden": "true" }, "*")), yt,
+    h("span", { class: "hint" }, "유튜브 앱에서 공유 → 링크 복사 후 붙여 넣으세요. 유튜브 뮤직 링크도 돼요."), ytPrev);
+  const fileIn = h("input", { id: "e-files", type: "file", accept: "image/*,video/mp4,video/quicktime,video/webm", multiple: true, "aria-label": "사진이나 동영상 고르기" });
+  const picker = h("label", { class: "picker" }, fileIn, h("b", null, "사진·동영상 추가"), h("span", null, "눌러서 고르거나 여기로 끌어다 놓으세요 · 최대 " + CONFIG.MAX_FILES + "개, 영상은 " + CONFIG.MAX_VIDEO_MB + "MB까지"));
+  const previews = h("div", { class: "previews" });
+  const mediaWrap = h("div", { class: "field" }, h("span", { class: "lbl" }, "사진과 영상"), picker, previews);
+  const progress = h("p", { class: "progress", hidden: true });
+  const msg = h("p", { class: "err", hidden: true });
+  const btn = h("button", { class: "btn", type: "submit" }, "기록 남기기");
+
+  const seg = h("div", { class: "seg", role: "group", "aria-label": "기록 종류" }, KINDS.map(([k, label]) =>
+    h("button", { type: "button", "data-k": k, "aria-pressed": String(k === kind), onclick: () => setKind(k) }, label)));
+
+  function setKind(k) {
+    kind = k;
+    seg.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.k === k)));
+    const t = TEXT[k];
+    titleLbl.replaceChildren(t.title, h("span", { class: "req", "aria-hidden": "true" }, "*"));
+    bodyLbl.textContent = t.body;
+    title.placeholder = t.tph;
+    body.placeholder = t.bph;
+    ytWrap.hidden = k !== "노래";
+    mediaWrap.hidden = k === "노래";
+    btn.textContent = k === "노래" ? "노래 남기기" : "기록 남기기";
+    msg.hidden = true;
+  }
+
+  function paintPreviews() {
+    previews.querySelectorAll("[data-url]").forEach(el => URL.revokeObjectURL(el.dataset.url));
+    previews.replaceChildren(...files.map((f, i) => {
+      const url = URL.createObjectURL(f);
+      const isVid = typeOf(f) === "video";
+      return h("div", { class: "pv", "data-url": url },
+        isVid ? h("video", { src: url, muted: true, playsinline: true, preload: "metadata" }) : h("img", { src: url, alt: f.name }),
+        isVid ? h("span", { class: "vbadge" }, "영상") : null,
+        h("button", { type: "button", "aria-label": f.name + " 빼기", onclick: () => { files.splice(i, 1); paintPreviews(); } }, "×"));
+    }));
+  }
+
+  function addFiles(list) {
+    let warned = "";
+    for (const f of list) {
+      if (files.length >= CONFIG.MAX_FILES) { warned = ERR.too_many_files; break; }
+      const t = typeOf(f);
+      if (t === "video" && f.size > CONFIG.MAX_VIDEO_MB * 1048576) { warned = ERR.too_big; continue; }
+      if (t === "image" && !(f.type || "").startsWith("image/")) { warned = ERR.bad_media; continue; }
+      files.push(f);
+    }
+    if (warned) toast(warned);
+    paintPreviews();
+  }
+  fileIn.addEventListener("change", () => { addFiles(Array.from(fileIn.files || [])); fileIn.value = ""; });
+  ["dragenter", "dragover"].forEach(ev => picker.addEventListener(ev, e => { e.preventDefault(); picker.classList.add("drag"); }));
+  ["dragleave", "drop"].forEach(ev => picker.addEventListener(ev, e => { e.preventDefault(); picker.classList.remove("drag"); }));
+  picker.addEventListener("drop", e => addFiles(Array.from(e.dataTransfer?.files || [])));
+
+  let ytSeq = 0;
+  yt.addEventListener("input", async () => {
+    const seq = ++ytSeq;
+    ytId = parseYouTube(yt.value);
+    if (!ytId) {
+      ytPrev.hidden = !yt.value.trim();
+      ytPrev.replaceChildren(h("p", { class: "err" }, "아직 유튜브 링크로 알아보지 못했어요."));
+      return;
+    }
+    const info = h("div", null, h("b", null, "노래 정보를 불러오는 중…"), h("span", null, "youtu.be/" + ytId));
+    ytPrev.hidden = false;
+    ytPrev.replaceChildren(h("div", { class: "yt-preview" }, h("img", { src: ytThumb(ytId), alt: "", onerror: hideBroken }), info));
+    const meta = await ytTitle(ytId);
+    if (seq !== ytSeq) return;
+    if (meta) {
+      info.replaceChildren(h("b", null, meta.title), h("span", null, meta.author || "YouTube"));
+      if (!title.value.trim()) title.value = meta.title.slice(0, 80);
+    } else {
+      info.replaceChildren(h("b", null, "링크를 확인했어요"), h("span", null, "노래 제목은 직접 적어 주세요"));
+    }
+  });
+
+  const form = h("form", { onsubmit: async e => {
+    e.preventDefault();
+    msg.hidden = true;
+    if (kind === "노래" && !ytId) { msg.hidden = false; msg.textContent = ERR.bad_youtube; yt.focus(); return; }
+    if (!title.value.trim()) { msg.hidden = false; msg.textContent = ERR.bad_title; title.focus(); return; }
+    await busy(btn, async () => {
+      try {
+        const media = [];
+        if (kind !== "노래") {
+          for (let i = 0; i < files.length; i++) {
+            const f = files[i], t = typeOf(f);
+            progress.hidden = false;
+            progress.textContent = (t === "video" ? "영상" : "사진") + " 올리는 중 " + (i + 1) + " / " + files.length + (t === "video" ? " · 영상은 시간이 조금 걸려요" : "");
+            const ready = t === "image" ? await shrinkImage(f, 1800, .86) : f;
+            media.push(await DB.uploadMedia(id, tok, ready, t));
+          }
+        }
+        progress.hidden = false; progress.textContent = "기록을 저장하는 중…";
+        await DB.addEntry(id, tok, { kind, title: title.value, body: body.value, date: monthInput(date.value), media, youtube: kind === "노래" ? ytId : null });
+        toast(kind === "노래" ? "노래를 남겼어요" : "기록을 남겼어요");
+        renderTag(id);
+      } catch (err) {
+        progress.hidden = true;
+        msg.hidden = false; msg.textContent = errMsg(err);
+      }
+    });
+  } },
+    seg,
+    ytWrap,
+    h("div", { class: "two" }, h("div", { class: "field" }, titleLbl, title), field("언제", date)),
+    h("div", { class: "field" }, bodyLbl, body),
+    mediaWrap,
+    progress, msg,
+    h("div", null, btn));
+
+  setKind("사연");
+  return h("details", { class: "panel compose", open: true }, h("summary", null, "새 이야기 남기기"), form);
+}
+
 function ownerPanels(tag, tok) {
   const id = tag.id;
-  const kind = choices("e-kind", [["사연", "사연"], ["수리", "수리·정비"], ["기록", "메모"]], "사연");
-  const date = h("input", { id: "e-date", type: "month", value: monthValue() });
-  const title = h("input", { id: "e-title", maxlength: "80", required: true, placeholder: "예: 첫 버스킹 공연" });
-  const body = h("textarea", { id: "e-body", maxlength: "1000", placeholder: "어떤 일이 있었나요?" });
-  const eMsg = h("p", { class: "err", hidden: true });
-  const eBtn = h("button", { class: "btn", type: "submit" }, "기록 남기기");
-  const add = h("details", { class: "panel", open: true },
-    h("summary", null, "새 기록 남기기"),
-    h("form", { onsubmit: async e => {
-      e.preventDefault();
-      const k = (app.querySelector("input[name=e-kind]:checked") || {}).value || "사연";
-      await busy(eBtn, async () => {
-        try { await DB.addEntry(id, tok, { kind: k, title: title.value, body: body.value, date: monthInput(date.value) }); toast("기록을 남겼어요"); renderTag(id); }
-        catch (err) { eMsg.hidden = false; eMsg.textContent = errMsg(err); }
-      });
-    } },
-      h("div", { class: "field" }, h("span", { class: "lbl" }, "종류"), kind),
-      h("div", { class: "two" }, field("제목", title, { req: true }), field("언제", date)),
-      field("내용", body),
-      eMsg, h("div", null, eBtn)));
-
   const codeKey = "memtag-transfer-" + id;
   const tBox = h("div", { style: "display:grid;gap:12px" });
   const paintTransfer = () => {
@@ -901,13 +1489,13 @@ function ownerPanels(tag, tok) {
       renew.addEventListener("click", () => start(renew));
       tBox.replaceChildren(
         h("p", null, "새 주인에게 아래 코드를 알려 주세요. 새 주인이 이 태그를 찍고 코드를 넣으면 소유권이 넘어가요. 코드는 7일 동안 쓸 수 있어요."),
-        saved ? h("div", { class: "bigcode" }, saved) : h("p", { class: "muted small" }, "코드는 만든 기기에서만 다시 볼 수 있어요. 잃어버렸다면 새 코드를 받으세요."),
+        saved ? h("div", { class: "bigcode" }, saved) : h("p", { class: "soft small" }, "코드는 만든 기기에서만 다시 볼 수 있어요. 잃어버렸다면 새 코드를 받으세요."),
         h("div", { class: "row" }, saved ? h("button", { class: "btn", type: "button", onclick: () => copy(saved) }, "코드 복사") : null, renew, cancel));
     } else {
       const go = h("button", { class: "btn", type: "button" }, "양도 코드 만들기");
       go.addEventListener("click", () => start(go));
       tBox.replaceChildren(
-        h("p", { class: "muted" }, "이 물건을 팔거나 물려줄 때 쓰세요. 양도가 끝나면 이 기기의 주인 열쇠는 더 이상 쓸 수 없고, 내 이름은 기록에서 사라져요."),
+        h("p", { class: "soft" }, "이 물건을 팔거나 물려줄 때 쓰세요. 양도가 끝나면 이 기기의 주인 열쇠는 더 이상 쓸 수 없고, 내 이름은 기록에서 사라져요. 내가 남긴 사연과 노래, 사진은 그대로 다음 주인에게 건너가요."),
         h("div", null, go));
     }
   };
@@ -924,7 +1512,7 @@ function ownerPanels(tag, tok) {
   const uMsg = h("p", { class: "err", hidden: true });
   const uBtn = h("button", { class: "btn", type: "submit" }, "저장");
   const edit = h("details", { class: "panel" },
-    h("summary", null, "물건 정보와 테마 바꾸기"),
+    h("summary", null, "물건 정보와 분위기 바꾸기"),
     h("form", { onsubmit: async e => {
       e.preventDefault();
       const theme = (app.querySelector("input[name=u-theme]:checked") || {}).value || "basic";
@@ -934,15 +1522,15 @@ function ownerPanels(tag, tok) {
       });
     } },
       field("물건 이름", item, { req: true }), field("한 줄 설명", spec),
-      h("div", { class: "field" }, h("span", { class: "lbl" }, "페이지 테마"), choices("u-theme", [["basic", "기본"], ["xmas", "크리스마스"]], tag.theme)),
+      h("div", { class: "field" }, h("span", { class: "lbl" }, "페이지 분위기"), choices("u-theme", [["basic", "기본"], ["xmas", "크리스마스"]], tag.theme)),
       uMsg, h("div", null, uBtn)));
 
   const keyD = h("details", { class: "panel" }, h("summary", null, "내 주인 열쇠 보기"),
-    h("p", { class: "muted small" }, "다른 기기에서 이 물건을 관리하려면 그 기기에서 이 열쇠를 입력하세요. 다른 사람에게 보여 주지 마세요."),
+    h("p", { class: "soft small" }, "다른 기기에서 이 물건을 관리하려면 그 기기에서 이 열쇠를 입력하세요. 다른 사람에게 보여 주지 마세요."),
     h("div", { class: "keybox" }, tok),
     h("div", null, h("button", { class: "btn ghost small", type: "button", onclick: () => copy(tok) }, "열쇠 복사")));
 
-  return [h("p", { class: "okmsg" }, "이 기기는 이 물건의 주인으로 인식됐어요."), add, transfer, edit, keyD];
+  return [h("p", { class: "okmsg" }, "이 기기는 이 물건의 주인으로 인식됐어요."), composer(tag, tok), transfer, edit, keyD];
 }
 
 function acceptPanel(tag) {
@@ -953,7 +1541,7 @@ function acceptPanel(tag) {
   const btn = h("button", { class: "btn", type: "submit" }, "새 주인으로 받기");
   return h("section", { class: "panel" },
     h("h2", null, "이 물건은 지금 양도 중이에요"),
-    h("p", { class: "muted small" }, "이전 주인에게 받은 8자리 양도 코드를 넣으면 새 주인이 돼요."),
+    h("p", { class: "soft small" }, "이전 주인에게 받은 8자리 양도 코드를 넣으면 새 주인이 돼요."),
     h("form", { onsubmit: async e => {
       e.preventDefault();
       const tok = randomToken();
@@ -961,7 +1549,7 @@ function acceptPanel(tag) {
         try {
           const n = await DB.acceptTransfer(tag.id, code.value.trim().toUpperCase(), ownerIn.value, story.value, tok);
           setKey(tag.id, tok);
-          renderTag(tag.id, h("div", null, h("p", { class: "okmsg" }, n + "번째 주인이 되었어요."), keyNotice(tag.id, tok, true)));
+          renderTag(tag.id, h("div", { style: "display:grid;gap:12px" }, h("p", { class: "okmsg" }, n + "번째 주인이 되었어요. 이제 이 물건의 다음 장을 써 주세요."), keyNotice(tag.id, tok, true)));
         } catch (err) { msg.hidden = false; msg.textContent = errMsg(err); }
       });
     } },
@@ -976,7 +1564,7 @@ function keyPanel(tag) {
   const btn = h("button", { class: "btn ghost", type: "submit" }, "열쇠 확인");
   return h("details", { class: "panel" },
     h("summary", null, "이 물건의 주인인가요?"),
-    h("p", { class: "muted small" }, "등록할 때 받은 주인 열쇠를 넣으면 이 기기에서도 기록을 남기고 양도할 수 있어요."),
+    h("p", { class: "soft small" }, "등록할 때 받은 주인 열쇠를 넣으면 이 기기에서도 기록을 남기고 양도할 수 있어요."),
     h("form", { onsubmit: async e => {
       e.preventDefault();
       const tok = key.value.trim();
@@ -1007,7 +1595,7 @@ function loadScript(src) {
 
 async function boot() {
   if (params.has("c")) return legacy(params.get("c"));
-  if (CONFIG.SUPABASE_URL && CONFIG.SUPABASE_ANON_KEY) {
+  if (CONFIG.SUPABASE_URL && CONFIG.SUPABASE_ANON_KEY && !params.has("demo")) {
     try { await loadScript("https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"); Remote.init(); DB = Remote; }
     catch { return renderFatal("데이터베이스 라이브러리를 불러오지 못했어요. 인터넷 연결을 확인하고 새로고침해 주세요."); }
   }
