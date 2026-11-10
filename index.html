@@ -2,82 +2,1025 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>QR 도착 페이지</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>물건 기억 태그</title>
+<meta name="description" content="물건에 QR 태그를 붙이면 그 물건의 사연과 수리·소유 이력이 주인이 바뀌어도 따라갑니다.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Noto+Sans+KR:wght@400;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Nanum+Myeongjo:wght@700;800&family=Noto+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
 <style>
 :root{
-  --bg:#eef1f4; --surface:#ffffff; --fg:#14202b; --muted:#5b6876; --accent:#1f6feb; --line:#d6dde4;
-  --display:"Gowun Dodum","Noto Sans KR",system-ui,sans-serif;
-  --body:"Noto Sans KR",system-ui,-apple-system,sans-serif;
-  --mono:"IBM Plex Mono",ui-monospace,monospace;
+  --bg:#eff1ec; --surface:#ffffff; --fg:#1c221f; --muted:#5c655f; --line:#d9ddd6;
+  --accent:#9a6a14; --accent-ink:#ffffff; --pine:#1f4d3a;
+  --ok:#2f7a46; --warn:#a3611a; --bad:#b0302b;
+  --own:var(--accent); --story:#2f6f8f; --fix:#8a6d1d; --note:#5a55a8;
+  --hero-bg:var(--surface); --hero-fg:var(--fg); --hero-muted:var(--muted); --hero-line:var(--line);
+  --quote-bg:var(--surface); --quote-fg:var(--fg);
+  --field:#ffffff;
+  --display:"Nanum Myeongjo","Gowun Batang",serif;
+  --storyface:"Gowun Batang","Nanum Myeongjo",serif;
+  --body:"Noto Sans KR",system-ui,-apple-system,"Apple SD Gothic Neo",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  color-scheme:light;
 }
-@media (prefers-color-scheme: dark){:root{
-  --bg:#0f151b; --surface:#17202a; --fg:#e7edf3; --muted:#9aa8b6; --accent:#5b9cff; --line:#273340; color-scheme:dark}}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#121613; --surface:#1a201c; --fg:#e7ebe6; --muted:#9ca59f; --line:#2b332e;
+  --accent:#d9a443; --accent-ink:#1b1405; --pine:#7fc4a1;
+  --ok:#6cc58a; --warn:#e0a35a; --bad:#ef7a73;
+  --story:#79b8d6; --fix:#d6b45a; --note:#a9a4f0; --field:#141915;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121613; --surface:#1a201c; --fg:#e7ebe6; --muted:#9ca59f; --line:#2b332e;
+  --accent:#d9a443; --accent-ink:#1b1405; --pine:#7fc4a1;
+  --ok:#6cc58a; --warn:#e0a35a; --bad:#ef7a73;
+  --story:#79b8d6; --fix:#d6b45a; --note:#a9a4f0; --field:#141915;
+  color-scheme:dark}
+body.xmas{
+  --bg:#0c2219; --surface:rgba(18,58,42,.72); --fg:#f7f3ea; --muted:#c9d8cf; --line:rgba(201,216,207,.22);
+  --accent:#e6c36a; --accent-ink:#1d1606; --own:#e6c36a; --story:#f2a9a9; --fix:#9fd6b4; --note:#c9c2ff;
+  --hero-bg:#f7f3ea; --hero-fg:#1d2a23; --hero-muted:#4d5d54; --hero-line:#b9c4bd;
+  --quote-bg:linear-gradient(160deg,#b3202e 0%,#7d1420 100%); --quote-fg:#f7f3ea;
+  --field:rgba(255,255,255,.07);
+  color-scheme:dark;
+  background:radial-gradient(120% 70% at 50% 0%,#18513a 0%,#123a2a 40%,#0c2219 100%) fixed,#0c2219;
+}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);line-height:1.6;
-  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:48px}
-main{max-width:520px;margin:0 auto;display:grid;gap:24px}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:32px 28px;display:grid;gap:18px}
-.finder{width:56px;height:56px;border:8px solid var(--fg);border-radius:6px;display:grid;place-items:center}
-.finder::after{content:"";width:16px;height:16px;background:var(--accent);border-radius:2px}
-h1{font-family:var(--display);font-size:1.9rem;line-height:1.25;margin:0;text-wrap:balance}
-p{margin:0;color:var(--muted)}
-a{color:var(--accent);overflow-wrap:anywhere}
-.code{font-family:var(--mono);color:var(--fg)}
-.list{display:grid;gap:8px;border-top:1px solid var(--line);padding-top:16px;margin:0;padding-left:0;list-style:none}
-.list li{display:grid;grid-template-columns:7rem 1fr;gap:12px;min-width:0}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.65;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:calc(env(safe-area-inset-top,0px) + 28px) calc(env(safe-area-inset-bottom,0px) + 64px);overflow-x:hidden}
+a{color:var(--accent)}
+h1,h2,h3{margin:0;text-wrap:balance}
+p{margin:0}
 [hidden]{display:none!important}
+.wrap{position:relative;z-index:1;max-width:580px;margin:0 auto;display:grid;gap:24px}
+.wrap.wide{max-width:1080px}
+.mono{font-family:var(--mono)}
+.muted{color:var(--muted)}
+.small{font-size:.86rem}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.spread{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.topline{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;font-family:var(--mono);font-size:.8rem;letter-spacing:.05em;color:var(--muted)}
+.topline a{color:inherit;text-decoration:none}
+.topline .season{color:var(--accent)}
+.brand{font-family:var(--display);font-weight:800;font-size:1.15rem;letter-spacing:.01em;color:var(--fg);text-decoration:none}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;display:grid;gap:14px;min-width:0}
+.panel h2{font-size:1.05rem}
+.notice{border:1px dashed var(--accent);border-radius:12px;padding:14px 16px;display:grid;gap:4px;font-size:.92rem}
+.notice b{color:var(--accent)}
+.err{color:var(--bad);font-size:.9rem}
+.okmsg{color:var(--ok);font-size:.9rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;font:inherit;font-weight:700;font-size:.93rem;border-radius:10px;padding:10px 16px;cursor:pointer;
+  border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);text-decoration:none;min-height:42px}
+.btn.ghost{background:transparent;color:var(--fg);border-color:var(--line)}
+.btn.small{padding:6px 10px;min-height:34px;font-size:.84rem}
+.btn.danger{background:transparent;color:var(--bad);border-color:var(--bad)}
+.btn.danger.armed{background:var(--bad);color:#fff}
+.btn:disabled{opacity:.55;cursor:progress}
+.btn:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,.seg button:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+form{display:grid;gap:14px}
+.field{display:grid;gap:6px;min-width:0}
+.field label,.field .lbl{font-weight:700;font-size:.9rem}
+.field .hint{font-size:.8rem;color:var(--muted)}
+.req{color:var(--bad);margin-left:2px}
+input,textarea,select{font:inherit;color:var(--fg);background:var(--field);border:1px solid var(--line);border-radius:10px;padding:10px 12px;width:100%;min-width:0}
+textarea{min-height:110px;resize:vertical;font-family:var(--storyface);line-height:1.6}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.choices{display:flex;gap:8px;flex-wrap:wrap}
+.choices label{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:6px 12px;cursor:pointer;font-weight:500;font-size:.9rem}
+.choices input{width:auto;margin:0;accent-color:var(--accent)}
+.choices label:has(input:checked){border-color:var(--accent);color:var(--accent);font-weight:700}
+details.panel>summary{cursor:pointer;font-weight:700;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px}
+details.panel>summary::-webkit-details-marker{display:none}
+details.panel>summary::after{content:"+";font-family:var(--mono);color:var(--muted);font-size:1.1rem}
+details.panel[open]>summary::after{content:"−"}
+.hero{position:relative;background:var(--hero-bg);color:var(--hero-fg);border:1px solid var(--line);border-radius:18px;padding:30px 24px 24px;display:grid;gap:8px}
+body.xmas .hero{border:2px solid #e6c36a;box-shadow:0 18px 40px rgba(0,0,0,.35);padding-top:38px}
+body.xmas .hero::before{content:"";position:absolute;top:14px;left:50%;width:16px;height:16px;margin-left:-8px;border-radius:50%;background:#0c2219;box-shadow:0 0 0 3px #e6c36a}
+.ribbon{position:absolute;top:-10px;right:20px;background:var(--pine);color:#fff;font-size:.74rem;font-weight:700;letter-spacing:.06em;padding:6px 12px 10px;clip-path:polygon(0 0,100% 0,100% 100%,50% 80%,0 100%)}
+body.xmas .ribbon{background:#b3202e;color:#f7f3ea}
+.eyebrow{font-family:var(--mono);font-size:.76rem;letter-spacing:.08em;color:var(--accent)}
+body.xmas .eyebrow{color:#b3202e}
+.hero h1{font-family:var(--display);font-weight:800;font-size:2.2rem;line-height:1.18}
+body.xmas .hero h1{color:#123a2a}
+.hero .spec{color:var(--hero-muted)}
+.owner{display:flex;gap:10px;align-items:center;flex-wrap:wrap;border-top:1px dashed var(--hero-line);padding-top:12px;margin-top:6px}
+.owner b{font-size:1.04rem}
+.badge{background:var(--pine);color:#fff;font-weight:700;font-size:.8rem;border-radius:999px;padding:3px 12px;letter-spacing:.03em}
+body.xmas .badge{background:#123a2a;color:#e6c36a}
+blockquote{margin:0;padding:22px 24px;border-radius:16px;background:var(--quote-bg);color:var(--quote-fg);border:1px solid var(--line);font-family:var(--storyface);font-size:1.28rem;line-height:1.6;text-wrap:pretty;white-space:pre-line}
+blockquote::before{content:"“";display:block;font-size:2.2rem;line-height:.6;color:var(--accent);font-family:var(--display)}
+body.xmas blockquote{border-color:rgba(230,195,106,.5);box-shadow:0 12px 30px rgba(0,0,0,.3)}
+body.xmas blockquote::before{content:"❄";font-size:1.2rem;line-height:1.2;color:#e6c36a}
+.sec-title{font-family:var(--display);font-size:1.12rem;color:var(--fg)}
+body.xmas .sec-title{color:#e6c36a}
+.timeline{list-style:none;margin:0;padding:0;display:grid}
+.ev{display:grid;grid-template-columns:4.8rem 1fr;gap:14px;padding:14px 0;border-top:1px solid var(--line)}
+.ev>div{min-width:0;display:grid;gap:2px;border-left:3px solid var(--own);padding-left:14px}
+.ev time{font-family:var(--mono);font-size:.84rem;color:var(--muted);font-variant-numeric:tabular-nums;padding-top:2px}
+.ev .chip{justify-self:start;font-size:.72rem;font-weight:700;letter-spacing:.06em;color:var(--own)}
+.ev h3{font-size:1rem}
+.ev p{color:var(--muted);font-family:var(--storyface);white-space:pre-line;overflow-wrap:anywhere}
+.ev.k-story>div{border-left-color:var(--story)} .ev.k-story .chip{color:var(--story)}
+.ev.k-fix>div{border-left-color:var(--fix)} .ev.k-fix .chip{color:var(--fix)}
+.ev.k-note>div{border-left-color:var(--note)} .ev.k-note .chip{color:var(--note)}
+.keybox{font-family:var(--mono);font-size:.95rem;background:var(--field);border:1px dashed var(--accent);border-radius:10px;padding:10px 12px;overflow-wrap:anywhere;user-select:all}
+.bigcode{font-family:var(--mono);font-weight:600;font-size:2rem;letter-spacing:.18em;color:var(--accent);text-align:center;padding:10px;border:2px dashed var(--accent);border-radius:12px;user-select:all}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;gap:2px}
+.stat b{font-family:var(--mono);font-size:1.6rem;font-variant-numeric:tabular-nums;line-height:1.2}
+.stat span{font-size:.8rem;color:var(--muted);letter-spacing:.04em}
+.genrow{display:grid;grid-template-columns:8rem 1fr auto;gap:12px;align-items:end}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.seg button{font:inherit;font-size:.86rem;background:transparent;color:var(--fg);border:0;padding:8px 12px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--fg);color:var(--bg);font-weight:700}
+.search{max-width:260px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;display:grid;gap:10px;align-content:start;min-width:0}
+.card.fresh{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent) inset}
+.card .qr{background:#fff;border-radius:8px;padding:6px;aspect-ratio:1;max-width:100%}
+.card .qr svg{display:block;width:100%;height:100%}
+.card .meta{display:grid;gap:2px;min-width:0}
+.card .meta b{overflow-wrap:anywhere}
+.pill{justify-self:start;font-size:.74rem;font-weight:700;border-radius:999px;padding:2px 10px;border:1px solid currentColor}
+.pill.s-new{color:var(--muted)}
+.pill.s-own{color:var(--ok)}
+.pill.s-move{color:var(--warn)}
+.card .acts{display:flex;gap:6px;flex-wrap:wrap}
+.empty{border:1px dashed var(--line);border-radius:14px;padding:28px;text-align:center;color:var(--muted)}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:12px;counter-reset:s}
+.steps li{display:grid;grid-template-columns:2rem 1fr;gap:10px;counter-increment:s}
+.steps li::before{content:counter(s);font-family:var(--mono);font-weight:600;color:var(--accent);border:1px solid var(--accent);border-radius:50%;width:1.8rem;height:1.8rem;display:grid;place-items:center;font-size:.85rem}
+.lead{font-family:var(--storyface);font-size:1.18rem;line-height:1.7}
+.home-h1{font-family:var(--display);font-weight:800;font-size:2.4rem;line-height:1.15}
+#toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 24px);transform:translateX(-50%);background:var(--fg);color:var(--bg);padding:10px 16px;border-radius:10px;font-size:.9rem;z-index:50;max-width:calc(100% - 32px);box-shadow:0 8px 24px rgba(0,0,0,.25)}
+#snow{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.lights{position:fixed;top:0;left:0;right:0;height:44px;z-index:0;pointer-events:none}
+.lights svg{display:block;width:100%;height:44px}
+.bulb{animation:twinkle 2.4s ease-in-out infinite}
+.bulb:nth-child(3n){animation-delay:.8s}
+.bulb:nth-child(3n+1){animation-delay:1.6s}
+@keyframes twinkle{0%,100%{opacity:1}50%{opacity:.35}}
+body.xmas{padding-top:calc(env(safe-area-inset-top,0px) + 56px)}
+.print-area{display:none}
+@media (max-width:720px){
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .genrow{grid-template-columns:1fr}
+  .search{max-width:none;flex:1 1 100%}
+}
+@media (max-width:460px){
+  .two{grid-template-columns:1fr}
+  .hero h1{font-size:1.8rem}
+  .home-h1{font-size:1.9rem}
+  .ev{grid-template-columns:4rem 1fr;gap:10px}
+}
+@media (prefers-reduced-motion: reduce){.bulb{animation:none}}
+@media print{
+  body{background:#fff!important;color:#000;padding:0}
+  body>*:not(.print-area){display:none!important}
+  .print-area{display:grid!important;grid-template-columns:repeat(3,1fr);gap:8mm}
+  .pcell{break-inside:avoid;border:1px dashed #999;border-radius:4mm;padding:5mm;text-align:center;display:grid;gap:2mm;font-family:var(--body)}
+  .pcell svg{width:100%;height:auto}
+  .pcell b{font-family:var(--mono);font-size:12pt}
+  .pcell span{font-size:8pt;color:#444}
+}
 </style>
 </head>
 <body>
-<main>
-  <div class="card" id="going" hidden>
-    <div class="finder" aria-hidden="true"></div>
-    <h1>이동 중이에요</h1>
-    <p>잠시 후 자동으로 이동합니다. 이동하지 않으면 <a id="manual" href="#">여기를 누르세요</a>.</p>
-  </div>
-  <div class="card" id="missing" hidden>
-    <div class="finder" aria-hidden="true"></div>
-    <h1>등록되지 않은 QR코드예요</h1>
-    <p>코드 <span class="code" id="badcode"></span>에 연결된 주소가 없습니다.</p>
-  </div>
-  <div class="card" id="home" hidden>
-    <div class="finder" aria-hidden="true"></div>
-    <h1>QR 연결 서비스</h1>
-    <p>QR코드마다 다른 웹사이트로 연결됩니다. 지금 등록된 코드는 아래와 같아요.</p>
-    <ul class="list" id="list"></ul>
-  </div>
-</main>
+<main class="wrap" id="app" aria-live="polite"><p class="muted">불러오는 중…</p></main>
+<div id="toast" role="status" hidden></div>
+<div class="print-area" id="print"></div>
 <script>
-const code=new URLSearchParams(location.search).get('c');
-const show=id=>document.getElementById(id).hidden=false;
-fetch('links.json',{cache:'no-store'}).then(r=>r.json()).then(links=>{
-  if(code){
-    const url=links[code];
-    if(url){
-      document.getElementById('manual').href=url;
-      show('going');
-      location.replace(url);
-    }else{
-      document.getElementById('badcode').textContent=code;
-      show('missing');
+const CONFIG = {
+  SUPABASE_URL: "https://byghmpyqwqaggpcbtkgz.supabase.co",
+  SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5Z2htcHlxd3FhZ2dwY2J0a2d6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQyODgzOTcsImV4cCI6MjEwOTg2NDM5N30.Xez0LUo3BhdmbkG1eODrnO6U7QcxBr5acI8aFUCxmc4",
+  SITE_URL: "https://jackpro333.github.io/qr-landing/"
+};
+
+const $ = (s, r = document) => r.querySelector(s);
+const app = $("#app");
+const mount = (...kids) => app.replaceChildren(...kids.flat().filter(k => k != null && k !== false));
+const params = new URLSearchParams(location.search);
+const ALPHA = "abcdefghjkmnpqrstuvwxyz23456789";
+const ERR = {
+  already_claimed: "이미 주인이 등록된 태그예요. 새로고침해 보세요.",
+  bad_token: "주인 열쇠가 맞지 않아요.",
+  bad_code: "양도 코드가 맞지 않거나 7일이 지나 만료됐어요.",
+  no_tag: "등록되지 않은 태그예요.",
+  bad_item: "물건 이름을 1~60자로 적어 주세요.",
+  bad_owner: "이름을 1~30자로 적어 주세요.",
+  too_long: "글이 너무 길어요. 조금 줄여 주세요.",
+  bad_kind: "기록 종류를 다시 골라 주세요.",
+  login: "이메일 또는 비밀번호가 맞지 않아요.",
+  network: "서버에 연결하지 못했어요. 인터넷 연결을 확인하고 다시 시도해 주세요."
+};
+const KIND = { "소유": "own", "사연": "story", "수리": "fix", "기록": "note" };
+
+function h(tag, props, ...kids) {
+  const el = document.createElement(tag);
+  if (props) for (const [k, v] of Object.entries(props)) {
+    if (v == null || v === false) continue;
+    if (k === "class") el.className = v;
+    else if (k === "text") el.textContent = v;
+    else if (k === "html") el.innerHTML = v;
+    else if (k.startsWith("on")) el.addEventListener(k.slice(2), v);
+    else el.setAttribute(k, v === true ? "" : v);
+  }
+  for (const k of kids.flat(Infinity)) {
+    if (k == null || k === false) continue;
+    el.append(k.nodeType ? k : String(k));
+  }
+  return el;
+}
+
+function field(label, control, opts = {}) {
+  const id = control.id;
+  return h("div", { class: "field" },
+    h("label", { for: id }, label, opts.req ? h("span", { class: "req", "aria-hidden": "true" }, "*") : null),
+    control,
+    opts.hint ? h("span", { class: "hint" }, opts.hint) : null);
+}
+
+function choices(name, items, value) {
+  return h("div", { class: "choices", role: "radiogroup" },
+    items.map(([v, label]) => h("label", null,
+      h("input", { type: "radio", name, value: v, checked: v === value, id: name + "-" + v }), label)));
+}
+
+function randomFrom(alpha, n) {
+  const a = new Uint32Array(n);
+  crypto.getRandomValues(a);
+  return Array.from(a, x => alpha[x % alpha.length]).join("");
+}
+const randomId = () => randomFrom(ALPHA, 7);
+const randomToken = () => randomFrom(ALPHA + "ABCDEFGHJKLMNPQRSTUVWXYZ", 32);
+const randomCode = () => randomFrom("ABCDEFGHJKLMNPQRSTUVWXYZ23456789", 8);
+
+async function sha(text) {
+  const data = new TextEncoder().encode(String(text));
+  if (crypto.subtle) {
+    const buf = await crypto.subtle.digest("SHA-256", data);
+    return Array.from(new Uint8Array(buf), b => b.toString(16).padStart(2, "0")).join("");
+  }
+  let x = 2166136261;
+  for (const b of data) { x ^= b; x = Math.imul(x, 16777619) >>> 0; }
+  return "f" + x.toString(16);
+}
+
+function monthNow() {
+  const d = new Date();
+  return d.getFullYear() + "." + String(d.getMonth() + 1).padStart(2, "0");
+}
+const monthInput = v => (v || "").replace("-", ".");
+const monthValue = () => monthNow().replace(".", "-");
+
+const store = {
+  get(k) { try { return localStorage.getItem(k); } catch { return null; } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch {} },
+  del(k) { try { localStorage.removeItem(k); } catch {} }
+};
+const keyOf = id => store.get("memtag-key-" + id);
+const setKey = (id, t) => store.set("memtag-key-" + id, t);
+
+function errMsg(e) {
+  const m = String(e && e.message || e || "");
+  for (const k of Object.keys(ERR)) if (m.includes(k)) return ERR[k];
+  if (/fetch|network|Failed/i.test(m)) return ERR.network;
+  return "문제가 생겼어요: " + m;
+}
+
+let toastTimer;
+function toast(msg) {
+  const t = $("#toast");
+  t.textContent = msg;
+  t.hidden = false;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { t.hidden = true; }, 2600);
+}
+
+async function copy(text) {
+  try { await navigator.clipboard.writeText(text); toast("복사했어요"); }
+  catch {
+    const ta = h("textarea", { style: "position:fixed;opacity:0" });
+    ta.value = text; document.body.append(ta); ta.select();
+    try { document.execCommand("copy"); toast("복사했어요"); } catch { toast("복사하지 못했어요. 직접 선택해서 복사해 주세요."); }
+    ta.remove();
+  }
+}
+
+async function busy(btn, fn) {
+  const label = btn.textContent;
+  btn.disabled = true; btn.textContent = "처리 중…";
+  try { return await fn(); } finally { btn.disabled = false; btn.textContent = label; }
+}
+
+const baseUrl = () => CONFIG.SITE_URL || (location.origin + location.pathname);
+const tagUrl = id => baseUrl() + "?t=" + id;
+const adminUrl = () => baseUrl() + "?admin";
+const homeUrl = () => baseUrl();
+
+function sortEntries(list) {
+  return list.slice().sort((a, b) =>
+    (a.happened_on || "").localeCompare(b.happened_on || "") || (a.created_at || "").localeCompare(b.created_at || ""));
+}
+
+const Local = {
+  mode: "demo",
+  load() {
+    try { return JSON.parse(store.get("memtag-demo")) || { tags: {}, entries: [], secrets: {} }; }
+    catch { return { tags: {}, entries: [], secrets: {} }; }
+  },
+  save(d) { store.set("memtag-demo", JSON.stringify(d)); },
+  blank(id, label) {
+    return { id, label: label || "", item: "", spec: "", owner_name: "", owner_count: 0, theme: "basic",
+      transfer_pending: false, created_at: new Date().toISOString(), claimed_at: null };
+  },
+  entry(id, kind, title, body, when) {
+    return { id: randomId(), tag_id: id, kind, title, body: body || "", happened_on: when || monthNow(), created_at: new Date().toISOString() };
+  },
+  async session() { return { email: "체험 모드" }; },
+  async isAdmin() { return true; },
+  async signIn() {},
+  async signOut() {},
+  async listTags() {
+    return Object.values(this.load().tags).sort((a, b) => b.created_at.localeCompare(a.created_at));
+  },
+  async createTags(n, label) {
+    const d = this.load(), out = [];
+    for (let i = 0; i < n; i++) {
+      let id; do { id = randomId(); } while (d.tags[id]);
+      const t = this.blank(id, label);
+      t.created_at = new Date(Date.now() + i).toISOString();
+      d.tags[id] = t; out.push(t);
     }
+    this.save(d);
+    return out;
+  },
+  async deleteTag(id) {
+    const d = this.load();
+    delete d.tags[id]; delete d.secrets[id];
+    d.entries = d.entries.filter(e => e.tag_id !== id);
+    this.save(d);
+  },
+  async getTag(id) {
+    const d = this.load();
+    let t = d.tags[id], auto = false;
+    if (!t) {
+      if (!/^[a-z0-9]{4,16}$/.test(id)) return null;
+      t = d.tags[id] = this.blank(id, "체험");
+      this.save(d); auto = true;
+    }
+    return { tag: t, entries: sortEntries(d.entries.filter(e => e.tag_id === id)), auto };
+  },
+  async isOwner(id, tok) {
+    const s = this.load().secrets[id];
+    return !!(tok && s && s.owner_hash && s.owner_hash === await sha(tok));
+  },
+  async check(d, id, tok) {
+    const s = d.secrets[id];
+    if (!(tok && s && s.owner_hash === await sha(tok))) throw new Error("bad_token");
+  },
+  async claim(id, f, tok) {
+    const d = this.load(), t = d.tags[id];
+    if (!t) throw new Error("no_tag");
+    if (t.owner_count > 0) throw new Error("already_claimed");
+    Object.assign(t, { item: f.item.trim(), spec: f.spec.trim(), owner_name: f.owner.trim(), owner_count: 1,
+      theme: f.theme === "xmas" ? "xmas" : "basic", claimed_at: new Date().toISOString() });
+    d.secrets[id] = { owner_hash: await sha(tok) };
+    d.entries.push(this.entry(id, "소유", "초대 주인이 이야기를 시작했어요", f.story, f.since || monthNow()));
+    this.save(d);
+  },
+  async addEntry(id, tok, f) {
+    const d = this.load();
+    await this.check(d, id, tok);
+    if (!["사연", "수리", "기록"].includes(f.kind)) throw new Error("bad_kind");
+    d.entries.push(this.entry(id, f.kind, f.title.trim(), f.body, f.date || monthNow()));
+    this.save(d);
+  },
+  async updateTag(id, tok, f) {
+    const d = this.load();
+    await this.check(d, id, tok);
+    Object.assign(d.tags[id], { item: f.item.trim(), spec: f.spec.trim(), theme: f.theme === "xmas" ? "xmas" : "basic" });
+    this.save(d);
+  },
+  async startTransfer(id, tok) {
+    const d = this.load();
+    await this.check(d, id, tok);
+    const code = randomCode();
+    Object.assign(d.secrets[id], { transfer_hash: await sha(code), transfer_expires: Date.now() + 7 * 864e5 });
+    d.tags[id].transfer_pending = true;
+    this.save(d);
+    return code;
+  },
+  async cancelTransfer(id, tok) {
+    const d = this.load();
+    await this.check(d, id, tok);
+    Object.assign(d.secrets[id], { transfer_hash: null, transfer_expires: null });
+    d.tags[id].transfer_pending = false;
+    this.save(d);
+  },
+  async acceptTransfer(id, code, owner, story, tok) {
+    const d = this.load(), s = d.secrets[id], t = d.tags[id];
+    if (!(s && s.transfer_hash && s.transfer_hash === await sha(code.trim().toUpperCase()) && s.transfer_expires > Date.now())) throw new Error("bad_code");
+    t.owner_name = owner.trim(); t.owner_count += 1; t.transfer_pending = false;
+    Object.assign(s, { owner_hash: await sha(tok), transfer_hash: null, transfer_expires: null });
+    d.entries.push(this.entry(id, "소유", t.owner_count + "번째 주인에게 양도되었어요", story));
+    this.save(d);
+    return t.owner_count;
+  }
+};
+
+const Remote = {
+  mode: "live",
+  client: null,
+  init() { this.client = window.supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_ANON_KEY); },
+  async rpc(name, args) {
+    const { data, error } = await this.client.rpc(name, args);
+    if (error) throw new Error(error.message);
+    return data;
+  },
+  async q(p) {
+    const { data, error } = await p;
+    if (error) { const e = new Error(error.message); e.code = error.code; throw e; }
+    return data;
+  },
+  async session() {
+    const { data } = await this.client.auth.getSession();
+    return data.session ? { email: data.session.user.email } : null;
+  },
+  async isAdmin() { return !!(await this.rpc("memtag_is_admin", {})); },
+  async signIn(email, password) {
+    const { error } = await this.client.auth.signInWithPassword({ email, password });
+    if (error) throw new Error("login");
+  },
+  async signOut() { await this.client.auth.signOut(); },
+  async listTags() { return this.q(this.client.from("tags").select("*").order("created_at", { ascending: false })); },
+  async createTags(n, label, tries = 0) {
+    const rows = Array.from({ length: n }, () => ({ id: randomId(), label: label || "" }));
+    try { return await this.q(this.client.from("tags").insert(rows).select()); }
+    catch (e) { if (e.code === "23505" && tries < 3) return this.createTags(n, label, tries + 1); throw e; }
+  },
+  async deleteTag(id) { await this.q(this.client.from("tags").delete().eq("id", id)); },
+  async getTag(id) {
+    const tag = await this.q(this.client.from("tags").select("*").eq("id", id).maybeSingle());
+    if (!tag) return null;
+    const entries = await this.q(this.client.from("entries").select("*").eq("tag_id", id).order("created_at"));
+    return { tag, entries: sortEntries(entries || []) };
+  },
+  async isOwner(id, tok) { return tok ? !!(await this.rpc("is_owner", { p_id: id, p_token: tok })) : false; },
+  async claim(id, f, tok) {
+    await this.rpc("claim_tag", { p_id: id, p_item: f.item, p_spec: f.spec, p_owner: f.owner, p_since: f.since,
+      p_story: f.story, p_theme: f.theme, p_token: tok });
+  },
+  async addEntry(id, tok, f) {
+    await this.rpc("add_entry", { p_id: id, p_token: tok, p_kind: f.kind, p_title: f.title, p_body: f.body, p_date: f.date });
+  },
+  async updateTag(id, tok, f) {
+    await this.rpc("update_tag", { p_id: id, p_token: tok, p_item: f.item, p_spec: f.spec, p_theme: f.theme });
+  },
+  async startTransfer(id, tok) { return this.rpc("start_transfer", { p_id: id, p_token: tok }); },
+  async cancelTransfer(id, tok) { await this.rpc("cancel_transfer", { p_id: id, p_token: tok }); },
+  async acceptTransfer(id, code, owner, story, tok) {
+    return this.rpc("accept_transfer", { p_id: id, p_code: code, p_owner: owner, p_story: story, p_token: tok });
+  }
+};
+
+let DB = Local;
+
+function qrMatrix(text) {
+  const q = qrcode(0, "M");
+  q.addData(text);
+  q.make();
+  return q;
+}
+
+function qrSvg(text) {
+  const q = qrMatrix(text), n = q.getModuleCount(), m = 4, size = n + m * 2;
+  let d = "";
+  for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) if (q.isDark(r, c)) d += "M" + (c + m) + " " + (r + m) + "h1v1h-1z";
+  return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + size + " " + size + '" shape-rendering="crispEdges" role="img" aria-label="QR 코드"><rect width="' + size + '" height="' + size + '" fill="#fff"/><path d="' + d + '" fill="#000"/></svg>';
+}
+
+function qrPng(id) {
+  const q = qrMatrix(tagUrl(id)), n = q.getModuleCount(), s = 12, m = 4, w = (n + m * 2) * s, cap = 84;
+  const cv = document.createElement("canvas");
+  cv.width = w; cv.height = w + cap;
+  const x = cv.getContext("2d");
+  x.fillStyle = "#fff"; x.fillRect(0, 0, cv.width, cv.height);
+  x.fillStyle = "#000";
+  for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) if (q.isDark(r, c)) x.fillRect((c + m) * s, (r + m) * s, s, s);
+  x.textAlign = "center";
+  x.font = "600 30px 'IBM Plex Mono', monospace";
+  x.fillText("#" + id, w / 2, w + 22);
+  x.fillStyle = "#555";
+  x.font = "20px 'Noto Sans KR', sans-serif";
+  x.fillText("찍으면 이 물건의 이야기가 열려요", w / 2, w + 58);
+  return cv.toDataURL("image/png");
+}
+
+function downloadPng(id) {
+  const a = h("a", { href: qrPng(id), download: "memtag-" + id + ".png" });
+  document.body.append(a); a.click(); a.remove();
+}
+
+function printTags(list) {
+  const area = $("#print");
+  area.replaceChildren(...list.map(t => h("div", { class: "pcell" },
+    h("div", { html: qrSvg(tagUrl(t.id)) }),
+    h("b", null, "#" + t.id),
+    h("span", null, "찍으면 이 물건의 이야기가 열려요"))));
+  setTimeout(() => window.print(), 50);
+}
+
+let snowStop = null;
+function setTheme(theme) {
+  const on = theme === "xmas";
+  document.body.classList.toggle("xmas", on);
+  $(".lights")?.remove();
+  $("#snow")?.remove();
+  if (snowStop) { snowStop(); snowStop = null; }
+  if (!on) return;
+  const colors = ["#e23b3b", "#f2c94c", "#3fbf6b", "#5aa9ff"];
+  let bulbs = "";
+  for (let i = 0; i < 16; i++) bulbs += '<ellipse class="bulb" cx="' + (25 + i * 50) + '" cy="22" rx="6" ry="9" fill="' + colors[i % 4] + '"/>';
+  document.body.prepend(h("div", { class: "lights", "aria-hidden": "true",
+    html: '<svg viewBox="0 0 800 44" preserveAspectRatio="none"><path d="M0 8 Q 50 30 100 8 T 200 8 T 300 8 T 400 8 T 500 8 T 600 8 T 700 8 T 800 8" fill="none" stroke="#2c4a3b" stroke-width="2"/><g>' + bulbs + "</g></svg>" }));
+  const cv = h("canvas", { id: "snow", "aria-hidden": "true" });
+  document.body.prepend(cv);
+  const ctx = cv.getContext("2d");
+  const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let W, H, flakes = [], raf = 0, alive = true;
+  const size = () => {
+    const r = devicePixelRatio || 1;
+    W = innerWidth; H = innerHeight; cv.width = W * r; cv.height = H * r; ctx.setTransform(r, 0, 0, r, 0, 0);
+    flakes = Array.from({ length: Math.round(W * H / 9000) }, () => ({ x: Math.random() * W, y: Math.random() * H, r: Math.random() * 2.4 + .8, s: Math.random() * .6 + .3, d: Math.random() * 6.28 }));
+  };
+  const draw = () => {
+    if (!alive) return;
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = "rgba(255,255,255,.85)";
+    for (const f of flakes) {
+      ctx.beginPath(); ctx.arc(f.x, f.y, f.r, 0, 6.283); ctx.fill();
+      if (!still) { f.y += f.s; f.d += .01; f.x += Math.sin(f.d) * .4; if (f.y > H + 4) { f.y = -4; f.x = Math.random() * W; } }
+    }
+    if (!still) raf = requestAnimationFrame(draw);
+  };
+  const onResize = () => { size(); if (still) draw(); };
+  addEventListener("resize", onResize);
+  size(); draw();
+  snowStop = () => { alive = false; cancelAnimationFrame(raf); removeEventListener("resize", onResize); };
+}
+
+function topline(right) {
+  return h("div", { class: "topline" },
+    h("a", { href: homeUrl(), class: "brand" }, "물건 기억 태그"),
+    right);
+}
+
+function demoNotice(extra) {
+  if (DB.mode !== "demo") return null;
+  return h("div", { class: "notice" },
+    h("b", null, "체험 모드"),
+    h("span", null, "지금은 이 브라우저에만 저장돼요. 다른 사람 폰에서 찍어도 같은 이야기가 보이게 하려면 설치 가이드대로 Supabase를 연결하세요."),
+    extra ? h("span", { class: "muted small" }, extra) : null);
+}
+
+function renderHome() {
+  setTheme("basic");
+  const code = h("input", { id: "home-code", placeholder: "예: k7m2qx9", autocomplete: "off", autocapitalize: "off", spellcheck: "false" });
+  app.className = "wrap";
+  mount(
+    topline(h("a", { href: adminUrl() }, "관리자 →")),
+    h("section", { class: "hero" },
+      h("span", { class: "eyebrow" }, "OBJECT MEMORY TAG"),
+      h("h1", { class: "home-h1" }, "물건에 기억을 붙이는 태그"),
+      h("p", { class: "lead" }, "태그를 찍으면 그 물건이 거쳐 온 주인과 사연, 수리 기록이 열려요. 주인이 바뀌어도 이야기는 물건을 따라갑니다.")),
+    demoNotice(),
+    h("section", { class: "panel" },
+      h("h2", null, "이렇게 써요"),
+      h("ol", { class: "steps" },
+        h("li", null, h("span", null, h("b", null, "관리자가 QR 태그를 만들어요. "), "QR 하나마다 그 물건만의 페이지가 함께 생겨요.")),
+        h("li", null, h("span", null, h("b", null, "처음 찍은 사람이 초대 주인이 돼요. "), "물건 이름과 첫 사연을 적으면 페이지가 완성돼요.")),
+        h("li", null, h("span", null, h("b", null, "사연과 수리 기록을 계속 쌓아요. "), "주인 열쇠가 있는 기기에서만 쓸 수 있어요.")),
+        h("li", null, h("span", null, h("b", null, "팔거나 물려줄 때는 양도 코드를 건네요. "), "새 주인이 태그를 찍고 코드를 넣으면 소유권이 넘어가요. 이전 주인의 이름은 남지 않아요.")))),
+    h("section", { class: "panel" },
+      h("h2", null, "태그 코드로 열기"),
+      h("form", { onsubmit: e => { e.preventDefault(); const v = code.value.trim().toLowerCase().replace(/^#/, ""); if (v) location.href = tagUrl(v); } },
+        h("div", { class: "row" }, h("div", { style: "flex:1 1 200px" }, code), h("button", { class: "btn", type: "submit" }, "열기")))));
+}
+
+async function renderAdmin() {
+  setTheme("basic");
+  app.className = "wrap wide";
+  let session = null;
+  try { session = await DB.session(); } catch {}
+  if (!session) return renderLogin();
+  let admin = false;
+  try { admin = await DB.isAdmin(); } catch (e) { return renderFatal(errMsg(e)); }
+  if (!admin) {
+    mount(topline(null), h("section", { class: "panel" },
+      h("h2", null, "관리자 권한이 없는 계정이에요"),
+      h("p", { class: "muted" }, session.email + " 계정은 관리자 목록에 없어요. 설치 가이드의 '관리자 이메일 등록' 단계를 확인하세요."),
+      h("div", null, h("button", { class: "btn ghost", type: "button", onclick: async () => { await DB.signOut(); renderAdmin(); } }, "로그아웃"))));
     return;
   }
-  const list=document.getElementById('list');
-  for(const [k,url] of Object.entries(links)){
-    const li=document.createElement('li');
-    const c=document.createElement('span');c.className='code';c.textContent=k;
-    const a=document.createElement('a');a.href=url;a.textContent=url;
-    li.append(c,a);list.append(li);
+
+  const state = { tags: [], filter: "all", search: "", fresh: new Set() };
+  const statsEl = h("div", { class: "stats" });
+  const gridEl = h("div", { class: "grid" });
+  const countEl = h("span", { class: "muted small" });
+  const genCount = h("input", { id: "gen-count", type: "number", min: "1", max: "100", value: "4", inputmode: "numeric" });
+  const genLabel = h("input", { id: "gen-label", maxlength: "30", placeholder: "예: 캠퍼스 1차, 기타 동호회" });
+  const genMsg = h("p", { class: "small", hidden: true });
+  const search = h("input", { id: "admin-search", class: "search", type: "search", placeholder: "코드, 물건, 주인, 묶음 검색" });
+
+  const visible = () => state.tags.filter(t => {
+    if (state.filter === "new" && t.owner_count > 0) return false;
+    if (state.filter === "own" && t.owner_count === 0) return false;
+    if (state.filter === "move" && !t.transfer_pending) return false;
+    const q = state.search;
+    if (!q) return true;
+    return [t.id, t.item, t.owner_name, t.label].some(v => (v || "").toLowerCase().includes(q));
+  });
+
+  const segBtns = [["all", "전체"], ["new", "미등록"], ["own", "주인 있음"], ["move", "양도 중"]].map(([k, label]) =>
+    h("button", { type: "button", "aria-pressed": String(k === state.filter), onclick: () => { state.filter = k; segBtns.forEach(b => b.setAttribute("aria-pressed", String(b.dataset.k === k))); paint(); }, "data-k": k }, label));
+
+  function statusOf(t) {
+    if (t.transfer_pending) return ["s-move", "양도 중"];
+    if (t.owner_count > 0) return ["s-own", "주인 있음"];
+    return ["s-new", "미등록"];
   }
-  show('home');
-}).catch(()=>{
-  document.getElementById('badcode').textContent=code||'';
-  show('missing');
-});
+
+  function card(t) {
+    const [cls, label] = statusOf(t);
+    const del = h("button", { class: "btn small danger", type: "button" }, "삭제");
+    let armed = null;
+    del.addEventListener("click", async () => {
+      if (!armed) {
+        del.classList.add("armed"); del.textContent = "정말 삭제";
+        armed = setTimeout(() => { del.classList.remove("armed"); del.textContent = "삭제"; armed = null; }, 3000);
+        return;
+      }
+      clearTimeout(armed);
+      await busy(del, async () => {
+        try { await DB.deleteTag(t.id); state.tags = state.tags.filter(x => x.id !== t.id); paint(); toast("#" + t.id + " 태그를 삭제했어요"); }
+        catch (e) { toast(errMsg(e)); }
+      });
+    });
+    return h("article", { class: "card" + (state.fresh.has(t.id) ? " fresh" : "") },
+      h("div", { class: "qr", html: qrSvg(tagUrl(t.id)) }),
+      h("div", { class: "spread" }, h("b", { class: "mono" }, "#" + t.id), h("span", { class: "pill " + cls }, label)),
+      h("div", { class: "meta" },
+        h("b", null, t.item || "아직 주인 없음"),
+        t.owner_count > 0 ? h("span", { class: "muted small" }, "현재 주인 " + t.owner_name + " · " + (t.owner_count === 1 ? "초대 주인" : t.owner_count + "번째 주인")) : null,
+        h("span", { class: "muted small" }, (t.label ? t.label + " · " : "") + new Date(t.created_at).toLocaleDateString("ko-KR"))),
+      h("div", { class: "acts" },
+        h("a", { class: "btn small", href: tagUrl(t.id), target: "_blank", rel: "noopener" }, "페이지 열기"),
+        h("button", { class: "btn small ghost", type: "button", onclick: () => downloadPng(t.id) }, "PNG 저장"),
+        h("button", { class: "btn small ghost", type: "button", onclick: () => copy(tagUrl(t.id)) }, "주소 복사"),
+        del));
+  }
+
+  function paint() {
+    const all = state.tags;
+    const n = { all: all.length, own: all.filter(t => t.owner_count > 0).length, move: all.filter(t => t.transfer_pending).length };
+    statsEl.replaceChildren(
+      h("div", { class: "stat" }, h("b", null, n.all), h("span", null, "전체 태그")),
+      h("div", { class: "stat" }, h("b", null, n.own), h("span", null, "주인 등록")),
+      h("div", { class: "stat" }, h("b", null, n.all - n.own), h("span", null, "미등록")),
+      h("div", { class: "stat" }, h("b", null, n.move), h("span", null, "양도 중")));
+    const list = visible();
+    countEl.textContent = list.length + "개 표시 중";
+    gridEl.replaceChildren(...(list.length ? list.map(card) : [h("div", { class: "empty", style: "grid-column:1/-1" },
+      all.length ? "조건에 맞는 태그가 없어요." : "아직 만든 QR이 없어요. 위에서 개수를 정하고 'QR 생성하기'를 눌러 보세요.")]));
+  }
+
+  search.addEventListener("input", () => { state.search = search.value.trim().toLowerCase(); paint(); });
+
+  const genBtn = h("button", { class: "btn", type: "submit" }, "QR 생성하기");
+  const genForm = h("form", { onsubmit: async e => {
+    e.preventDefault();
+    const n = Math.max(1, Math.min(100, parseInt(genCount.value, 10) || 1));
+    genCount.value = n;
+    await busy(genBtn, async () => {
+      try {
+        const made = await DB.createTags(n, genLabel.value.trim());
+        state.fresh = new Set(made.map(t => t.id));
+        state.tags = [...made, ...state.tags.filter(t => !state.fresh.has(t.id))];
+        state.filter = "all"; segBtns.forEach(b => b.setAttribute("aria-pressed", String(b.dataset.k === "all")));
+        search.value = ""; state.search = "";
+        paint();
+        genMsg.hidden = false; genMsg.className = "okmsg";
+        genMsg.textContent = "새 QR " + made.length + "개와 각각의 페이지를 만들었어요. 테두리가 강조된 카드가 방금 만든 것이에요.";
+      } catch (err) {
+        genMsg.hidden = false; genMsg.className = "err"; genMsg.textContent = errMsg(err);
+      }
+    });
+  } },
+    h("div", { class: "genrow" },
+      field("만들 개수", genCount, { hint: "한 번에 1~100개" }),
+      field("묶음 이름", genLabel, { hint: "선택. 어디에 붙일 태그인지 메모" }),
+      genBtn),
+    genMsg);
+
+  mount(
+    topline(h("span", { class: "row" },
+      h("span", null, DB.mode === "demo" ? "체험 모드" : session.email),
+      DB.mode === "live" ? h("button", { class: "btn small ghost", type: "button", onclick: async () => { await DB.signOut(); renderAdmin(); } }, "로그아웃") : null)),
+    h("div", { class: "spread" }, h("h1", { class: "home-h1", style: "font-size:1.8rem" }, "관리자"), h("a", { href: homeUrl(), class: "small" }, "서비스 첫 화면 보기")),
+    demoNotice("QR에 담기는 주소: " + baseUrl() + "?t=코드"),
+    statsEl,
+    h("section", { class: "panel" }, h("h2", null, "새 QR 만들기"), genForm),
+    h("section", { class: "panel" },
+      h("div", { class: "toolbar" },
+        h("div", { class: "row" }, h("div", { class: "seg", role: "group", "aria-label": "상태로 거르기" }, segBtns), countEl),
+        h("div", { class: "row", style: "flex:1 1 260px;justify-content:flex-end" },
+          search,
+          h("button", { class: "btn ghost", type: "button", onclick: () => { const l = visible(); if (l.length) printTags(l); else toast("인쇄할 태그가 없어요"); } }, "보이는 QR 인쇄"))),
+      gridEl));
+  statsEl.replaceChildren(h("p", { class: "muted" }, "불러오는 중…"));
+  try { state.tags = await DB.listTags(); paint(); }
+  catch (e) { gridEl.replaceChildren(h("p", { class: "err" }, errMsg(e))); }
+}
+
+function renderLogin() {
+  const email = h("input", { id: "login-email", type: "email", autocomplete: "username", required: true });
+  const pw = h("input", { id: "login-pw", type: "password", autocomplete: "current-password", required: true });
+  const msg = h("p", { class: "err", hidden: true });
+  const btn = h("button", { class: "btn", type: "submit" }, "로그인");
+  app.className = "wrap";
+  mount(topline(null), h("section", { class: "panel" },
+    h("h2", null, "관리자 로그인"),
+    h("p", { class: "muted small" }, "Supabase에서 만든 관리자 계정으로 로그인하세요."),
+    h("form", { onsubmit: async e => {
+      e.preventDefault();
+      await busy(btn, async () => {
+        try { await DB.signIn(email.value.trim(), pw.value); renderAdmin(); }
+        catch (err) { msg.hidden = false; msg.textContent = errMsg(err); }
+      });
+    } }, field("이메일", email), field("비밀번호", pw), msg, h("div", null, btn))));
+}
+
+function renderFatal(text) {
+  setTheme("basic");
+  app.className = "wrap";
+  mount(topline(null), h("section", { class: "panel" }, h("h2", null, "페이지를 열 수 없어요"), h("p", { class: "muted" }, text)));
+}
+
+async function renderTag(id, flash) {
+  let data;
+  try { data = await DB.getTag(id); } catch (e) { return renderFatal(errMsg(e)); }
+  if (!data) {
+    setTheme("basic");
+    app.className = "wrap";
+    mount(topline(null), h("section", { class: "panel" },
+      h("h2", null, "등록되지 않은 태그예요"),
+      h("p", { class: "muted" }, "#" + id + " 코드로 만든 태그가 없어요. QR이 훼손됐거나 삭제된 태그일 수 있어요.")));
+    return;
+  }
+  const { tag, entries } = data;
+  document.title = (tag.item || "새 기억 태그") + " · 물건 기억 태그";
+  setTheme(tag.theme);
+  app.className = "wrap";
+  if (tag.owner_count === 0) return renderClaim(tag, data.auto);
+
+  const tok = keyOf(id);
+  let owner = false;
+  try { owner = await DB.isOwner(id, tok); } catch {}
+
+  const first = entries.find(e => e.body && e.body.trim());
+  const nth = tag.owner_count === 1 ? "초대 주인" : tag.owner_count + "번째 주인";
+
+  const parts = [
+    topline(h("span", { class: "season" }, tag.theme === "xmas" ? "Merry Christmas" : "#" + tag.id)),
+    flash || null,
+    h("section", { class: "hero" },
+      h("span", { class: "ribbon" }, tag.owner_count === 1 ? (tag.theme === "xmas" ? "따끈따끈 신상" : "첫 번째 이야기") : tag.owner_count + "번째 이야기"),
+      h("span", { class: "eyebrow" }, "기억 태그 #" + tag.id),
+      h("h1", null, tag.item),
+      tag.spec ? h("p", { class: "spec" }, tag.spec) : null,
+      h("div", { class: "owner" }, h("b", null, (tag.owner_count === 1 ? "초대 주인 " : "현재 주인 ") + tag.owner_name), h("span", { class: "badge" }, nth))),
+    first ? h("blockquote", null, first.body) : null,
+    h("section", { style: "display:grid;gap:6px" },
+      h("h2", { class: "sec-title" }, "이 물건의 기록"),
+      h("ol", { class: "timeline" }, entries.map(e => h("li", { class: "ev k-" + (KIND[e.kind] || "own") },
+        h("time", null, e.happened_on),
+        h("div", null, h("span", { class: "chip" }, e.kind), h("h3", null, e.title), e.body ? h("p", null, e.body) : null))))),
+  ];
+
+  if (owner) parts.push(...ownerPanels(tag, tok));
+  else if (tag.transfer_pending) parts.push(acceptPanel(tag));
+  if (!owner) parts.push(keyPanel(tag));
+  parts.push(h("p", { class: "muted small" }, "이전 주인의 이름은 공개되지 않고 사연만 남습니다."));
+  mount(...parts);
+}
+
+function renderClaim(tag, auto) {
+  const item = h("input", { id: "c-item", maxlength: "60", required: true, placeholder: "예: 어쿠스틱 기타" });
+  const spec = h("input", { id: "c-spec", maxlength: "80", placeholder: "예: 드레드노트 바디, 스프루스 상판" });
+  const ownerIn = h("input", { id: "c-owner", maxlength: "30", required: true, placeholder: "예: 김현우" });
+  const since = h("input", { id: "c-since", type: "month", value: monthValue() });
+  const story = h("textarea", { id: "c-story", maxlength: "1000", required: true, placeholder: "이 물건과 함께한 첫 이야기를 적어 주세요. 예: 친구 결혼식에서 이 기타로 축가를 불렀어요." });
+  const msg = h("p", { class: "err", hidden: true });
+  const btn = h("button", { class: "btn", type: "submit" }, "이 물건의 초대 주인 되기");
+  mount(
+    topline(h("span", null, "#" + tag.id)),
+    demoNotice(auto ? "이 기기에서 처음 연 태그라 체험용으로 새로 만들었어요." : null),
+    h("section", { class: "hero" },
+      h("span", { class: "ribbon" }, "새 태그"),
+      h("span", { class: "eyebrow" }, "기억 태그 #" + tag.id),
+      h("h1", null, "아직 주인이 없는 태그예요"),
+      h("p", { class: "spec" }, "이 태그를 붙인 물건의 첫 이야기를 남겨 주세요. 처음 등록한 사람이 초대 주인이 돼요.")),
+    h("section", { class: "panel" },
+      h("form", { onsubmit: async e => {
+        e.preventDefault();
+        const theme = (app.querySelector("input[name=c-theme]:checked") || {}).value || "basic";
+        const tok = randomToken();
+        await busy(btn, async () => {
+          try {
+            await DB.claim(tag.id, { item: item.value, spec: spec.value, owner: ownerIn.value, since: monthInput(since.value), story: story.value, theme }, tok);
+            setKey(tag.id, tok);
+            renderTag(tag.id, keyNotice(tag.id, tok, true));
+          } catch (err) { msg.hidden = false; msg.textContent = errMsg(err); }
+        });
+      } },
+        field("물건 이름", item, { req: true }),
+        field("한 줄 설명", spec, { hint: "모델, 색, 특징 등" }),
+        h("div", { class: "two" }, field("내 이름 또는 닉네임", ownerIn, { req: true, hint: "다음 주인에게 넘기면 공개되지 않아요" }), field("언제부터 함께했나요", since)),
+        field("첫 사연", story, { req: true }),
+        h("div", { class: "field" }, h("span", { class: "lbl" }, "페이지 테마"), choices("c-theme", [["basic", "기본"], ["xmas", "크리스마스"]], "basic")),
+        msg,
+        h("div", null, btn))));
+}
+
+function keyNotice(id, tok, fresh) {
+  return h("section", { class: "panel" },
+    h("h2", null, fresh ? "등록 완료! 주인 열쇠를 꼭 저장하세요" : "주인 열쇠"),
+    h("p", { class: "muted small" }, "이 기기에는 자동으로 저장됐어요. 폰을 바꾸거나 브라우저 기록을 지우면 이 열쇠가 있어야 다시 글을 쓰고 양도할 수 있어요. 메모 앱 등에 보관하세요."),
+    h("div", { class: "keybox" }, tok),
+    h("div", null, h("button", { class: "btn ghost small", type: "button", onclick: () => copy(tok) }, "열쇠 복사")));
+}
+
+function ownerPanels(tag, tok) {
+  const id = tag.id;
+  const kind = choices("e-kind", [["사연", "사연"], ["수리", "수리·정비"], ["기록", "메모"]], "사연");
+  const date = h("input", { id: "e-date", type: "month", value: monthValue() });
+  const title = h("input", { id: "e-title", maxlength: "80", required: true, placeholder: "예: 첫 버스킹 공연" });
+  const body = h("textarea", { id: "e-body", maxlength: "1000", placeholder: "어떤 일이 있었나요?" });
+  const eMsg = h("p", { class: "err", hidden: true });
+  const eBtn = h("button", { class: "btn", type: "submit" }, "기록 남기기");
+  const add = h("details", { class: "panel", open: true },
+    h("summary", null, "새 기록 남기기"),
+    h("form", { onsubmit: async e => {
+      e.preventDefault();
+      const k = (app.querySelector("input[name=e-kind]:checked") || {}).value || "사연";
+      await busy(eBtn, async () => {
+        try { await DB.addEntry(id, tok, { kind: k, title: title.value, body: body.value, date: monthInput(date.value) }); toast("기록을 남겼어요"); renderTag(id); }
+        catch (err) { eMsg.hidden = false; eMsg.textContent = errMsg(err); }
+      });
+    } },
+      h("div", { class: "field" }, h("span", { class: "lbl" }, "종류"), kind),
+      h("div", { class: "two" }, field("제목", title, { req: true }), field("언제", date)),
+      field("내용", body),
+      eMsg, h("div", null, eBtn)));
+
+  const codeKey = "memtag-transfer-" + id;
+  const tBox = h("div", { style: "display:grid;gap:12px" });
+  const paintTransfer = () => {
+    const saved = store.get(codeKey);
+    if (tag.transfer_pending) {
+      const cancel = h("button", { class: "btn ghost", type: "button" }, "양도 취소");
+      cancel.addEventListener("click", () => busy(cancel, async () => {
+        try { await DB.cancelTransfer(id, tok); store.del(codeKey); tag.transfer_pending = false; paintTransfer(); toast("양도를 취소했어요"); }
+        catch (err) { toast(errMsg(err)); }
+      }));
+      const renew = h("button", { class: "btn ghost", type: "button" }, "새 코드 받기");
+      renew.addEventListener("click", () => start(renew));
+      tBox.replaceChildren(
+        h("p", null, "새 주인에게 아래 코드를 알려 주세요. 새 주인이 이 태그를 찍고 코드를 넣으면 소유권이 넘어가요. 코드는 7일 동안 쓸 수 있어요."),
+        saved ? h("div", { class: "bigcode" }, saved) : h("p", { class: "muted small" }, "코드는 만든 기기에서만 다시 볼 수 있어요. 잃어버렸다면 새 코드를 받으세요."),
+        h("div", { class: "row" }, saved ? h("button", { class: "btn", type: "button", onclick: () => copy(saved) }, "코드 복사") : null, renew, cancel));
+    } else {
+      const go = h("button", { class: "btn", type: "button" }, "양도 코드 만들기");
+      go.addEventListener("click", () => start(go));
+      tBox.replaceChildren(
+        h("p", { class: "muted" }, "이 물건을 팔거나 물려줄 때 쓰세요. 양도가 끝나면 이 기기의 주인 열쇠는 더 이상 쓸 수 없고, 내 이름은 기록에서 사라져요."),
+        h("div", null, go));
+    }
+  };
+  const start = btn => busy(btn, async () => {
+    try { const code = await DB.startTransfer(id, tok); store.set(codeKey, code); tag.transfer_pending = true; paintTransfer(); }
+    catch (err) { toast(errMsg(err)); }
+  });
+  paintTransfer();
+  const transfer = h("details", { class: "panel", open: tag.transfer_pending },
+    h("summary", null, tag.transfer_pending ? "양도 진행 중" : "양도하기"), tBox);
+
+  const item = h("input", { id: "u-item", maxlength: "60", required: true, value: tag.item });
+  const spec = h("input", { id: "u-spec", maxlength: "80", value: tag.spec || "" });
+  const uMsg = h("p", { class: "err", hidden: true });
+  const uBtn = h("button", { class: "btn", type: "submit" }, "저장");
+  const edit = h("details", { class: "panel" },
+    h("summary", null, "물건 정보와 테마 바꾸기"),
+    h("form", { onsubmit: async e => {
+      e.preventDefault();
+      const theme = (app.querySelector("input[name=u-theme]:checked") || {}).value || "basic";
+      await busy(uBtn, async () => {
+        try { await DB.updateTag(id, tok, { item: item.value, spec: spec.value, theme }); toast("저장했어요"); renderTag(id); }
+        catch (err) { uMsg.hidden = false; uMsg.textContent = errMsg(err); }
+      });
+    } },
+      field("물건 이름", item, { req: true }), field("한 줄 설명", spec),
+      h("div", { class: "field" }, h("span", { class: "lbl" }, "페이지 테마"), choices("u-theme", [["basic", "기본"], ["xmas", "크리스마스"]], tag.theme)),
+      uMsg, h("div", null, uBtn)));
+
+  const keyD = h("details", { class: "panel" }, h("summary", null, "내 주인 열쇠 보기"),
+    h("p", { class: "muted small" }, "다른 기기에서 이 물건을 관리하려면 그 기기에서 이 열쇠를 입력하세요. 다른 사람에게 보여 주지 마세요."),
+    h("div", { class: "keybox" }, tok),
+    h("div", null, h("button", { class: "btn ghost small", type: "button", onclick: () => copy(tok) }, "열쇠 복사")));
+
+  return [h("p", { class: "okmsg" }, "이 기기는 이 물건의 주인으로 인식됐어요."), add, transfer, edit, keyD];
+}
+
+function acceptPanel(tag) {
+  const code = h("input", { id: "a-code", maxlength: "8", required: true, placeholder: "예: 7KQ2M9XA", autocomplete: "off", autocapitalize: "characters", class: "mono" });
+  const ownerIn = h("input", { id: "a-owner", maxlength: "30", required: true });
+  const story = h("textarea", { id: "a-story", maxlength: "1000", placeholder: "이 물건을 어떻게 만나게 됐나요?" });
+  const msg = h("p", { class: "err", hidden: true });
+  const btn = h("button", { class: "btn", type: "submit" }, "새 주인으로 받기");
+  return h("section", { class: "panel" },
+    h("h2", null, "이 물건은 지금 양도 중이에요"),
+    h("p", { class: "muted small" }, "이전 주인에게 받은 8자리 양도 코드를 넣으면 새 주인이 돼요."),
+    h("form", { onsubmit: async e => {
+      e.preventDefault();
+      const tok = randomToken();
+      await busy(btn, async () => {
+        try {
+          const n = await DB.acceptTransfer(tag.id, code.value.trim().toUpperCase(), ownerIn.value, story.value, tok);
+          setKey(tag.id, tok);
+          renderTag(tag.id, h("div", null, h("p", { class: "okmsg" }, n + "번째 주인이 되었어요."), keyNotice(tag.id, tok, true)));
+        } catch (err) { msg.hidden = false; msg.textContent = errMsg(err); }
+      });
+    } },
+      h("div", { class: "two" }, field("양도 코드", code, { req: true }), field("내 이름 또는 닉네임", ownerIn, { req: true })),
+      field("나의 첫 이야기", story),
+      msg, h("div", null, btn)));
+}
+
+function keyPanel(tag) {
+  const key = h("input", { id: "k-key", required: true, autocomplete: "off", autocapitalize: "off", spellcheck: "false", class: "mono" });
+  const msg = h("p", { class: "err", hidden: true });
+  const btn = h("button", { class: "btn ghost", type: "submit" }, "열쇠 확인");
+  return h("details", { class: "panel" },
+    h("summary", null, "이 물건의 주인인가요?"),
+    h("p", { class: "muted small" }, "등록할 때 받은 주인 열쇠를 넣으면 이 기기에서도 기록을 남기고 양도할 수 있어요."),
+    h("form", { onsubmit: async e => {
+      e.preventDefault();
+      const tok = key.value.trim();
+      await busy(btn, async () => {
+        try {
+          if (await DB.isOwner(tag.id, tok)) { setKey(tag.id, tok); toast("주인으로 확인됐어요"); renderTag(tag.id); }
+          else { msg.hidden = false; msg.textContent = ERR.bad_token; }
+        } catch (err) { msg.hidden = false; msg.textContent = errMsg(err); }
+      });
+    } }, field("주인 열쇠", key), msg, h("div", null, btn)));
+}
+
+async function legacy(code) {
+  try {
+    const map = await (await fetch("links.json", { cache: "no-store" })).json();
+    if (map[code]) { location.replace(map[code]); return; }
+  } catch {}
+  renderFatal("등록되지 않은 QR코드예요.");
+}
+
+function loadScript(src) {
+  return new Promise((ok, bad) => {
+    const s = h("script", { src });
+    s.onload = ok; s.onerror = bad;
+    document.head.append(s);
+  });
+}
+
+async function boot() {
+  if (params.has("c")) return legacy(params.get("c"));
+  if (CONFIG.SUPABASE_URL && CONFIG.SUPABASE_ANON_KEY) {
+    try { await loadScript("https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"); Remote.init(); DB = Remote; }
+    catch { return renderFatal("데이터베이스 라이브러리를 불러오지 못했어요. 인터넷 연결을 확인하고 새로고침해 주세요."); }
+  }
+  if (params.has("admin")) {
+    if (typeof qrcode !== "function") return renderFatal("QR 라이브러리를 불러오지 못했어요. 인터넷 연결을 확인하고 새로고침해 주세요.");
+    return renderAdmin();
+  }
+  const t = (params.get("t") || "").trim().toLowerCase();
+  if (t) return renderTag(t);
+  renderHome();
+}
+
+boot();
 </script>
 </body>
 </html>
