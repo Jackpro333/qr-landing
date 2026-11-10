@@ -3,46 +3,129 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>창업 1</title>
+<title>어쿠스틱 기타 · 기억 태그</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Noto+Sans+KR:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap">
 <style>
 :root{
-  --bg:#eef3f1; --surface:#ffffff; --fg:#14202b; --muted:#5b6876; --accent:#1b7f5a; --line:#d6dde4;
-  --display:"Gowun Dodum","Noto Sans KR",system-ui,sans-serif;
+  --bg:#f2f3f1; --surface:#ffffff; --fg:#1b1f1d; --muted:#5f6763; --line:#dcdfdb; --accent:#b4572e;
+  --fix:#8a6d1d; --note:#4d5bb0;
+  --story:"Gowun Batang","Noto Serif KR",serif;
   --body:"Noto Sans KR",system-ui,-apple-system,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,monospace;
 }
 @media (prefers-color-scheme: dark){:root{
-  --bg:#10161c; --surface:#18212b; --fg:#e7edf3; --muted:#9aa8b6; --line:#273340; color-scheme:dark}}
+  --bg:#121514; --surface:#1b1f1d; --fg:#e8ece9; --muted:#9ba49f; --line:#2c3330; --fix:#d6b45a; --note:#97a3f0; color-scheme:dark}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);line-height:1.7;
-  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:56px}
-main{max-width:640px;margin:0 auto;display:grid;gap:28px}
-.tag{justify-self:start;font-size:.8rem;letter-spacing:.08em;color:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:2px 12px}
-h1{font-family:var(--display);font-size:2.4rem;line-height:1.2;margin:0;text-wrap:balance}
-p{margin:0;color:var(--muted)}
-section{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px;display:grid;gap:10px}
-h2{font-size:1.1rem;margin:0}
-.btn{justify-self:start;background:var(--accent);color:#fff;text-decoration:none;border-radius:10px;padding:10px 18px;font-weight:700}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);line-height:1.65;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:40px}
+main{max-width:560px;margin:0 auto;display:grid;gap:28px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;font-family:var(--mono);font-size:.8rem;color:var(--muted);letter-spacing:.04em}
+.sample{border:1px dashed var(--line);border-radius:999px;padding:2px 10px}
+header{display:grid;gap:6px}
+h1{font-size:1.9rem;line-height:1.25;margin:0;text-wrap:balance}
+.spec{margin:0;color:var(--muted)}
+.owner{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;margin-top:6px}
+.owner b{font-size:1.05rem}
+.owner span{color:var(--accent);font-weight:700}
+blockquote{margin:0;padding:22px 24px;background:var(--surface);border:1px solid var(--line);border-radius:14px;font-family:var(--story);font-size:1.3rem;line-height:1.6;text-wrap:pretty}
+blockquote::before{content:"“";display:block;font-size:2.4rem;line-height:.6;color:var(--accent)}
+h2{font-size:.85rem;letter-spacing:.08em;color:var(--muted);margin:0 0 4px}
+ol{list-style:none;margin:0;padding:0;display:grid;gap:0}
+.ev{display:grid;grid-template-columns:4.6rem 1fr;gap:16px;padding:14px 0;border-top:1px solid var(--line)}
+.ev>div{min-width:0;display:grid;gap:2px;border-left:3px solid var(--accent);padding-left:14px}
+.ev-fix>div{border-left-color:var(--fix)}
+.ev-note>div{border-left-color:var(--note)}
+time{font-family:var(--mono);font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums;padding-top:2px}
+.chip{justify-self:start;font-size:.72rem;font-weight:700;letter-spacing:.06em;color:var(--accent)}
+.ev-fix .chip{color:var(--fix)}
+.ev-note .chip{color:var(--note)}
+h3{font-size:1rem;margin:0}
+.ev p{margin:0;color:var(--muted);font-family:var(--story)}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+button{font:inherit;font-weight:700;border-radius:10px;padding:10px 18px;cursor:pointer;border:1px solid var(--accent)}
+.primary{background:var(--accent);color:#fff}
+.ghost{background:transparent;color:var(--accent)}
+button:focus-visible{outline:3px solid var(--fg);outline-offset:2px}
+#msg{margin:0;color:var(--muted);font-size:.9rem}
+footer{font-size:.8rem;color:var(--muted);border-top:1px solid var(--line);padding-top:16px}
+[hidden]{display:none!important}
 </style>
 </head>
 <body>
 <main>
-  <span class="tag">창업 1</span>
-  <h1>창업 1 웹사이트</h1>
-  <p>이 페이지는 QR코드 1번으로 연결되는 전용 웹사이트입니다. 창업 내용이 정해지면 이 자리에 소개, 서비스, 연락처가 들어갑니다.</p>
+  <div class="top"><span>기억 태그 #0001</span><span class="sample">예시 데이터</span></div>
+  <header>
+    <h1>어쿠스틱 기타</h1>
+    <p class="spec">드레드노트 바디 · 스프루스 상판</p>
+    <div class="owner"><b>현재 주인 김민성</b><span>4번째 주인</span></div>
+  </header>
+  <blockquote>첫 주인은 이 기타로 친구 결혼식에서 축가를 불렀어요.</blockquote>
   <section>
-    <h2>소개</h2>
-    <p>준비 중입니다.</p>
+    <h2>이 물건의 기록</h2>
+    <ol>
+      <li class="ev ev-own">
+        <time>2017.03</time>
+        <div>
+          <span class="chip">소유</span>
+          <h3>첫 주인이 새 기타로 구매</h3>
+          <p>친구 결혼식 축가를 이 기타로 연습하고 불렀어요.</p>
+        </div>
+      </li>
+      <li class="ev ev-fix">
+        <time>2019.05</time>
+        <div>
+          <span class="chip">수리</span>
+          <h3>넥 휨 조정</h3>
+          <p>악기점에서 넥 조정과 프렛 정리를 받았어요.</p>
+        </div>
+      </li>
+      <li class="ev ev-own">
+        <time>2020.08</time>
+        <div>
+          <span class="chip">소유</span>
+          <h3>두 번째 주인에게 양도</h3>
+          <p>주말마다 한강에서 버스킹을 했어요.</p>
+        </div>
+      </li>
+      <li class="ev ev-fix">
+        <time>2022.02</time>
+        <div>
+          <span class="chip">수리</span>
+          <h3>줄 교체 · 브릿지 보수</h3>
+          <p>브릿지 들뜸을 수리했어요.</p>
+        </div>
+      </li>
+      <li class="ev ev-own">
+        <time>2023.11</time>
+        <div>
+          <span class="chip">소유</span>
+          <h3>세 번째 주인에게 양도</h3>
+          <p>자취방에서 매일 밤 30분씩 연습했어요.</p>
+        </div>
+      </li>
+      <li class="ev ev-own">
+        <time>2026.10</time>
+        <div>
+          <span class="chip">소유</span>
+          <h3>김민성에게 양도</h3>
+          <p>네 번째 주인이 되었어요.</p>
+        </div>
+      </li>
+    </ol>
   </section>
-  <section>
-    <h2>서비스</h2>
-    <p>준비 중입니다.</p>
-  </section>
-  <section>
-    <h2>연락처</h2>
-    <p>준비 중입니다.</p>
-  </section>
+  <div class="actions">
+    <button class="primary" id="add" type="button">사연 남기기</button>
+    <button class="ghost" id="give" type="button">양도하기</button>
+  </div>
+  <p id="msg" hidden></p>
+  <footer>이전 주인의 이름은 공개되지 않고 사연만 남습니다.</footer>
 </main>
+<script>
+const msg=document.getElementById('msg');
+const say=t=>{msg.hidden=false;msg.textContent=t};
+document.getElementById('add').addEventListener('click',()=>say('사연 남기기는 다음 버전에서 열려요. 지금은 예시 화면이에요.'));
+document.getElementById('give').addEventListener('click',()=>say('양도하기를 누르면 다음 주인이 이 태그를 찍어 소유권을 받게 돼요. 지금은 예시 화면이에요.'));
+</script>
 </body>
 </html>
