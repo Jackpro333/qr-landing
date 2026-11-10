@@ -3,105 +3,121 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>35mm 필름 카메라 · 기억 태그</title>
+<title>iPhone 18 Pro · 기억 태그</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@700;800&family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap">
 <style>
 :root{
-  --bg:#f2f3f1; --surface:#ffffff; --fg:#1b1f1d; --muted:#5f6763; --line:#dcdfdb; --accent:#2f6f8f;
-  --fix:#8a6d1d; --note:#4d5bb0;
-  --story:"Gowun Batang","Noto Serif KR",serif;
+  --night:#0c2219; --pine:#123a2a; --pine-2:#18513a; --berry:#b3202e; --berry-dark:#7d1420;
+  --gold:#e6c36a; --snow:#f7f3ea; --frost:#c9d8cf;
+  --display:"Nanum Myeongjo","Gowun Batang",serif;
+  --story:"Gowun Batang","Nanum Myeongjo",serif;
   --body:"Noto Sans KR",system-ui,-apple-system,sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,monospace;
+  color-scheme:dark;
 }
-@media (prefers-color-scheme: dark){:root{
-  --bg:#121514; --surface:#1b1f1d; --fg:#e8ece9; --muted:#9ba49f; --line:#2c3330; --fix:#d6b45a; --note:#97a3f0; color-scheme:dark}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);line-height:1.65;
-  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:40px}
-main{max-width:560px;margin:0 auto;display:grid;gap:28px}
-.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;font-family:var(--mono);font-size:.8rem;color:var(--muted);letter-spacing:.04em}
-.sample{border:1px dashed var(--line);border-radius:999px;padding:2px 10px}
-header{display:grid;gap:6px}
-h1{font-size:1.9rem;line-height:1.25;margin:0;text-wrap:balance}
-.spec{margin:0;color:var(--muted)}
-.owner{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;margin-top:6px}
+html,body{min-height:100%}
+body{margin:0;color:var(--snow);font-family:var(--body);line-height:1.65;
+  background:radial-gradient(120% 70% at 50% 0%,var(--pine-2) 0%,var(--pine) 40%,var(--night) 100%) fixed,var(--night);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 56px;overflow-x:hidden}
+#snow{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.lights{position:relative;z-index:1;height:46px;margin:0 calc(-1 * max(16px,env(safe-area-inset-left,0px)));overflow:hidden}
+.lights svg{display:block;width:100%;height:46px}
+.bulb{animation:twinkle 2.4s ease-in-out infinite}
+.bulb:nth-child(3n){animation-delay:.8s}
+.bulb:nth-child(3n+1){animation-delay:1.6s}
+@keyframes twinkle{0%,100%{opacity:1}50%{opacity:.35}}
+main{position:relative;z-index:1;max-width:560px;margin:0 auto;display:grid;gap:26px;padding-top:18px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;font-family:var(--mono);font-size:.8rem;letter-spacing:.06em;color:var(--frost)}
+.season{color:var(--gold)}
+.tag{position:relative;background:var(--snow);color:#1d2a23;border-radius:18px 18px 18px 18px;padding:34px 26px 26px;display:grid;gap:10px;
+  box-shadow:0 18px 40px rgba(0,0,0,.35);border:2px solid var(--gold)}
+.tag::before{content:"";position:absolute;top:14px;left:50%;width:16px;height:16px;margin-left:-8px;border-radius:50%;background:var(--night);box-shadow:0 0 0 3px var(--gold)}
+.ribbon{position:absolute;top:-10px;right:22px;background:var(--berry);color:var(--snow);font-size:.75rem;font-weight:700;letter-spacing:.08em;padding:6px 12px 10px;
+  clip-path:polygon(0 0,100% 0,100% 100%,50% 80%,0 100%)}
+.eyebrow{font-family:var(--mono);font-size:.78rem;letter-spacing:.08em;color:var(--berry);margin-top:6px}
+h1{font-family:var(--display);font-weight:800;font-size:2.3rem;line-height:1.15;margin:0;text-wrap:balance;color:var(--pine)}
+.spec{margin:0;color:#4d5d54}
+.owner{display:flex;gap:10px;align-items:center;flex-wrap:wrap;border-top:1px dashed #b9c4bd;padding-top:12px;margin-top:4px}
 .owner b{font-size:1.05rem}
-.owner span{color:var(--accent);font-weight:700}
-blockquote{margin:0;padding:22px 24px;background:var(--surface);border:1px solid var(--line);border-radius:14px;font-family:var(--story);font-size:1.3rem;line-height:1.6;text-wrap:pretty}
-blockquote::before{content:"“";display:block;font-size:2.4rem;line-height:.6;color:var(--accent)}
-h2{font-size:.85rem;letter-spacing:.08em;color:var(--muted);margin:0 0 4px}
-ol{list-style:none;margin:0;padding:0;display:grid;gap:0}
-.ev{display:grid;grid-template-columns:4.6rem 1fr;gap:16px;padding:14px 0;border-top:1px solid var(--line)}
-.ev>div{min-width:0;display:grid;gap:2px;border-left:3px solid var(--accent);padding-left:14px}
-.ev-fix>div{border-left-color:var(--fix)}
-.ev-note>div{border-left-color:var(--note)}
-time{font-family:var(--mono);font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums;padding-top:2px}
-.chip{justify-self:start;font-size:.72rem;font-weight:700;letter-spacing:.06em;color:var(--accent)}
-.ev-fix .chip{color:var(--fix)}
-.ev-note .chip{color:var(--note)}
+.badge{background:var(--pine);color:var(--gold);font-weight:700;font-size:.82rem;border-radius:999px;padding:3px 12px;letter-spacing:.04em}
+blockquote{margin:0;padding:24px 24px 22px;border-radius:16px;background:linear-gradient(160deg,var(--berry) 0%,var(--berry-dark) 100%);
+  font-family:var(--story);font-size:1.35rem;line-height:1.6;text-wrap:pretty;border:1px solid rgba(230,195,106,.5);box-shadow:0 12px 30px rgba(0,0,0,.3)}
+blockquote::before{content:"❄";display:block;color:var(--gold);font-size:1.2rem;margin-bottom:6px}
+h2{font-family:var(--display);font-size:1.15rem;margin:0 0 6px;color:var(--gold);letter-spacing:.02em}
+ol{list-style:none;margin:0;padding:0;display:grid}
+.ev{display:grid;grid-template-columns:4.8rem 1fr;gap:16px;padding:16px 0;border-top:1px solid rgba(201,216,207,.2)}
+.ev>div{min-width:0;display:grid;gap:3px;border-left:3px solid var(--gold);padding-left:14px}
+.ev time{font-family:var(--mono);font-size:.85rem;color:var(--frost);padding-top:2px}
+.chip{justify-self:start;font-size:.72rem;font-weight:700;letter-spacing:.08em;color:var(--gold)}
 h3{font-size:1rem;margin:0}
-.ev p{margin:0;color:var(--muted);font-family:var(--story)}
+.ev p{margin:0;color:var(--frost);font-family:var(--story)}
+.ev.next>div{border-left-style:dashed;border-left-color:rgba(201,216,207,.45)}
+.ev.next h3,.ev.next .chip{color:var(--frost)}
 .actions{display:flex;gap:10px;flex-wrap:wrap}
-button{font:inherit;font-weight:700;border-radius:10px;padding:10px 18px;cursor:pointer;border:1px solid var(--accent)}
-.primary{background:var(--accent);color:#fff}
-.ghost{background:transparent;color:var(--accent)}
-button:focus-visible{outline:3px solid var(--fg);outline-offset:2px}
-#msg{margin:0;color:var(--muted);font-size:.9rem}
-footer{font-size:.8rem;color:var(--muted);border-top:1px solid var(--line);padding-top:16px}
+button{font:inherit;font-weight:700;border-radius:12px;padding:11px 18px;cursor:pointer}
+.primary{background:var(--berry);color:var(--snow);border:1px solid var(--gold)}
+.ghost{background:transparent;color:var(--snow);border:1px solid rgba(247,243,234,.5)}
+button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+#msg{margin:0;color:var(--frost);font-size:.92rem}
+footer{font-size:.82rem;color:var(--frost);border-top:1px solid rgba(201,216,207,.2);padding-top:16px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 [hidden]{display:none!important}
+@media (prefers-reduced-motion: reduce){.bulb{animation:none}}
 </style>
 </head>
 <body>
+<canvas id="snow" aria-hidden="true"></canvas>
+<div class="lights" aria-hidden="true">
+  <svg viewBox="0 0 800 46" preserveAspectRatio="none">
+    <path d="M0 8 Q 50 30 100 8 T 200 8 T 300 8 T 400 8 T 500 8 T 600 8 T 700 8 T 800 8" fill="none" stroke="#2c4a3b" stroke-width="2"/>
+    <g>
+      <ellipse class="bulb" cx="25" cy="22" rx="6" ry="9" fill="#e23b3b"/>
+      <ellipse class="bulb" cx="75" cy="22" rx="6" ry="9" fill="#f2c94c"/>
+      <ellipse class="bulb" cx="125" cy="22" rx="6" ry="9" fill="#3fbf6b"/>
+      <ellipse class="bulb" cx="175" cy="22" rx="6" ry="9" fill="#5aa9ff"/>
+      <ellipse class="bulb" cx="225" cy="22" rx="6" ry="9" fill="#e23b3b"/>
+      <ellipse class="bulb" cx="275" cy="22" rx="6" ry="9" fill="#f2c94c"/>
+      <ellipse class="bulb" cx="325" cy="22" rx="6" ry="9" fill="#3fbf6b"/>
+      <ellipse class="bulb" cx="375" cy="22" rx="6" ry="9" fill="#5aa9ff"/>
+      <ellipse class="bulb" cx="425" cy="22" rx="6" ry="9" fill="#e23b3b"/>
+      <ellipse class="bulb" cx="475" cy="22" rx="6" ry="9" fill="#f2c94c"/>
+      <ellipse class="bulb" cx="525" cy="22" rx="6" ry="9" fill="#3fbf6b"/>
+      <ellipse class="bulb" cx="575" cy="22" rx="6" ry="9" fill="#5aa9ff"/>
+      <ellipse class="bulb" cx="625" cy="22" rx="6" ry="9" fill="#e23b3b"/>
+      <ellipse class="bulb" cx="675" cy="22" rx="6" ry="9" fill="#f2c94c"/>
+      <ellipse class="bulb" cx="725" cy="22" rx="6" ry="9" fill="#3fbf6b"/>
+      <ellipse class="bulb" cx="775" cy="22" rx="6" ry="9" fill="#5aa9ff"/>
+    </g>
+  </svg>
+</div>
 <main>
-  <div class="top"><span>기억 태그 #0002</span><span class="sample">예시 데이터</span></div>
-  <header>
-    <h1>35mm 필름 카메라</h1>
-    <p class="spec">수동 SLR · 50mm 단렌즈</p>
-    <div class="owner"><b>현재 주인 김현우</b><span>3번째 주인</span></div>
-  </header>
-  <blockquote>이 카메라는 제주도 첫 가족여행 사진을 찍었어요.</blockquote>
+  <div class="top"><span>기억 태그 #0002</span><span class="season">Merry Christmas</span></div>
+  <section class="tag">
+    <span class="ribbon">따끈따끈 신상</span>
+    <span class="eyebrow">NEW · 첫 번째 이야기</span>
+    <h1>iPhone 18 Pro</h1>
+    <p class="spec">출시일 오픈런으로 손에 넣은 새 폰</p>
+    <div class="owner"><b>초대 주인 김현우</b><span class="badge">첫 번째 주인</span></div>
+  </section>
+  <blockquote>출시일 아침, 줄을 서서 오픈런으로 데려왔어요. 이 폰의 첫 페이지는 김현우가 씁니다.</blockquote>
   <section>
     <h2>이 물건의 기록</h2>
     <ol>
-      <li class="ev ev-own">
-        <time>2009.07</time>
+      <li class="ev">
+        <time>출시일</time>
         <div>
           <span class="chip">소유</span>
-          <h3>첫 주인이 중고로 구매</h3>
-          <p>제주도 가족여행 사진 36장을 찍었어요.</p>
+          <h3>오픈런으로 구매</h3>
+          <p>매장 문이 열리자마자 초대 주인 김현우의 품으로 왔어요.</p>
         </div>
       </li>
-      <li class="ev ev-fix">
-        <time>2016.04</time>
+      <li class="ev next">
+        <time>다음 이야기</time>
         <div>
-          <span class="chip">수리</span>
-          <h3>셔터막 교체</h3>
-          <p>셔터가 걸리는 증상을 수리했어요.</p>
-        </div>
-      </li>
-      <li class="ev ev-own">
-        <time>2021.02</time>
-        <div>
-          <span class="chip">소유</span>
-          <h3>두 번째 주인에게 양도</h3>
-          <p>친구들 졸업사진을 이 카메라로 찍었어요.</p>
-        </div>
-      </li>
-      <li class="ev ev-fix">
-        <time>2024.09</time>
-        <div>
-          <span class="chip">수리</span>
-          <h3>렌즈 클리닝</h3>
-          <p>렌즈 곰팡이 제거와 노출계 점검을 받았어요.</p>
-        </div>
-      </li>
-      <li class="ev ev-own">
-        <time>2026.09</time>
-        <div>
-          <span class="chip">소유</span>
-          <h3>김현우에게 양도</h3>
-          <p>세 번째 주인이 되었어요.</p>
+          <span class="chip">기다리는 중</span>
+          <h3>아직 쓰이지 않은 페이지</h3>
+          <p>이번 크리스마스의 사진과 사연이 여기에 쌓일 거예요.</p>
         </div>
       </li>
     </ol>
@@ -111,13 +127,37 @@ footer{font-size:.8rem;color:var(--muted);border-top:1px solid var(--line);paddi
     <button class="ghost" id="give" type="button">양도하기</button>
   </div>
   <p id="msg" hidden></p>
-  <footer>이전 주인의 이름은 공개되지 않고 사연만 남습니다.</footer>
+  <footer><span>이전 주인의 이름은 공개되지 않고 사연만 남습니다.</span><span>❄ 2026 겨울</span></footer>
 </main>
 <script>
 const msg=document.getElementById('msg');
 const say=t=>{msg.hidden=false;msg.textContent=t};
-document.getElementById('add').addEventListener('click',()=>say('사연 남기기는 다음 버전에서 열려요. 지금은 예시 화면이에요.'));
-document.getElementById('give').addEventListener('click',()=>say('양도하기를 누르면 다음 주인이 이 태그를 찍어 소유권을 받게 돼요. 지금은 예시 화면이에요.'));
+document.getElementById('add').addEventListener('click',()=>say('사연 남기기는 곧 열려요. 첫 크리스마스 이야기를 준비해 주세요.'));
+document.getElementById('give').addEventListener('click',()=>say('양도하기를 누르면 다음 주인이 이 태그를 찍어 소유권을 받게 돼요.'));
+const cv=document.getElementById('snow');
+const ctx=cv.getContext('2d');
+const still=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let W,H,flakes=[];
+function size(){
+  const r=devicePixelRatio||1;
+  W=innerWidth;H=innerHeight;cv.width=W*r;cv.height=H*r;ctx.setTransform(r,0,0,r,0,0);
+  const n=Math.round(W*H/9000);
+  flakes=Array.from({length:n},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*2.4+.8,s:Math.random()*.6+.3,d:Math.random()*Math.PI*2}));
+}
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='rgba(255,255,255,.85)';
+  for(const f of flakes){
+    ctx.beginPath();ctx.arc(f.x,f.y,f.r,0,Math.PI*2);ctx.fill();
+    if(!still){
+      f.y+=f.s;f.d+=.01;f.x+=Math.sin(f.d)*.4;
+      if(f.y>H+4){f.y=-4;f.x=Math.random()*W}
+    }
+  }
+  if(!still)requestAnimationFrame(draw);
+}
+addEventListener('resize',()=>{size();if(still)draw()});
+size();draw();
 </script>
 </body>
 </html>
