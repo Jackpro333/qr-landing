@@ -1,9 +1,9 @@
 <!doctype html>
 <html lang="ko">
 <head>
-<title>QR 도착 페이지</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QR 도착 페이지</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Noto+Sans+KR:wght@400;700&family=IBM+Plex+Mono:wght@500&display=swap">
 <style>
@@ -24,38 +24,60 @@ main{max-width:520px;margin:0 auto;display:grid;gap:24px}
 .finder::after{content:"";width:16px;height:16px;background:var(--accent);border-radius:2px}
 h1{font-family:var(--display);font-size:1.9rem;line-height:1.25;margin:0;text-wrap:balance}
 p{margin:0;color:var(--muted)}
-.meta{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:.9rem;border-top:1px solid var(--line);padding-top:16px;margin:0}
-.meta dt{color:var(--muted);letter-spacing:.04em}
-.meta dd{margin:0;font-family:var(--mono);font-variant-numeric:tabular-nums;min-width:0;overflow-wrap:anywhere}
-.btn{justify-self:start;background:var(--accent);color:#fff;border:0;border-radius:10px;padding:10px 18px;font:inherit;font-weight:700;cursor:pointer}
-.btn:focus-visible{outline:3px solid var(--fg);outline-offset:2px}
-.count{font-family:var(--mono);color:var(--fg)}
+a{color:var(--accent);overflow-wrap:anywhere}
+.code{font-family:var(--mono);color:var(--fg)}
+.list{display:grid;gap:8px;border-top:1px solid var(--line);padding-top:16px;margin:0;padding-left:0;list-style:none}
+.list li{display:grid;grid-template-columns:7rem 1fr;gap:12px;min-width:0}
 [hidden]{display:none!important}
 </style>
 </head>
 <body>
 <main>
-  <div class="card">
+  <div class="card" id="going" hidden>
     <div class="finder" aria-hidden="true"></div>
-    <h1>QR코드로 잘 도착했어요</h1>
-    <p>휴대폰 카메라로 QR코드를 비추면 이 페이지가 열립니다. 이 주소를 원하는 사이트로 바꾸면 같은 방식으로 어디든 연결할 수 있어요.</p>
-    <dl class="meta">
-      <dt>접속 시각</dt><dd id="time">—</dd>
-      <dt>기기</dt><dd id="device">—</dd>
-      <dt>이 기기 방문</dt><dd id="visits">1번째</dd>
-    </dl>
-    <button class="btn" id="hi" type="button">눌러보기</button>
-    <p class="count" id="out" hidden></p>
+    <h1>이동 중이에요</h1>
+    <p>잠시 후 자동으로 이동합니다. 이동하지 않으면 <a id="manual" href="#">여기를 누르세요</a>.</p>
+  </div>
+  <div class="card" id="missing" hidden>
+    <div class="finder" aria-hidden="true"></div>
+    <h1>등록되지 않은 QR코드예요</h1>
+    <p>코드 <span class="code" id="badcode"></span>에 연결된 주소가 없습니다.</p>
+  </div>
+  <div class="card" id="home" hidden>
+    <div class="finder" aria-hidden="true"></div>
+    <h1>QR 연결 서비스</h1>
+    <p>QR코드마다 다른 웹사이트로 연결됩니다. 지금 등록된 코드는 아래와 같아요.</p>
+    <ul class="list" id="list"></ul>
   </div>
 </main>
 <script>
-const now=new Date();
-document.getElementById('time').textContent=now.toLocaleString('ko-KR');
-const ua=navigator.userAgent;
-document.getElementById('device').textContent=/iPhone|iPad/.test(ua)?'iPhone / iPad':/Android/.test(ua)?'Android':/Mac/.test(ua)?'Mac':/Windows/.test(ua)?'Windows':'기타';
-let v=1;try{v=(+localStorage.getItem('visits')||0)+1;localStorage.setItem('visits',v)}catch(e){}
-document.getElementById('visits').textContent=v+'번째';
-let n=0;document.getElementById('hi').addEventListener('click',()=>{n++;const o=document.getElementById('out');o.hidden=false;o.textContent='버튼을 '+n+'번 눌렀어요.'});
+const code=new URLSearchParams(location.search).get('c');
+const show=id=>document.getElementById(id).hidden=false;
+fetch('links.json',{cache:'no-store'}).then(r=>r.json()).then(links=>{
+  if(code){
+    const url=links[code];
+    if(url){
+      document.getElementById('manual').href=url;
+      show('going');
+      location.replace(url);
+    }else{
+      document.getElementById('badcode').textContent=code;
+      show('missing');
+    }
+    return;
+  }
+  const list=document.getElementById('list');
+  for(const [k,url] of Object.entries(links)){
+    const li=document.createElement('li');
+    const c=document.createElement('span');c.className='code';c.textContent=k;
+    const a=document.createElement('a');a.href=url;a.textContent=url;
+    li.append(c,a);list.append(li);
+  }
+  show('home');
+}).catch(()=>{
+  document.getElementById('badcode').textContent=code||'';
+  show('missing');
+});
 </script>
 </body>
 </html>
