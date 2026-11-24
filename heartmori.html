@@ -1966,7 +1966,7 @@ const fmtKey=k=>(k||'').replace(/(.{5})(?=.)/g,'$1-');
 const known=new Set(),knownR=new Set();
 const me=()=>S.seats.pink===ME?'pink':S.seats.blue===ME?'blue':null;
 const subj=w=>NM[w]+'이';
-const today=()=>{const d=new Date();d.setHours(12,0,0,0);return d};
+const today=()=>{let y,m,d;try{[y,m,d]=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date()).split('-').map(Number)}catch(e){const n=new Date(Date.now()+9*3600e3);y=n.getUTCFullYear();m=n.getUTCMonth()+1;d=n.getUTCDate()}return new Date(y,m-1,d,12)};
 const dn=()=>S.diary&&okDate(S.diary.met)?Math.round((today()-parse(S.diary.met))/864e5)+1:0;
 const stage=()=>stageOf(S.entries.length);
 const okK=k=>(POSES[k]&&k!=='kissB')||ANNIV[k]?k:'smile';
@@ -2086,7 +2086,7 @@ function vHome(){const rec=LS.get('hm-recent',[]).filter(r=>okCode(r.c)).slice(0
   <button class="cta" type="button" data-act="mkqr">새 커플 QR 만들기</button>`}
  ${rec.length?`<p class="lh" style="margin-top:22px"><b>이 기기에서 연 일기</b></p><div class="recent">${rec.map(r=>`<a href="${esc(navURL(r.c))}">${esc(r.n||'이름 없는 일기')}<span>${r.c}</span></a>`).join('')}</div>`:'<div style="height:24px"></div>'}`}
 function pairHTML(m){const s=`<div class="solo" style="--pk-r:${m==='pink'?'7deg':'-7deg'}">${solo(m)}</div>`,q=`<div class="qbox">?</div>`;return`<div class="pair">${m==='pink'?s+q:q+s}</div>`}
-function vCreate(m){const d=ui.draft,def=today();def.setDate(def.getDate()-99);const other=S.seats[OT[m]];
+function vCreate(m){const d=ui.draft,def=today();const other=S.seats[OT[m]];
  return hdr(`<span class="chip dk">하트모리</span>`,`<span class="chip ${m[0]}">나 · ${NM[m]}</span>`)+(other?`<div class="pair"><div class="solo">${solo('pink')}</div><div class="solo">${solo('blue')}</div></div><div class="pillo">짝꿍도 들어왔어요! 일기만 만들면 이어져요</div>`:pairHTML(m)+`<div class="pillo">짝꿍을 기다리고 있어요</div>`)+
  `<h2 class="askh">우리 이야기를<br>시작해 볼까요?</h2>
  <label class="f">우리 물건 이름<input id="item" maxlength="24" value="${esc(d.item??'')}" placeholder="예: 100일 커플 머그컵"></label>

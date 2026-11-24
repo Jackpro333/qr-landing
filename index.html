@@ -977,7 +977,7 @@ function nemori(key,o={}){const P=npose(key),st=o.stage??1,f=NW.fill,prop=o.prop
  return`<svg viewBox="${o.vb||'0 0 200 190'}" role="img" aria-label="네모리 ${P.n}"><g filter="url(#crayon)"><g data-hit="nemori" transform="translate(100 118)"><g class="bob bn">${body}</g></g>${nextras(P.x)}${o.stars?star(34,64,1)+star(166,58,1.1)+star(28,120,.7)+star(170,122,.8):''}</g></svg>`}
 const nthumbC={};const nthumb=k=>nthumbC[k]||(nthumbC[k]=nemori(k,{stage:1,vb:'16 26 168 160'}));
 const byNew=(a,b)=>(b.created_at||'').localeCompare(a.created_at||'');
-const todayDot=()=>{const d=new Date();return d.getFullYear()+'.'+String(d.getMonth()+1).padStart(2,'0')+'.'+String(d.getDate()).padStart(2,'0')};
+const todayDot=()=>{try{return new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date()).replace(/-/g,'.')}catch(e){const n=new Date(Date.now()+9*3600e3);return n.getUTCFullYear()+'.'+String(n.getUTCMonth()+1).padStart(2,'0')+'.'+String(n.getUTCDate()).padStart(2,'0')}};
 const sinceText=s=>{s=(s||'').trim();const m=s.match(/^(\d{4})\.(\d{2})$/);return m?m[1]+'년 '+(+m[2])+'월':s};
 function sheet(label,...kids){const L=$("#lay");const box=h("div",{class:"sheet",role:"dialog","aria-label":label},h("div",{class:"grab"}),kids);L.replaceChildren(box);L.classList.add("on");
  const f=box.querySelector("input,textarea");if(f&&matchMedia("(min-width:700px)").matches)f.focus({preventScroll:true});return box}
