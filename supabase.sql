@@ -31,11 +31,14 @@ create table if not exists public.entries (
 alter table public.entries add column if not exists youtube text;
 alter table public.entries add column if not exists media jsonb not null default '[]'::jsonb;
 alter table public.entries add column if not exists owner_no integer not null default 0;
+alter table public.entries add column if not exists stamp text;
 
 alter table public.entries drop constraint if exists entries_kind_check;
 alter table public.entries add constraint entries_kind_check check (kind in ('소유', '사연', '수리', '기록', '노래'));
 alter table public.entries drop constraint if exists entries_youtube_check;
 alter table public.entries add constraint entries_youtube_check check (youtube is null or youtube ~ '^[A-Za-z0-9_-]{11}$');
+alter table public.entries drop constraint if exists entries_stamp_check;
+alter table public.entries add constraint entries_stamp_check check (stamp is null or stamp in ('smile', 'flutter', 'laugh', 'moved', 'proud', 'ouch', 'miss', 'sing'));
 alter table public.entries drop constraint if exists entries_media_check;
 alter table public.entries add constraint entries_media_check check (jsonb_typeof(media) = 'array' and jsonb_array_length(media) <= 10);
 
@@ -217,10 +220,11 @@ end;
 $$;
 
 drop function if exists public.add_entry(text, text, text, text, text, text);
+drop function if exists public.add_entry(text, text, text, text, text, text, jsonb, text);
 
 create or replace function public.add_entry(
   p_id text, p_token text, p_kind text, p_title text, p_body text, p_date text,
-  p_media jsonb default '[]'::jsonb, p_youtube text default null
+  p_media jsonb default '[]'::jsonb, p_youtube text default null, p_stamp text default null
 )
 returns uuid
 language plpgsql
@@ -239,6 +243,7 @@ begin
   if char_length(coalesce(p_body, '')) > 1000 then raise exception 'too_long'; end if;
   if p_youtube is not null and p_youtube !~ '^[A-Za-z0-9_-]{11}$' then raise exception 'bad_youtube'; end if;
   if p_kind = '노래' and p_youtube is null then raise exception 'bad_youtube'; end if;
+  if p_stamp is not null and p_stamp not in ('smile', 'flutter', 'laugh', 'moved', 'proud', 'ouch', 'miss', 'sing') then raise exception 'bad_kind'; end if;
   if p_media is null then p_media := '[]'::jsonb; end if;
   if jsonb_typeof(p_media) <> 'array' or jsonb_array_length(p_media) > 10 then raise exception 'bad_media'; end if;
 
@@ -259,9 +264,9 @@ begin
 
   select owner_count into v_owner from tags where id = p_id;
 
-  insert into entries (tag_id, kind, title, body, happened_on, youtube, media, owner_no)
+  insert into entries (tag_id, kind, title, body, happened_on, youtube, media, owner_no, stamp)
   values (p_id, p_kind, trim(p_title), coalesce(p_body, ''),
-          coalesce(nullif(trim(p_date), ''), memtag_month()), p_youtube, v_media, v_owner)
+          coalesce(nullif(trim(p_date), ''), memtag_month()), p_youtube, v_media, v_owner, p_stamp)
   returning id into v_new;
   return v_new;
 end;
@@ -400,7 +405,7 @@ grant execute on function public.memtag_is_admin() to anon, authenticated;
 grant execute on function public.is_owner(text, text) to anon, authenticated;
 grant execute on function public.claim_tag(text, text, text, text, text, text, text, text) to anon, authenticated;
 grant execute on function public.request_upload(text, text, text, text) to anon, authenticated;
-grant execute on function public.add_entry(text, text, text, text, text, text, jsonb, text) to anon, authenticated;
+grant execute on function public.add_entry(text, text, text, text, text, text, jsonb, text, text) to anon, authenticated;
 grant execute on function public.delete_entry(text, text, uuid) to anon, authenticated;
 grant execute on function public.update_tag(text, text, text, text, text) to anon, authenticated;
 grant execute on function public.start_transfer(text, text) to anon, authenticated;
