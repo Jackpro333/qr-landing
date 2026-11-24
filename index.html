@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
 <style>
-:root{color-scheme:light;--bg:#f6ecd6;--app:#fffaf3;--ink:#3d2b24;--soft:#8a7a70;--line:#f0e2cf;--brown:#3b2a24;
+:root{color-scheme:light;--bg:#fbf2dc;--app:#fffaf3;--ink:#3d2b24;--soft:#8a7a70;--line:#f0e2cf;--brown:#3b2a24;
  --nm:#f8dd96;--nmc:#fdf2d2;--nmd:#c9952f;--pk:#f7c6d2;--pkc:#fde5eb;--pkd:#e0607e;--bl:#c5d7f3;--blc:#e4edfb;--bld:#4f7fcc;--red:#e0485a;--leaf:#6fb06a;
  --hand:"Gaegu","Nanum Pen Script",cursive;--sans:"Noto Sans KR",system-ui,-apple-system,sans-serif}
 *{box-sizing:border-box;min-width:0}
@@ -40,7 +40,7 @@ button:focus-visible,input:focus-visible,textarea:focus-visible,a:focus-visible{
 .btn.danger{background:#fff;color:#b3263a;border:2px solid #f3c1c9}
 .btn.danger.armed{background:#b3263a;color:#fff;border-color:#b3263a}
 .link{border:0;background:none;text-decoration:underline;color:var(--soft);font-size:13px;min-height:44px;padding:0 6px}
-input,textarea{font:16px var(--sans);width:100%;border:2px solid #efdcb8;border-radius:14px;padding:11px 13px;background:#fff;color:var(--ink)}
+input,textarea{font:16px var(--sans);width:100%;border:2px solid #ead8b0;border-radius:14px;padding:11px 13px;background:#fff;color:var(--ink)}
 textarea{resize:vertical;min-height:96px}
 .field{display:grid;gap:5px;margin-bottom:12px}
 .field>label,.field>.lbl{font-size:13px;font-weight:700;color:var(--soft)}
@@ -63,7 +63,7 @@ textarea{resize:vertical;min-height:96px}
 .pair .solo{width:130px}.solo svg{width:100%;display:block;overflow:visible}
 .qbox{width:108px;height:112px;border:3px dashed #e6cf9f;border-radius:24px;display:grid;place-items:center;text-align:center;font-size:12px;color:#b08a4a;line-height:1.3;padding:8px}
 .qbox b{display:block;font:700 40px/1 var(--hand)}
-.hero{position:relative;background:var(--nmc);border-radius:22px;padding:12px 10px 22px;display:grid;grid-template-columns:1.15fr 1fr;align-items:center;gap:4px;min-height:200px;overflow:hidden}
+.hero{position:relative;background:#f8ecc6;border-radius:22px;padding:12px 10px 12px;display:grid;grid-template-columns:1.1fr 1fr;align-items:center;gap:4px;min-height:200px;overflow:hidden}
 .hero.x{background:linear-gradient(160deg,#e3f1e4,#fde7e7)}
 .hero .cp{cursor:pointer;-webkit-tap-highlight-color:transparent}
 .hero .rt{display:grid;gap:8px;justify-items:start;align-self:start;padding-top:4px}
@@ -215,6 +215,45 @@ textarea{resize:vertical;min-height:96px}
 body.xmas .wrap{padding-top:calc(env(safe-area-inset-top,0px) + 58px)}
 .print-area{display:none}
 .cp svg{width:100%;height:auto;display:block;overflow:visible}
+.homehero{display:grid;justify-items:center;text-align:center;gap:2px;margin:6px 0 18px}
+.homehero .cp{width:200px}
+.logo{font:700 54px/1 var(--hand);margin:4px 0 0;letter-spacing:.12em}
+.homehero .tag{font:700 22px var(--hand);margin:4px 0 0}
+.famgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.fam2{border-radius:22px;padding:12px 10px 14px;display:grid;justify-items:center;gap:4px;text-align:center;text-decoration:none;color:var(--ink)}
+.fam2.n{background:#eef3e4}.fam2.h{background:#fde9ee}
+.fam2 .cp{width:100%;max-width:150px}
+.fam2 b{font:700 24px/1 var(--hand);margin-top:2px}
+.pill2{background:var(--brown);color:#fff;border-radius:999px;font-size:12px;font-weight:700;padding:3px 14px}
+.fam2 small{font-size:12px;color:#6a5850}
+.opener{display:grid;grid-template-columns:1fr auto;gap:8px}
+.wake{width:190px;margin:4px auto 0}
+.hello{border:2px solid var(--brown);border-radius:999px;padding:8px 14px;text-align:center;font-size:14px;margin:6px 0 18px}
+.ment{background:#fff;border:2px solid #f0e2c8;border-radius:18px;padding:12px;margin-bottom:10px;display:grid;grid-template-columns:72px 1fr 50px;gap:12px;align-items:center}
+.ment.nothumb{grid-template-columns:1fr 50px}
+.thumb{position:relative;width:72px;height:72px;border-radius:12px;overflow:hidden;border:2px solid var(--brown);padding:0;background:var(--line)}
+.thumb img,.thumb video{width:100%;height:100%;object-fit:cover;display:block}
+.thumb .cnt{position:absolute;right:3px;bottom:3px;background:rgba(20,16,14,.7);color:#fff;font-size:10px;border-radius:999px;padding:0 6px}
+.mt time{font-size:12px;color:var(--soft)}
+.mt h4{margin:0;font-size:15px;overflow-wrap:anywhere}
+.mt p{margin:2px 0 0;font-size:13px;color:#5e4d45;white-space:pre-line;overflow-wrap:anywhere}
+.mst{width:50px;border:0;background:none;padding:0;align-self:start}
+.mst svg{width:100%;display:block}
+.ytbox{grid-column:1/-1}
+.ytbox:empty{display:none}
+.ta{position:relative;margin:8px 0}
+.ta textarea{padding-right:70px;min-height:110px}
+.taprev{position:absolute;right:8px;top:8px;width:56px}.taprev svg{width:100%;display:block}
+.phs{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+.addph{border:2px solid var(--brown);border-radius:999px;padding:8px 16px;font-weight:700;font-size:14px;cursor:pointer;background:#fff;min-height:44px;display:inline-flex;align-items:center}
+.phs .pv{width:64px;height:48px;aspect-ratio:auto;border:2px solid var(--brown)}
+.lbl{display:flex;justify-content:space-between;align-items:baseline;margin:4px 0 8px}.lbl b{font-size:14px}.lbl small{font-size:12px;color:var(--soft)}
+.stp span{font-size:11px;font-weight:500;color:#6a5850}
+.stp svg{width:70%}
+.stp[aria-pressed=true]{border:2px dashed var(--pkd);background:var(--pkc)}
+.hand{font:700 22px var(--hand)}
+.dcards.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+.an-jumpq .bn{animation:jump .9s ease-in-out 2}
 .cp svg{width:100%;height:auto;display:block;overflow:visible}
 .ln{stroke:#4a3832;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
 .o{fill:none}.ink{fill:#4a3832}.thin{stroke-width:1.4}
@@ -889,291 +928,226 @@ function tile(it, list, idx, cls) {
     : [h("img", { src: mediaSrc(it.m), alt: it.title, loading: "lazy", onerror: hideBroken })];
   return h("button", { class: "tile" + (cls ? " " + cls : ""), type: "button", "aria-label": it.title + " 크게 보기", onclick: () => openLightbox(list, idx) }, inner);
 }
-const NM={fill:'#f8dd96',dark:'#c9952f',leaf:'#9ed49a',bud:'#f6a6b8',petal:'#f7b8c6'};
+const NW={fill:'#fffbf2',leaf:'#a9d99c',bud:'#f6a6b8',petal:'#f7b2c4',seed:'#b98a55',pencil:'#f5c84b',eraser:'#f29bb2',paper:'#fff3d6'};
 const NPOSE={
- smile:{n:'방긋',e:'closed',m:'smile',an:'sway',h:1,say:'오늘도 이 물건 곁에서 방긋!'},
- flutter:{n:'두근',e:'happy',m:'tiny',bl:2,an:'beat',h:6,x:['minihearts'],say:'두근두근, 새로운 이야기가 생겼어!'},
- laugh:{n:'깔깔',e:'happy',m:'open',an:'bounce',h:2,x:['sparkle'],say:'깔깔, 그날 진짜 웃겼지!'},
- moved:{n:'뭉클',e:'tear',m:'wobble',bl:1,an:'sniff',h:1,x:['letter'],say:'그 얘기 들으니까 마음이 뭉클해…'},
- proud:{n:'뿌듯',e:'happy',m:'smile',bl:1,an:'jump',h:3,x:['confetti'],say:'나 꽤 멋진 물건이지? 뿌듯해!'},
- ouch:{n:'아야',e:'x',m:'wobble',an:'ouch',h:0,x:['band'],say:'아야… 그래도 고쳐 줘서 고마워'},
- miss:{n:'그리워',e:'sad',m:'flat',an:'drift',h:0,x:['dots'],say:'예전 주인 생각이 나네…'},
- sing:{n:'흥얼',e:'closed',m:'o',an:'sing',h:2,x:['notes'],say:'이 노래 들으면 그때가 떠올라'}
+ smile:{n:'방긋',e:'closed',m:'smile',an:'sway'},
+ joy:{n:'신남',e:'happy',m:'open',an:'bounce',x:['sparkle'],h:3},
+ flutter:{n:'설렘',e:'dot',m:'tiny',bl:2,an:'beat',x:['minihearts'],h:5},
+ moved:{n:'감동',e:'tear',m:'wobble',bl:1,an:'sniff',h:1},
+ miss:{n:'그리움',e:'flat',m:'flat',an:'drift',x:['think']},
+ surprise:{n:'깜짝',e:'big',m:'o',an:'jumpq',x:['bang']},
+ proud:{n:'뿌듯',e:'closed',m:'smile',bl:1,an:'beat',x:['lines'],h:2},
+ cry:{n:'엉엉',e:'cry',m:'open',an:'sniff',x:['tears']}
 };
 const NFACES=Object.keys(NPOSE);
-const KIND_STAMP={'소유':'flutter','사연':'smile','수리':'ouch','기록':'smile','노래':'sing'};
-const NSTG=[{n:'씨앗',c:'주인 없음',t:0,d:'아직 주인을 기다리고 있어요'},{n:'새싹',c:'첫 이야기',t:1,d:'첫 이야기와 함께 싹이 텄어요'},{n:'떡잎',c:'기록 5개',t:5,d:'떡잎이 활짝 펴졌어요'},{n:'봉오리',c:'기록 15개',t:15,d:'꽃봉오리가 맺혔어요'},{n:'활짝',c:'기록 40개',t:40,d:'이야기가 꽃으로 피었어요'}];
+const OLDSTAMP={laugh:'joy',ouch:'cry',sing:'smile'};
+const NSTG=[{n:'씨앗',t:0,say:'오늘은 어떤 추억을 남길까?',d:'아직 씨앗이에요'},{n:'새싹',t:1,say:'새싹이 났어!',d:'첫 추억과 함께 새싹이 났어요'},{n:'봉오리',t:30,say:'곧 꽃이 필 것 같아',d:'추억 30개, 꽃봉오리가 맺혔어요'},{n:'활짝',t:100,say:'꽃이 폈어!',d:'추억 100개, 네모리 꽃이 활짝 폈어요'}];
 const nstageOf=n=>{let i=0;NSTG.forEach((s,j)=>{if(n>=s.t)i=j});return i};
 const npose=k=>NPOSE[k]||NPOSE.smile;
-const stampOf=e=>NPOSE[e.stamp]?e.stamp:(KIND_STAMP[e.kind]||'smile');
-function sprout(st){
- if(st<=0)return`<path d="M0,-47 l0,-4" class="ln o"/><ellipse cx="0" cy="-55" rx="6" ry="4.5" fill="#c99a5b" class="ln thin"/>`;
- const top=-58-st*4,k=[0,.8,1.15,1.2,1.25][st];
- const leaf=s=>`<path d="M0,${top+6} q${13*s*k},${-12*k} ${22*s*k},${-3*k} q${-9*s*k},${13*k} ${-22*s*k},${3*k}z" fill="${NM.leaf}" stroke="${C.ink}" stroke-width="1.8" stroke-linejoin="round"/>`;
- let g=`<path d="M0,-47 Q-3,${(top-47)/2} 0,${top}" class="ln o"/>`+leaf(1)+leaf(-1);
- if(st===3)g+=`<path d="M0,${top} q-7,-6 0,-15 q7,9 0,15z" fill="${NM.bud}" stroke="${C.ink}" stroke-width="1.8"/>`;
- if(st>=4){let p='';for(let i=0;i<5;i++){const a=i*72*Math.PI/180;p+=`<circle cx="${(Math.sin(a)*7).toFixed(1)}" cy="${(top-8-Math.cos(a)*7).toFixed(1)}" r="5.5" fill="${NM.petal}" stroke="${C.ink}" stroke-width="1.6"/>`}
-  g+=p+`<circle cx="0" cy="${top-8}" r="4.2" fill="${C.star}" stroke="${C.ink}" stroke-width="1.6"/>`}
- return g}
-function neyes(t){if(t==='x')return`<path d="M-20,-9 l7,4 l-7,4 M20,-9 l-7,4 l7,4" class="ln o"/>`;return eyes(t,0)}
+const stampOf=e=>NPOSE[e.stamp]?e.stamp:(OLDSTAMP[e.stamp]||'smile');
+function nsprout(st){
+ if(st<=0)return`<path d="M-1,-47 q1,-4 1,-6" class="ln o thin"/><path d="M-6,-50 q6,-9 12,0 q-6,4 -12,0z" fill="${NW.seed}" class="ln thin"/><path d="M-1,-58 q2,-4 5,-4" class="ln o thin"/>`;
+ const top=st===1?-66:-74;
+ const leaf=s=>`<path d="M0,${top+3} q${12*s},${-11} ${21*s},${-3} q${-8*s},${12} ${-21*s},${3}z" fill="${NW.leaf}" stroke="${C.ink}" stroke-width="1.9" stroke-linejoin="round"/>`;
+ let g=`<path d="M0,-47 Q-2,${(top-47)/2} 0,${top+3}" class="ln o"/>`;
+ if(st===1)return g+leaf(1)+leaf(-1);
+ g+=`<path d="M0,-58 q9,-6 15,-1 q-7,6 -15,1z" fill="${NW.leaf}" stroke="${C.ink}" stroke-width="1.7"/><path d="M0,-56 q-9,-6 -15,-1 q7,6 15,1z" fill="${NW.leaf}" stroke="${C.ink}" stroke-width="1.7"/>`;
+ if(st===2)return g+`<path d="M0,${top+3} q-8,-7 0,-17 q8,10 0,17z" fill="${NW.bud}" stroke="${C.ink}" stroke-width="1.9"/>`;
+ let p='';for(let i=0;i<5;i++){const a=i*72*Math.PI/180;p+=`<circle cx="${(Math.sin(a)*7.5).toFixed(1)}" cy="${(top-6-Math.cos(a)*7.5).toFixed(1)}" r="6" fill="${NW.petal}" stroke="${C.ink}" stroke-width="1.7"/>`}
+ return g+p+`<circle cx="0" cy="${top-6}" r="4.5" fill="${C.star}" stroke="${C.ink}" stroke-width="1.7"/>`}
+function nface(P){let e;
+ if(P.e==='big')e=`<circle cx="-15" cy="-6" r="5.5" fill="#fff" class="ln thin"/><circle cx="-15" cy="-5" r="2.6" class="ink"/><circle cx="15" cy="-6" r="5.5" fill="#fff" class="ln thin"/><circle cx="15" cy="-5" r="2.6" class="ink"/>`;
+ else if(P.e==='cry')e=`<path d="M-21,-9 l8,4 l-8,4 M21,-9 l-8,4 l8,4" class="ln o"/>`;
+ else e=eyes(P.e,0);
+ return blush(P.bl,0)+e+mouth(P.m,0)}
 function nextras(list){let s='';for(const x of list||[]){
- if(x==='minihearts')s+=heart(36,60,.55,C.hp,'tw')+heart(166,52,.6,C.red,'tw')+heart(158,100,.42,C.hp,'tw');
- if(x==='sparkle')s+=star(30,66,1.1)+star(170,60,1.2)+star(160,104,.7);
- if(x==='letter')s+=`<g class="lt"><g transform="translate(160 54)"><rect x="-15" y="-10" width="30" height="20" rx="2" fill="#fff" class="ln"/><path d="M-15,-10 L0,2 L15,-10" class="ln o"/>${heart(0,3,.38,C.red)}</g></g>`;
- if(x==='confetti')for(const[a,b,c,r]of[[30,30,'#f07f9c',20],[52,58,'#6f9be0',-30],[150,26,'#f5c84b',45],[172,64,'#7fc8a9',-15],[100,14,'#f07f9c',60],[128,40,'#6f9be0',10]])s+=`<rect class="cf" x="${a}" y="${b}" width="7" height="4" rx="1" fill="${c}" transform="rotate(${r} ${a+3} ${b+2})"/>`;
- if(x==='dots')s+=`<text class="hm" x="160" y="70">…</text><path d="M150,92 q8,-8 16,0" class="ln o thin"/>`;
- if(x==='notes')s+=`<g class="nt"><path d="M160,70 v-20 l12,-4 v18" class="ln o"/><ellipse cx="157" cy="71" rx="4" ry="3" class="ink"/><ellipse cx="169" cy="65" rx="4" ry="3" class="ink"/></g><g class="nt"><path d="M38,78 v-14" class="ln o"/><ellipse cx="35" cy="79" rx="4" ry="3" class="ink"/></g>`;
+ if(x==='minihearts')s+=heart(40,62,.55,C.hp,'tw')+heart(160,56,.6,C.red,'tw')+heart(156,104,.42,C.hp,'tw');
+ if(x==='sparkle')s+=star(34,70,1.1)+star(166,62,1.2)+star(158,108,.7)+star(44,110,.6);
+ if(x==='think')s+=`<circle cx="150" cy="70" r="2.5" class="ln thin" fill="#fff"/><circle cx="157" cy="60" r="3.5" class="ln thin" fill="#fff"/><g transform="translate(168 44)"><ellipse rx="14" ry="11" fill="#fff" class="ln thin"/>${heart(0,1,.45,C.hp)}</g>`;
+ if(x==='bang')s+=`<path d="M156,52 l-2,16" class="ln o"/><circle cx="153" cy="74" r="1.8" class="ink"/>`;
+ if(x==='lines')s+=`<path d="M38,90 h-12 M40,104 h-10 M160,90 h12 M158,104 h10 M44,76 l-8,-6 M156,76 l8,-6" class="ln o thin"/>`;
+ if(x==='tears')s+=`<path d="M78,108 q-8,10 -4,20" stroke="#8dc0ef" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M122,108 q8,10 4,20" stroke="#8dc0ef" stroke-width="3" fill="none" stroke-linecap="round"/>`;
 }return s}
-function nbody(P,st,o){const f=NM.fill;
- const band=(P.x||[]).includes('band')?`<g transform="translate(26 18) rotate(-25)"><rect x="-13" y="-5" width="26" height="10" rx="5" fill="#f3d8b8" class="ln thin"/><circle cx="-3" cy="0" r="1" class="ink"/><circle cx="3" cy="0" r="1" class="ink"/></g>`:'';
- const hat=o.hat?`<path d="M-40,-44 Q-14,-92 30,-80 L38,-44Z" fill="#d93b44" class="ln"/><rect x="-44" y="-50" width="86" height="12" rx="6" fill="#fff" class="ln"/><circle cx="31" cy="-82" r="7" fill="#fff" class="ln"/>`:'';
- const arms=o.hold?`<ellipse cx="-23" cy="32" rx="8" ry="7" fill="${f}" class="ln"/><ellipse cx="23" cy="32" rx="8" ry="7" fill="${f}" class="ln"/>`:`<ellipse cx="-52" cy="14" rx="6" ry="8" fill="${f}" class="ln"/><ellipse cx="52" cy="14" rx="6" ry="8" fill="${f}" class="ln"/>`;
- return(o.hat?'':sprout(st))+`<ellipse cx="-21" cy="48" rx="10" ry="5.5" fill="${f}" class="ln"/><ellipse cx="21" cy="48" rx="10" ry="5.5" fill="${f}" class="ln"/>`+(o.hold?'':arms)+`<path d="${BODY}" fill="${f}" class="ln"/>`+blush(P.bl,0)+neyes(P.e)+mouth(P.m,0)+band+hat+(o.hold?nqr()+arms:'')}
-function nqr(){return`<g transform="translate(0 30) scale(.78)"><ellipse cx="0" cy="0" rx="31" ry="30" class="str"/><rect x="-24" y="-24" width="48" height="48" rx="7" fill="#fff" class="ln"/><g transform="translate(-19.5 -19.5) scale(1.857)" fill="${C.ink}"><path d="${QR.f}" fill-rule="evenodd"/><path d="${QR.m}"/></g></g>`}
-function nemori(key,o={}){const P=npose(key),st=o.stage??1;
- return`<svg viewBox="${o.vb||'0 0 200 190'}" role="img" aria-label="네모리 ${P.n}"><g filter="url(#crayon)"><g data-hit="nemori" transform="translate(100 118)"><g class="bob bn">${nbody(P,st,{hold:o.prop==='qr',hat:o.hat})}</g></g>${nextras(P.x)}</g></svg>`}
-const nthumbC={};const nthumb=k=>nthumbC[k]||(nthumbC[k]=nemori(k,{stage:1,vb:'20 20 160 160'}));
-const ownerOf=n=>n===1?'초대 주인':n>1?n+'번째 주인':'이전 주인';
+function nnote(){return`<g transform="translate(0 28)"><rect x="-20" y="-15" width="40" height="30" rx="3" fill="${NW.paper}" class="ln"/><path d="M-12,-6 h24 M-12,1 h24 M-12,8 h16" stroke="#d6bf98" stroke-width="1.8" stroke-linecap="round"/><ellipse cx="-21" cy="2" rx="7" ry="6.5" fill="${NW.fill}" class="ln"/><ellipse cx="21" cy="2" rx="7" ry="6.5" fill="${NW.fill}" class="ln"/></g>`}
+function nqrhold(){return`<g transform="translate(0 26)"><rect x="-27" y="-27" width="54" height="54" rx="8" fill="#fff" class="ln"/><g transform="translate(-21.5 -21.5) scale(2.05)" fill="${C.ink}"><path d="${QR.f}" fill-rule="evenodd"/><path d="${QR.m}"/></g><ellipse cx="-28" cy="4" rx="7" ry="6.5" fill="${NW.fill}" class="ln"/><ellipse cx="28" cy="4" rx="7" ry="6.5" fill="${NW.fill}" class="ln"/></g>`}
+function npencil(){return`<g transform="translate(36 -50) rotate(32)"><rect x="-4.5" y="-22" width="9" height="34" rx="1.5" fill="${NW.pencil}" class="ln"/><rect x="-4.5" y="-27" width="9" height="7" rx="2.5" fill="${NW.eraser}" class="ln"/><path d="M-4.5,12 L0,22 L4.5,12Z" fill="#f3dcb5" class="ln"/><path d="M-1.5,18 L0,22 L1.5,18Z" class="ink"/></g>`}
+function nemori(key,o={}){const P=npose(key),st=o.stage??1,f=NW.fill,prop=o.prop||'none';
+ const arms=prop==='none'?`<ellipse cx="-52" cy="14" rx="6" ry="8" fill="${f}" class="ln"/><ellipse cx="52" cy="14" rx="6" ry="8" fill="${f}" class="ln"/>`:'';
+ const body=`${o.pencil?npencil():''}${nsprout(st)}<ellipse cx="-21" cy="48" rx="10" ry="5.5" fill="${f}" class="ln"/><ellipse cx="21" cy="48" rx="10" ry="5.5" fill="${f}" class="ln"/>${arms}<path d="${BODY}" fill="${f}" class="ln"/>${nface(P)}${prop==='note'?nnote():prop==='qr'?nqrhold():''}`;
+ return`<svg viewBox="${o.vb||'0 0 200 190'}" role="img" aria-label="네모리 ${P.n}"><g filter="url(#crayon)"><g data-hit="nemori" transform="translate(100 118)"><g class="bob bn">${body}</g></g>${nextras(P.x)}${o.stars?star(34,64,1)+star(166,58,1.1)+star(28,120,.7)+star(170,122,.8):''}</g></svg>`}
+const nthumbC={};const nthumb=k=>nthumbC[k]||(nthumbC[k]=nemori(k,{stage:1,vb:'16 26 168 160'}));
 const byNew=(a,b)=>(b.created_at||'').localeCompare(a.created_at||'');
+const todayDot=()=>{const d=new Date();return d.getFullYear()+'.'+String(d.getMonth()+1).padStart(2,'0')+'.'+String(d.getDate()).padStart(2,'0')};
+const sinceText=s=>{s=(s||'').trim();const m=s.match(/^(\d{4})\.(\d{2})$/);return m?m[1]+'년 '+(+m[2])+'월':s};
 function sheet(label,...kids){const L=$("#lay");const box=h("div",{class:"sheet",role:"dialog","aria-label":label},h("div",{class:"grab"}),kids);L.replaceChildren(box);L.classList.add("on");
  const f=box.querySelector("input,textarea");if(f&&matchMedia("(min-width:700px)").matches)f.focus({preventScroll:true});return box}
 function closeSheet(){const L=$("#lay");L.replaceChildren();L.classList.remove("on")}
 $("#lay").addEventListener("click",e=>{if(e.target.id==="lay")closeSheet()});
 addEventListener("keydown",e=>{if(e.key==="Escape"&&$("#lay").classList.contains("on"))closeSheet()});
-function hearts(fx,n,dir){if(!fx||!n||matchMedia("(prefers-reduced-motion: reduce)").matches)return;const cols=[C.hp,'#f5c84b',C.red];
- for(let i=0;i<n;i++){const s=h("span",{class:"fh"});s.style.left=(dir==="in"?96:22+Math.random()*30)+"%";s.style.top=(55+Math.random()*25)+"%";
-  s.style.setProperty("--dx",(dir==="in"?-140:Math.random()*120-60)+"px");s.style.setProperty("--dy",(-70-Math.random()*60)+"px");s.style.setProperty("--r",(Math.random()*60-30)+"deg");
+function hearts(fx,n){if(!fx||!n||matchMedia("(prefers-reduced-motion: reduce)").matches)return;const cols=[C.hp,'#f5c84b','#a9d99c'];
+ for(let i=0;i<n;i++){const s=h("span",{class:"fh"});s.style.left=(18+Math.random()*34)+"%";s.style.top=(55+Math.random()*25)+"%";
+  s.style.setProperty("--dx",(Math.random()*120-60)+"px");s.style.setProperty("--dy",(-70-Math.random()*60)+"px");s.style.setProperty("--r",(Math.random()*60-30)+"deg");
   s.style.animationDelay=(i*.12)+"s";s.innerHTML=`<svg viewBox="-10 -10 20 18"><path d="${HEART}" fill="${cols[i%3]}" stroke="${C.ink}" stroke-width="1.3"/></svg>`;fx.append(s);setTimeout(()=>s.remove(),2600+i*120)}}
-function levelUp(i,hat){$("#lv").replaceChildren(h("div",{class:"lv",role:"dialog","aria-label":"네모리가 자랐어요"},h("div",null,
- h("div",{class:"cp an-jump",html:nemori("proud",{stage:i,hat})}),h("h3",null,NSTG[i].n+" 단계가 되었어요"),h("p",null,NSTG[i].d),
+function levelUp(i){$("#lv").replaceChildren(h("div",{class:"lv",role:"dialog","aria-label":"네모리가 자랐어요"},h("div",null,
+ h("div",{class:"cp an-beat",html:nemori("joy",{stage:i,prop:"note",pencil:true,stars:true})}),h("h3",null,NSTG[i].n+" 단계가 되었어요"),h("p",null,NSTG[i].d),
  h("button",{class:"cta",type:"button",style:"width:180px",onclick:()=>$("#lv").replaceChildren()},"좋아!"))))}
 function renderHome(){
- setTheme("basic");document.title="네모리 패밀리 · 물건에 추억을 붙여요";app.className="wrap";
- const code=h("input",{id:"home-code",placeholder:"태그 코드 (예: k7m2qx9)",autocomplete:"off",autocapitalize:"off",spellcheck:"false","aria-label":"태그 코드"});
+ setTheme("basic");document.title="네모리 · 물건에 추억을 붙여요";app.className="wrap";
+ const code=h("input",{id:"home-code",placeholder:"스티커 코드 (예: k7m2qx9)",autocomplete:"off",autocapitalize:"off",spellcheck:"false","aria-label":"스티커 코드"});
  const open=e=>{e.preventDefault();const v=code.value.trim().toLowerCase().replace(/^#/,"");if(v)location.href=tagUrl(v)};
- const dc=(k,cls)=>h("button",{class:"dc",type:"button",onclick:e=>e.currentTarget.classList.toggle("on")},h("div",{class:"cp an-"+npose(k).an,html:nemori(k,{stage:2,vb:'14 14 172 172'})}),h("b",null,npose(k).n));
  mount(
   h("div",{class:"hd"},h("span",{class:"chip dk"},"네모리 패밀리"),h("a",{class:"chip g",href:adminUrl()},"관리자")),
-  h("h1",{class:"big",style:"margin-top:6px"},"물건에 추억을 붙여요"),
-  h("p",{class:"lead"},"QR 스티커를 찍으면 네모리가 이 물건의 이야기를 들려줘요. 주인이 바뀌어도 이야기는 물건에 남아요."),
-  h("div",{class:"fam"},h("div",{class:"n cp an-sway",html:nemori("flutter",{stage:2,prop:"qr"})}),h("div",{class:"h cp an-beat",html:couple("flutter",{stage:1,prop:"qr"})})),
-  h("div",{class:"famcards"},
-   h("section",{class:"famcard n"},h("div",{class:"pic cp an-sway",html:nemori("smile",{stage:3,vb:'14 14 172 172'})}),h("b",null,"네모리"),h("small",null,"물건 기억 태그 · 기타, 카메라, 자전거처럼 주인이 바뀌는 물건에 붙여요. 사연, 노래, 사진, 수리 기록이 다음 주인에게 건너가요."),
-    h("form",{class:"opener",onsubmit:open},code,h("button",{class:"btn",type:"submit"},"열기"))),
-   h("section",{class:"famcard h"},h("div",{class:"pic cp an-beat",html:couple("flutter",{stage:1,vb:'20 20 260 170'})}),h("b",null,"하트모리"),h("small",null,"커플 일기 · QR 하나를 둘이 같이 찍으면 한 명은 분홍, 한 명은 파랑이 돼요. 둘이 같이 반응하는 커플 일기예요."),
-    h("a",{class:"btn go",href:"heartmori.html"},"커플 QR 만들기"))),
-  h("div",{class:"lh"},h("b",null,"이렇게 이어져요"),h("span",{class:"muted"},"앱 설치 없이 카메라로")),
-  h("ol",{class:"steps"},[["스티커를 붙여요","작은 QR 스티커를 물건 안쪽이나 바닥에 붙여요."],["처음 찍은 사람이 초대 주인","물건 이름과 첫 사연을 적으면 네모리가 깨어나요."],["이야기를 쌓아요","그날의 도장과 함께 사연, 노래, 사진, 수리 기록을 남겨요."],["넘길 땐 양도 코드","새 주인이 코드를 넣으면 이름은 지워지고 이야기만 남아요."]].map(([b,s],i)=>h("li",null,h("i",null,i+1),h("div",null,h("b",null,b),h("span",null,s))))),
-  h("div",{class:"lh"},h("b",null,"네모리가 자라요"),h("span",{class:"muted"},"기록이 쌓일수록")),
-  h("div",{class:"dcards five"},NSTG.map((s,i)=>h("div",{class:"dc on"},h("div",{class:"cp an-sway",html:nemori(i>=3?"proud":"smile",{stage:i,vb:'10 0 180 190'})}),h("b",null,s.n),h("small",null,s.c)))),
-  h("div",{class:"lh"},h("b",null,"그날의 도장"),h("span",{class:"muted"},"눌러 보세요")),
-  h("div",{class:"dcards"},NFACES.map(k=>dc(k))),
-  h("p",{class:"fine"},"이전 주인의 이름은 남지 않고, 이야기만 다음 주인에게 건너가요."));
+  h("div",{class:"homehero"},h("div",{class:"cp an-sway",html:nemori("smile",{stage:1,prop:"qr",pencil:true})}),
+   h("h1",{class:"logo"},"네모리"),h("p",{class:"tag"},"물건에 추억을 붙여요"),h("p",{class:"muted"},"QR 추억 스티커")),
+  h("div",{class:"lh"},h("b",null,"말랑한 네모리 패밀리"),h("span",{class:"muted"},"2종")),
+  h("div",{class:"famgrid"},
+   h("a",{class:"fam2 n",href:"#open"},h("div",{class:"cp an-sway",html:nemori("smile",{stage:1,prop:"qr"})}),h("b",null,"네모리"),h("span",{class:"pill2"},"내 물건"),h("small",null,"반듯한 두부 몸, 새싹")),
+   h("a",{class:"fam2 h",href:"heartmori.html"},h("div",{class:"cp an-beat",html:couple("smile",{stage:1,prop:"qr",vb:'40 20 220 170'})}),h("b",null,"하트모리"),h("span",{class:"pill2"},"커플 물건"),h("small",null,"수줍게 웃는 분홍과 파랑"))),
+  h("section",{class:"panel",id:"open"},h("h2",null,"네모리 일기 열기"),h("p",{class:"small soft",style:"margin:0"},"스티커를 카메라로 찍으면 바로 열려요. QR을 찍기 어려우면 스티커 아래 코드를 넣어 주세요."),
+   h("form",{class:"opener",onsubmit:open},code,h("button",{class:"btn",type:"submit"},"열기"))),
+  h("div",{class:"lh"},h("b",null,"이렇게 써요"),h("span",{class:"muted"},"앱 설치 없이")),
+  h("ol",{class:"steps"},[["물건에 붙인 네모리를 찍으면","카메라로 스티커를 찍기만 하면 돼요."],["처음 찍으면 네모리가 깨어나요","물건 이름과 함께한 때를 적으면 추억 일기가 생겨요."],["오늘의 추억을 적고","사진을 붙이고, 그날의 네모리 표정을 골라요."],["새싹이 자라 꽃이 펴요","추억이 쌓일수록 씨앗이 새싹, 봉오리, 꽃이 돼요."]].map(([b,s],i)=>h("li",null,h("i",null,i+1),h("div",null,h("b",null,b),h("span",null,s))))),
+  h("div",{class:"dcards four"},NSTG.map((s,i)=>h("div",{class:"dc on"},h("div",{class:"cp an-sway",html:nemori("smile",{stage:i,prop:"note",pencil:true,vb:'14 0 172 190'})}),h("b",null,s.n),h("small",null,i?"추억 "+s.t+"개":"처음")))),
+  h("div",{class:"lh"},h("b",null,"오늘의 네모리"),h("span",{class:"muted"},"눌러 보세요")),
+  h("div",{class:"dcards"},NFACES.map(k=>h("button",{class:"dc",type:"button",onclick:e=>e.currentTarget.classList.toggle("on")},h("div",{class:"cp an-"+npose(k).an,html:nthumb(k)}),h("b",null,npose(k).n)))),
+  h("p",{class:"fine"},"네모리 · QR 추억 스티커"));
 }
 function renderClaim(tag,auto){
- setTheme("basic");document.title="새 네모리 · 물건 기억 태그";app.className="wrap";
- const item=h("input",{id:"c-item",maxlength:"60",required:true,placeholder:"예: 어쿠스틱 기타"});
- const spec=h("input",{id:"c-spec",maxlength:"80",placeholder:"예: 드레드노트 바디, 스프루스 상판"});
- const ownerIn=h("input",{id:"c-owner",maxlength:"30",required:true,placeholder:"예: 김현우"});
- const since=h("input",{id:"c-since",type:"month",value:monthValue()});
- const story=h("textarea",{id:"c-story",maxlength:"1000",required:true,placeholder:"이 물건과 함께한 첫 장면을 적어 주세요."});
- const msg=h("p",{class:"err",hidden:true});
- const btn=h("button",{class:"cta",type:"submit"},"첫 주인 되기");
+ setTheme("basic");document.title="네모리가 깨어나요";app.className="wrap";
+ const item=h("input",{id:"c-item",maxlength:"60",required:true,placeholder:"예: 할머니가 주신 카메라"});
+ const since=h("input",{id:"c-since",maxlength:"20",placeholder:"예: 2020년 겨울"});
+ const msg=h("p",{class:"err",hidden:true}),btn=h("button",{class:"cta",type:"submit"},"추억 일기 만들기");
  mount(
   h("div",{class:"hd"},h("span",{class:"chip dk"},"네모리"),h("span",{class:"muted"},"처음 만났어요")),
-  auto?h("p",{class:"okmsg"},"체험 모드 · 이 기기에서 처음 연 태그라 체험용으로 새로 만들었어요."):null,
-  h("div",{class:"pair"},h("div",{class:"solo cp an-sway",html:nemori("smile",{stage:0})}),h("div",{class:"qbox"},h("b",null,"?"),"아직 주인이 없어요")),
-  h("div",{class:"pillo"},"첫 주인을 기다리고 있어요 · #"+tag.id),
-  h("h2",{class:"askh"},"이 물건의 첫 이야기를",h("br"),"시작해 볼까요?"),
-  h("form",{onsubmit:async e=>{e.preventDefault();
-    const theme=(app.querySelector("input[name=c-theme]:checked")||{}).value||"basic",tok=randomToken();
-    await busy(btn,async()=>{try{await DB.claim(tag.id,{item:item.value,spec:spec.value,owner:ownerIn.value,since:monthInput(since.value),story:story.value,theme},tok);
-     setKey(tag.id,tok);renderTag(tag.id,{fresh:true,tok})}catch(err){msg.hidden=false;msg.textContent=errMsg(err)}})}},
-   field("물건 이름",item,{req:true}),field("한 줄 설명",spec,{hint:"모델, 색, 특징 등"}),
-   h("div",{class:"two"},field("내 이름 또는 닉네임",ownerIn,{req:true,hint:"넘기면 이름은 지워져요"}),field("언제부터 함께했나요",since)),
-   field("첫 사연",story,{req:true}),
-   h("div",{class:"field"},h("span",{class:"lbl"},"페이지 분위기"),choices("c-theme",[["basic","기본"],["xmas","크리스마스"]],"basic")),
-   msg,btn),
-  h("p",{class:"fine"},"처음 등록한 사람이 초대 주인이 돼요. 노래와 사진은 등록한 다음 바로 더할 수 있어요."));
+  auto?h("p",{class:"okmsg"},"체험 모드 · 이 기기에서 처음 연 스티커라 체험용으로 만들었어요."):null,
+  h("div",{class:"wake cp an-bounce",html:nemori("joy",{stage:0,prop:"note",pencil:true,stars:true})}),
+  h("div",{class:"hello"},"안녕! 나는 이 물건의 네모리야."),
+  h("h2",{class:"askh"},"이 물건 이야기를",h("br"),"들려줄래요?"),
+  h("form",{onsubmit:async e=>{e.preventDefault();const tok=randomToken();
+    await busy(btn,async()=>{try{await DB.claim(tag.id,{item:item.value,spec:"",owner:"주인",since:since.value.trim(),story:"",theme:"basic"},tok);
+     setKey(tag.id,tok);renderTag(tag.id,{fresh:true})}catch(err){msg.hidden=false;msg.textContent=errMsg(err)}})}},
+   field("물건 이름",item),field("언제부터 함께했나요?",since),msg,btn),
+  h("p",{class:"fine"},"다음부터는 찍기만 하면 일기가 바로 열려요."));
 }
 async function renderTag(id,flash){
  let data;try{data=await DB.getTag(id)}catch(e){return renderFatal(errMsg(e))}
  if(!data){setTheme("basic");app.className="wrap";mount(h("div",{class:"hd"},h("a",{class:"chip dk",href:homeUrl()},"네모리")),
-  h("div",{class:"pair"},h("div",{class:"solo cp an-drift",html:nemori("miss",{stage:0})})),h("h1",{class:"big",style:"text-align:center"},"등록되지 않은 태그예요"),
-  h("p",{class:"lead",style:"text-align:center"},"#"+id+" 코드로 만든 태그가 없어요. QR이 훼손됐거나 삭제된 태그일 수 있어요."));return}
+  h("div",{class:"wake cp an-drift",html:nemori("miss",{stage:0})}),h("h1",{class:"big",style:"text-align:center"},"등록되지 않은 스티커예요"),
+  h("p",{class:"lead",style:"text-align:center"},"#"+id+" 코드로 만든 네모리가 없어요. 스티커가 훼손됐거나 삭제됐을 수 있어요."));return}
  const{tag,entries}=data;
  if(tag.owner_count===0)return renderClaim(tag,data.auto);
- document.title=(tag.item||"네모리")+" · 네모리";
- const xmas=tag.theme==="xmas";setTheme(tag.theme);app.className="wrap";
+ document.title=(tag.item||"네모리")+" · 네모리 일기";setTheme("basic");app.className="wrap";
  const tok=keyOf(id);let owner=false;try{owner=await DB.isOwner(id,tok)}catch{}
- const list=entries.slice().sort(byNew);
- const st=nstageOf(entries.length);
- const songs=list.filter(e=>e.kind==="노래"&&e.youtube);
- const album=[];list.forEach(e=>(e.media||[]).forEach(m=>album.push({m,title:e.title,when:e.happened_on,entry:e.id})));
- const first=entries.find(e=>e.kind==="소유"&&e.body&&e.body.trim())||entries.find(e=>e.body&&e.body.trim()&&e.kind!=="노래");
- const latest=list[0];
- const baseKey=latest?stampOf(latest):"smile";
- const baseSay=()=>{
-  if(!owner&&tag.transfer_pending)return"새 주인을 기다리고 있어. 양도 코드를 받았나요?";
-  if(latest&&latest.kind==="소유"&&tag.owner_count>1)return tag.owner_count+"번째 주인이 생겼어! 잘 부탁해";
-  if(!owner)return"안녕! 나는 이 "+(tag.item||"물건")+"의 네모리야. 내 이야기 들어 볼래?";
-  return npose(baseKey).say};
- const cp=h("div",{class:"cp"}),bub=h("div",{class:"bubble"}),fx=h("div",{class:"fx"});
- let timer=0;
- const paint=(k,say)=>{cp.className="cp an-"+npose(k).an;cp.innerHTML=nemori(k,{stage:st,prop:"qr",hat:xmas,vb:'10 8 180 182'});bub.textContent=say};
- const play=(k,say,n)=>{clearTimeout(timer);paint(k,say||npose(k).say);hearts(fx,n??npose(k).h);timer=setTimeout(()=>paint(baseKey,baseSay()),3400)};
+ const own=entries.filter(e=>e.kind==="소유").sort((a,b)=>(a.created_at||"").localeCompare(b.created_at||""));
+ const mem=entries.filter(e=>e.kind!=="소유").sort(byNew);
+ const since=sinceText(own[0]&&own[0].happened_on);
+ const st=nstageOf(mem.length);
+ const album=[];mem.forEach(e=>(e.media||[]).forEach(m=>album.push({m,title:e.title,when:e.happened_on,entry:e.id})));
+ const baseKey=mem[0]?stampOf(mem[0]):"smile";
+ const baseSay=()=>!owner&&tag.transfer_pending?"새 주인을 기다리고 있어. 양도 코드를 받았나요?":!owner?"안녕! 나는 이 물건의 네모리야.":NSTG[st].say;
+ const cp=h("div",{class:"cp"}),bub=h("div",{class:"bubble"}),fx=h("div",{class:"fx"});let timer=0;
+ const paint=(k,say)=>{cp.className="cp an-"+npose(k).an;cp.innerHTML=nemori(k,{stage:st,prop:"note",pencil:true,stars:st>=1,vb:'6 4 188 186'});bub.textContent=say};
+ const play=(k,say,n)=>{clearTimeout(timer);paint(k,say);hearts(fx,n??(npose(k).h||1));timer=setTimeout(()=>paint(baseKey,baseSay()),3400)};
  paint(baseKey,baseSay());
- const POKE=["laugh","flutter","sing","proud"];let pn=0;
- cp.addEventListener("click",()=>{const k=POKE[pn++%POKE.length];play(k,["간지러워! 깔깔","콕 찌르니까 두근두근","흥얼흥얼, 노래 한 곡 할까?","나 꽤 멋지지?"][(pn-1)%4])});
- const hero=h("div",{class:"hero"+(xmas?" x":"")},cp,h("div",{class:"rt"},h("span",{class:"sbadge"},NSTG[st].n+" 단계"),bub),h("span",{class:"poke"},"네모리를 콕 눌러 보세요"),fx);
- const pct=st>=4?80:st*20+20*((entries.length-NSTG[st].t)/(NSTG[st+1].t-NSTG[st].t));
- const grow=h("div",{class:"grow","aria-label":"네모리 성장 단계"},h("ol",null,h("span",{class:"bar",style:"width:"+Math.min(80,pct)+"%"}),NSTG.map((s,j)=>h("li",{class:j<st?"done":j===st?"cur":""},h("i"),s.n))),
-  h("p",null,st>=4?"이야기가 꽃으로 피었어요":NSTG[st+1].n+"까지 기록 "+(NSTG[st+1].t-entries.length)+"개 남았어요"));
- let songSec=null,playSong=null;
- if(songs.length){const feature=h("div"),items=[];
-  const select=s=>{feature.replaceChildren(h("article",{class:"song-card"},ytPlayer(s.youtube,s.title),h("div",{class:"song-meta"},h("span",{class:"song-who"},ownerOf(s.owner_no)+"이 고른 노래 · "+s.happened_on),h("h3",null,s.title),s.body?h("p",null,s.body):null)));
-   items.forEach(b=>b.setAttribute("aria-current",String(b.dataset.id===s.id)))};
-  playSong=s=>{select(s);feature.scrollIntoView({behavior:"smooth",block:"center"});const b=feature.querySelector(".yt-play");b&&b.click();play("sing")};
-  const pl=songs.length>1?h("ol",{class:"playlist"},songs.map(s=>{const b=h("button",{class:"pl-item",type:"button","data-id":s.id,onclick:()=>select(s)},h("img",{src:ytThumb(s.youtube),alt:"",loading:"lazy",onerror:hideBroken}),h("span",null,h("b",null,s.title),h("span",null,ownerOf(s.owner_no)+"이 고른 노래")),h("time",null,s.happened_on));items.push(b);return h("li",null,b)})):null;
-  select(songs[0]);
-  songSec=h("section",{class:"sec"},h("div",{class:"lh"},h("b",null,"이 물건과 함께 듣는 노래"),h("span",{class:"muted"},songs.length+"곡")),feature,pl)}
- const albumSec=album.length?h("section",{class:"sec"},h("div",{class:"lh"},h("b",null,"사진과 영상"),h("span",{class:"muted"},album.length+"개")),h("div",{class:"album"},album.slice(0,9).map((it,i)=>tile(it,album,i))),album.length>9?h("button",{class:"link",type:"button",onclick:()=>openLightbox(album,9)},"모두 보기 ("+album.length+"개)"):null):null;
- const KC={"소유":"k-own","사연":"k-story","수리":"k-fix","기록":"k-note","노래":"k-song"};
- const ent=e=>{const mine=owner&&e.owner_no===tag.owner_count&&e.kind!=="소유",media=e.media||[],start=album.findIndex(a=>a.entry===e.id),k=stampOf(e);
+ const POKE=[["joy","간지러워!"],["flutter","콕! 두근두근"],["surprise","깜짝이야!"],["proud","나 오늘도 잘 지켰지?"]];let pn=0;
+ cp.addEventListener("click",()=>{const[k,s]=POKE[pn++%POKE.length];play(k,s)});
+ const ent=e=>{const mine=owner&&e.owner_no===tag.owner_count,media=e.media||[],k=stampOf(e),start=album.findIndex(a=>a.entry===e.id);
+  const thumb=media.length?h("button",{class:"thumb",type:"button","aria-label":e.title+" 사진 크게 보기",onclick:()=>openLightbox(album,start)},
+    media[0].type==="video"?h("video",{src:mediaSrc(media[0])+"#t=0.1",muted:true,playsinline:true,preload:"metadata"}):h("img",{src:mediaSrc(media[0]),alt:"",loading:"lazy",onerror:hideBroken}),
+    media.length>1?h("span",{class:"cnt"},"+"+(media.length-1)):null)
+   :e.youtube?h("button",{class:"thumb",type:"button","aria-label":e.title+" 노래 듣기",onclick:ev=>{const card=ev.currentTarget.closest(".ment");card.querySelector(".ytbox")?.replaceChildren(ytPlayer(e.youtube,e.title))}},h("img",{src:ytThumb(e.youtube),alt:"",loading:"lazy",onerror:hideBroken})):null;
   let del=null;
-  if(mine){del=h("button",{class:"btn small danger",type:"button"},"지우기");let armed=null;
-   del.addEventListener("click",async()=>{if(!armed){del.classList.add("armed");del.textContent="한 번 더 누르면 지워져요";armed=setTimeout(()=>{del.classList.remove("armed");del.textContent="지우기";armed=null},3500);return}
-    clearTimeout(armed);await busy(del,async()=>{try{await DB.deleteEntry(id,tok,e.id);toast("기록을 지웠어요");renderTag(id)}catch(err){toast(errMsg(err))}})})}
-  return h("article",{class:"ent"},
-   h("div",{class:"et"},h("span",{class:"chip "+(KC[e.kind]||"k-own")},KIND_LABEL[e.kind]||e.kind),h("span",{class:"chip g"},ownerOf(e.owner_no||1)),h("time",null,e.happened_on)),
-   h("h4",null,e.title),
-   h("button",{class:"stp1",type:"button","aria-label":npose(k).n+" 도장 다시 보기",html:nthumb(k),onclick:()=>{scrollTo({top:0,behavior:"smooth"});play(k)}}),
-   e.body?h("p",null,e.body):h("p"),
-   media.length?h("div",{class:"strip"},media.slice(0,4).map((m,j)=>tile(album[start+j],album,start+j)),media.length>4?h("button",{class:"more",type:"button",onclick:()=>openLightbox(album,start+4)},"+"+(media.length-4)):null):null,
-   (e.kind==="노래"&&e.youtube&&playSong)||del?h("div",{class:"foot"},e.kind==="노래"&&e.youtube&&playSong?h("button",{class:"btn small ghost",type:"button",onclick:()=>playSong(e)},"이 노래 듣기"):null,del):null)};
- const menuBtn=h("button",{class:"menu",type:"button","aria-label":"메뉴",onclick:()=>menu(tag,tok,owner)},"⋯");
- const parts=[
-  h("div",{class:"hd"},h("a",{class:"chip dk",href:homeUrl()},"네모리 기억 일기"),h("div",{class:"r"},h("span",{class:"chip "+(owner?"y":"g")},owner?"내가 주인":"#"+tag.id),menuBtn)),
-  h("h1",{class:"ttl"},tag.item),tag.spec?h("p",{class:"spec"},tag.spec):null,
-  h("p",{class:"dsub"},h("b",null,ownerOf(tag.owner_count))," "+tag.owner_name+" · 기록 "+entries.length+"개"+(songs.length?" · 노래 "+songs.length+"곡":"")),
-  hero,grow,
-  first?h("blockquote",{class:"quote"},first.body,h("cite",null,"— "+ownerOf(first.owner_no||1)+"의 첫 이야기")):null,
-  !owner&&tag.transfer_pending?h("div",{class:"visit"},h("b",null,"이 물건은 지금 새 주인을 기다리고 있어요"),h("span",{class:"muted"},"이전 주인에게 받은 8자리 양도 코드가 있으면 이어받을 수 있어요.")):null,
-  songSec,albumSec,
-  h("section",{class:"sec"},h("div",{class:"lh"},h("b",null,"이 물건의 기록"),h("span",{class:"muted"},"최신순")),list.map(ent)),
-  !owner?h("button",{class:"link",type:"button",style:"display:block;margin:0 auto",onclick:()=>keySheet(tag)},"이 물건의 주인인가요? 주인 열쇠 넣기"):null,
-  h("p",{class:"fine"},"이전 주인의 이름은 공개되지 않고 사연만 남아요."),
-  owner?h("div",{class:"ctaw"},h("button",{class:"cta",type:"button",onclick:()=>composer(tag,tok,entries.length)},"+ 새 이야기 남기기"))
-   :tag.transfer_pending?h("div",{class:"ctaw"},h("button",{class:"cta",type:"button",onclick:()=>acceptSheet(tag)},"양도 코드로 이어받기")):null];
- mount(parts);
- if(flash&&flash.fresh){play("flutter","안녕, "+(tag.owner_name||"주인")+"! 오늘부터 잘 부탁해",8);setTimeout(()=>keyNotice(id,flash.tok,flash.n),900)}
- if(flash&&flash.level!=null)setTimeout(()=>levelUp(flash.level,xmas),600);
- if(flash&&flash.stamp)play(flash.stamp,"새 이야기를 남겼어!");
+  if(mine){del=h("button",{class:"link",type:"button",style:"min-height:32px;padding:0"},"지우기");let armed=null;
+   del.addEventListener("click",async()=>{if(!armed){del.textContent="한 번 더 누르면 지워져요";armed=setTimeout(()=>{del.textContent="지우기";armed=null},3500);return}
+    clearTimeout(armed);await busy(del,async()=>{try{await DB.deleteEntry(id,tok,e.id);toast("추억을 지웠어요");renderTag(id)}catch(err){toast(errMsg(err))}})})}
+  return h("article",{class:"ment"+(thumb?"":" nothumb")},thumb,
+   h("div",{class:"mt"},h("time",null,e.happened_on),h("h4",null,e.title),e.body?h("p",null,e.body):null,del),
+   h("button",{class:"mst",type:"button","aria-label":npose(k).n+" 네모리 다시 보기",html:nthumb(k),onclick:()=>{scrollTo({top:0,behavior:"smooth"});play(k,npose(k).n+"!")}}),
+   e.youtube?h("div",{class:"ytbox"}):null)};
+ mount(
+  h("div",{class:"hd"},h("a",{class:"chip dk",href:homeUrl()},"네모리 일기"),h("button",{class:"menu",type:"button","aria-label":"메뉴",onclick:()=>menu(tag,tok,owner)},"⋯")),
+  h("h1",{class:"ttl"},tag.item),
+  h("p",{class:"dsub"},(since?since+"부터 · ":"")+"추억 ",h("b",null,String(mem.length)),"개"),
+  h("div",{class:"hero"},cp,h("div",{class:"rt"},h("span",{class:"sbadge"},NSTG[st].n+" 단계"),bub),fx),
+  !owner&&tag.transfer_pending?h("div",{class:"visit"},h("b",null,"이 물건은 지금 새 주인을 기다리고 있어요"),h("span",{class:"muted"},"양도 코드를 받았다면 아래 버튼으로 이어받을 수 있어요.")):null,
+  h("div",{class:"lh",style:"margin-top:18px"},h("b",null,"남긴 추억"),h("span",{class:"muted"},"최신순")),
+  mem.length?mem.map(ent):h("div",{class:"empty"},"아직 남긴 추억이 없어요"),
+  !owner?h("button",{class:"link",type:"button",style:"display:block;margin:12px auto 0",onclick:()=>keySheet(tag)},"이 물건의 주인인가요? 열쇠 넣기"):null,
+  h("div",{class:"ctaw"},owner?h("button",{class:"cta",type:"button",onclick:()=>composer(tag,tok,mem.length)},"+ 오늘의 추억 남기기")
+   :tag.transfer_pending?h("button",{class:"cta",type:"button",onclick:()=>acceptSheet(tag)},"양도 코드로 이어받기"):null));
+  if(flash&&flash.fresh){play("joy","반가워! 오늘부터 이 물건의 추억을 같이 모으자",8);toast("이 기기에 주인 열쇠가 저장됐어요 · ⋯ 메뉴에서 볼 수 있어요")}
+ if(flash&&flash.stamp)play(flash.stamp,flash.level!=null?NSTG[st].say:"오늘의 추억 저장 완료!",flash.level!=null?10:4);
+ if(flash&&flash.level!=null)setTimeout(()=>levelUp(flash.level),900);
 }
-function keyNotice(id,tok,n){sheet("주인 열쇠",
- h("div",{class:"shh"},h("b",null,n?n+"번째 주인이 되었어요":"네모리가 깨어났어요!"),h("span",{class:"chip y"},"주인 열쇠")),
- h("p",{class:"small soft",style:"margin:0 0 8px"},"이 기기에는 자동으로 저장됐어요. 폰을 바꾸거나 브라우저 기록을 지우면 이 열쇠가 있어야 다시 글을 쓰고 양도할 수 있어요. 메모 앱에 꼭 보관해 두세요."),
- h("div",{class:"keybox"},tok),
- h("div",{class:"shact",style:"margin-top:12px"},h("button",{class:"btn ghost",type:"button",onclick:()=>copy(tok)},"열쇠 복사"),h("button",{class:"cta",type:"button",onclick:closeSheet},"보관했어요")))}
 function composer(tag,tok,count){
- const id=tag.id;
- const KINDS=[["사연","사연"],["노래","노래"],["수리","수리·정비"],["기록","메모"]];
- const TEXT={"사연":{t:"제목",tph:"예: 첫 버스킹 공연",b:"내용",bph:"어떤 일이 있었나요? 그날의 날씨, 함께한 사람까지 적어도 좋아요."},
-  "노래":{t:"노래 제목",tph:"링크를 붙이면 자동으로 채워져요",b:"이 노래를 고른 이유",bph:"이 물건을 보면 떠오르는 장면을 적어 주세요."},
-  "수리":{t:"무엇을 고쳤나요",tph:"예: 줄 교체, 셔터막 수리",b:"자세한 내용",bph:"어디서, 얼마에, 무엇을 고쳤는지 남기면 다음 주인이 믿고 쓸 수 있어요."},
-  "기록":{t:"제목",tph:"예: 다음 주인에게 하는 부탁",b:"내용",bph:"보관법, 버릇, 주의할 점 같은 것들"}};
- let kind="사연",files=[],ytId=null,stamp=KIND_STAMP["사연"],picked=false;
- const title=h("input",{id:"e-title",maxlength:"80",required:true});
- const date=h("input",{id:"e-date",type:"month",value:monthValue()});
- const body=h("textarea",{id:"e-body",maxlength:"1000"});
- const titleLbl=h("label",{for:"e-title"}),bodyLbl=h("label",{for:"e-body"});
- const yt=h("input",{id:"e-yt",type:"url",inputmode:"url",placeholder:"https://youtu.be/…",autocomplete:"off"});
- const ytPrev=h("div",{hidden:true});
- const ytWrap=h("div",{class:"field"},h("label",{for:"e-yt"},"유튜브 링크",h("span",{class:"req"},"*")),yt,h("span",{class:"hint"},"유튜브 앱에서 공유 → 링크 복사 후 붙여 넣으세요."),ytPrev);
- const fileIn=h("input",{id:"e-files",type:"file",accept:"image/*,video/mp4,video/quicktime,video/webm",multiple:true,"aria-label":"사진이나 동영상 고르기"});
- const picker=h("label",{class:"picker"},fileIn,h("b",null,"사진·동영상 추가"),h("span",null,"최대 "+CONFIG.MAX_FILES+"개, 영상은 "+CONFIG.MAX_VIDEO_MB+"MB까지"));
- const previews=h("div",{class:"previews"});
- const mediaWrap=h("div",{class:"field"},h("span",{class:"lbl"},"사진과 영상"),picker,previews);
+ const id=tag.id;let files=[],stamp="smile";
+ const title=h("input",{id:"e-title",maxlength:"80",required:true,placeholder:"오늘의 제목","aria-label":"제목"});
+ const body=h("textarea",{id:"e-body",maxlength:"1000",placeholder:"오늘 이 물건과 있었던 일을 적어 주세요","aria-label":"내용"});
+ const prev=h("span",{class:"taprev",html:nthumb(stamp)});
+ const fileIn=h("input",{id:"e-files",type:"file",accept:"image/*,video/mp4,video/quicktime,video/webm",multiple:true,hidden:true});
+ const add=h("label",{class:"addph",for:"e-files"},"+ 사진 붙이기");
+ const previews=h("div",{class:"phs"},add);
  const progress=h("p",{class:"progress",hidden:true}),msg=h("p",{class:"err",hidden:true});
- const btn=h("button",{class:"cta",type:"submit"},"기록 남기기");
- const prev=h("span",{class:"cp",style:"width:54px;flex:none"});
- const stampBtns=NFACES.map(k=>h("button",{class:"stp",type:"button","data-k":k,"aria-pressed":String(k===stamp),html:nthumb(k)+npose(k).n,onclick:()=>{picked=true;setStamp(k)}}));
- function setStamp(k){stamp=k;stampBtns.forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.k===k)));prev.innerHTML=nthumb(k)}
- const seg=h("div",{class:"seg",role:"group","aria-label":"기록 종류"},KINDS.map(([k,l])=>h("button",{type:"button","data-k":k,"aria-pressed":String(k===kind),onclick:()=>setKind(k)},l)));
- function setKind(k){kind=k;seg.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.k===k)));const t=TEXT[k];
-  titleLbl.replaceChildren(t.t,h("span",{class:"req"},"*"));bodyLbl.textContent=t.b;title.placeholder=t.tph;body.placeholder=t.bph;
-  ytWrap.hidden=k!=="노래";mediaWrap.hidden=k==="노래";btn.textContent=k==="노래"?"노래 남기기":"기록 남기기";msg.hidden=true;if(!picked)setStamp(KIND_STAMP[k])}
- function paintPreviews(){previews.querySelectorAll("[data-url]").forEach(el=>URL.revokeObjectURL(el.dataset.url));
-  previews.replaceChildren(...files.map((f,i)=>{const url=URL.createObjectURL(f),v=typeOf(f)==="video";return h("div",{class:"pv","data-url":url},v?h("video",{src:url,muted:true,playsinline:true,preload:"metadata"}):h("img",{src:url,alt:f.name}),v?h("span",{class:"vbadge"},"영상"):null,h("button",{type:"button","aria-label":f.name+" 빼기",onclick:()=>{files.splice(i,1);paintPreviews()}},"×"))}))}
- function addFiles(l){let w="";for(const f of l){if(files.length>=CONFIG.MAX_FILES){w=ERR.too_many_files;break}const t=typeOf(f);
-  if(t==="video"&&f.size>CONFIG.MAX_VIDEO_MB*1048576){w=ERR.too_big;continue}if(t==="image"&&!(f.type||"").startsWith("image/")){w=ERR.bad_media;continue}files.push(f)}if(w)toast(w);paintPreviews()}
- fileIn.addEventListener("change",()=>{addFiles(Array.from(fileIn.files||[]));fileIn.value=""});
- ["dragenter","dragover"].forEach(ev=>picker.addEventListener(ev,e=>{e.preventDefault();picker.classList.add("drag")}));
- ["dragleave","drop"].forEach(ev=>picker.addEventListener(ev,e=>{e.preventDefault();picker.classList.remove("drag")}));
- picker.addEventListener("drop",e=>addFiles(Array.from(e.dataTransfer?.files||[])));
- let seq=0;yt.addEventListener("input",async()=>{const s=++seq;ytId=parseYouTube(yt.value);
-  if(!ytId){ytPrev.hidden=!yt.value.trim();ytPrev.replaceChildren(h("p",{class:"err"},"아직 유튜브 링크로 알아보지 못했어요."));return}
-  const info=h("div",null,h("b",null,"노래 정보를 불러오는 중…"),h("span",null,"youtu.be/"+ytId));ytPrev.hidden=false;
-  ytPrev.replaceChildren(h("div",{class:"yt-preview"},h("img",{src:ytThumb(ytId),alt:"",onerror:hideBroken}),info));
-  const meta=await ytTitle(ytId);if(s!==seq)return;
-  if(meta){info.replaceChildren(h("b",null,meta.title),h("span",null,meta.author||"YouTube"));if(!title.value.trim())title.value=meta.title.slice(0,80)}
-  else info.replaceChildren(h("b",null,"링크를 확인했어요"),h("span",null,"노래 제목은 직접 적어 주세요"))});
+ const btn=h("button",{class:"cta",type:"submit"},"저장하기");
+ const grid=NFACES.map(k=>h("button",{class:"stp",type:"button","data-k":k,"aria-pressed":String(k===stamp),html:nthumb(k)+"<span>"+npose(k).n+"</span>",onclick:()=>{stamp=k;grid.forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.k===k)));prev.innerHTML=nthumb(k)}}));
+ function paint(){previews.querySelectorAll("[data-url]").forEach(el=>URL.revokeObjectURL(el.dataset.url));
+  previews.replaceChildren(add,...files.map((f,i)=>{const url=URL.createObjectURL(f),v=typeOf(f)==="video";return h("div",{class:"pv","data-url":url},v?h("video",{src:url,muted:true,playsinline:true,preload:"metadata"}):h("img",{src:url,alt:f.name}),v?h("span",{class:"vbadge"},"영상"):null,h("button",{type:"button","aria-label":f.name+" 빼기",onclick:()=>{files.splice(i,1);paint()}},"×"))}))}
+ fileIn.addEventListener("change",()=>{let w="";for(const f of Array.from(fileIn.files||[])){if(files.length>=CONFIG.MAX_FILES){w=ERR.too_many_files;break}const t=typeOf(f);
+  if(t==="video"&&f.size>CONFIG.MAX_VIDEO_MB*1048576){w=ERR.too_big;continue}if(t==="image"&&!(f.type||"").startsWith("image/")){w=ERR.bad_media;continue}files.push(f)}fileIn.value="";if(w)toast(w);paint()});
  const form=h("form",{onsubmit:async e=>{e.preventDefault();msg.hidden=true;
-  if(kind==="노래"&&!ytId){msg.hidden=false;msg.textContent=ERR.bad_youtube;yt.focus();return}
-  if(!title.value.trim()){msg.hidden=false;msg.textContent=ERR.bad_title;title.focus();return}
+  if(!title.value.trim()){msg.hidden=false;msg.textContent="제목을 적어 주세요.";title.focus();return}
   await busy(btn,async()=>{try{const media=[];
-   if(kind!=="노래")for(let i=0;i<files.length;i++){const f=files[i],t=typeOf(f);progress.hidden=false;progress.textContent=(t==="video"?"영상":"사진")+" 올리는 중 "+(i+1)+" / "+files.length;
+   for(let i=0;i<files.length;i++){const f=files[i],t=typeOf(f);progress.hidden=false;progress.textContent=(t==="video"?"영상":"사진")+" 올리는 중 "+(i+1)+" / "+files.length;
     const ready=t==="image"?await shrinkImage(f,1800,.86):f;media.push(await DB.uploadMedia(id,tok,ready,t))}
-   progress.hidden=false;progress.textContent="기록을 저장하는 중…";
-   await DB.addEntry(id,tok,{kind,title:title.value,body:body.value,date:monthInput(date.value),media,youtube:kind==="노래"?ytId:null,stamp});
-   closeSheet();toast(kind==="노래"?"노래를 남겼어요":"기록을 남겼어요");
-   const before=nstageOf(count),after=nstageOf(count+1);renderTag(id,{stamp,level:after>before?after:null})}
+   progress.hidden=false;progress.textContent="추억을 저장하는 중…";
+   await DB.addEntry(id,tok,{kind:"사연",title:title.value,body:body.value,date:todayDot(),media,youtube:null,stamp});
+   closeSheet();const b=nstageOf(count),a=nstageOf(count+1);renderTag(id,{stamp,level:a>b?a:null})}
   catch(err){progress.hidden=true;msg.hidden=false;msg.textContent=errMsg(err)}})}},
-  seg,ytWrap,h("div",{class:"two"},h("div",{class:"field"},titleLbl,title),field("언제",date)),h("div",{class:"field"},bodyLbl,body),
-  h("div",{class:"spread",style:"margin:4px 0 8px"},h("b",{style:"font-size:14px"},"오늘의 도장"),prev),h("div",{class:"stamps"},stampBtns),
-  mediaWrap,progress,msg,h("div",{class:"shact"},h("button",{class:"btn ghost",type:"button",onclick:closeSheet},"닫기"),btn));
- setKind("사연");setStamp(stamp);
- sheet("새 이야기",h("div",{class:"shh"},h("b",null,"새 이야기"),h("span",{class:"chip y"},tag.owner_name+"이 쓰는 중"),h("span",{class:"r"},monthNow())),form)}
+  title,h("div",{class:"ta"},body,prev),previews,fileIn,
+  h("div",{class:"lbl"},h("b",null,"오늘의 네모리"),h("small",null,"하나 골라요")),h("div",{class:"stamps"},grid),
+  progress,msg,btn);
+ sheet("새 추억",h("div",{class:"shh"},h("b",{class:"hand"},"새 추억"),h("span",{class:"r"},todayDot().replace(/\./g,". "))),form)}
 function menu(tag,tok,owner){
  const items=[];
- if(owner){items.push(h("button",{type:"button",onclick:()=>transferSheet(tag,tok)},tag.transfer_pending?"양도 진행 중 · 코드 보기":"양도하기"),h("p",null,"팔거나 물려줄 때 써요. 내 이름은 지워지고 이야기만 남아요."),
-  h("button",{type:"button",onclick:()=>editSheet(tag,tok)},"물건 정보와 분위기 바꾸기"),
-  h("button",{type:"button",onclick:()=>keyNotice(tag.id,tok)},"내 주인 열쇠 보기"))}
- else{items.push(h("button",{type:"button",onclick:()=>keySheet(tag)},"주인 열쇠 넣기"),h("p",null,"등록할 때 받은 열쇠가 있으면 이 기기에서도 쓸 수 있어요."));
-  if(tag.transfer_pending)items.push(h("button",{type:"button",onclick:()=>acceptSheet(tag)},"양도 코드로 이어받기"))}
- items.push(h("button",{type:"button",onclick:()=>copy(tagUrl(tag.id))},"이 태그 주소 복사"),h("a",{class:"btn ghost",href:homeUrl(),style:"justify-content:flex-start"},"네모리 패밀리 첫 화면"));
+ if(owner)items.push(h("button",{type:"button",onclick:()=>editSheet(tag,tok)},"물건 이름 바꾸기"),
+  h("button",{type:"button",onclick:()=>keyNotice(tag.id,tok)},"내 주인 열쇠 보기"),h("p",null,"폰을 바꾸면 이 열쇠로 다시 주인이 될 수 있어요."),
+  h("button",{type:"button",onclick:()=>transferSheet(tag,tok)},tag.transfer_pending?"넘겨주는 중 · 코드 보기":"다른 사람에게 넘겨주기"),h("p",null,"추억은 그대로 남고, 새 주인이 이어서 적어요."));
+ else{items.push(h("button",{type:"button",onclick:()=>keySheet(tag)},"주인 열쇠 넣기"));if(tag.transfer_pending)items.push(h("button",{type:"button",onclick:()=>acceptSheet(tag)},"양도 코드로 이어받기"))}
+ items.push(h("button",{type:"button",onclick:()=>copy(tagUrl(tag.id))},"이 네모리 주소 복사"));
  sheet("메뉴",h("div",{class:"shh"},h("b",null,"메뉴"),h("span",{class:"chip g"},"#"+tag.id)),h("div",{class:"mlist"},items),h("button",{class:"btn ghost",type:"button",style:"width:100%;margin-top:10px",onclick:closeSheet},"닫기"))}
+function keyNotice(id,tok){sheet("주인 열쇠",h("div",{class:"shh"},h("b",null,"내 주인 열쇠")),
+ h("p",{class:"small soft",style:"margin:0 0 8px"},"이 기기에는 자동으로 저장돼 있어요. 폰을 바꾸거나 브라우저 기록을 지우면 이 열쇠가 있어야 다시 추억을 남길 수 있어요."),
+ h("div",{class:"keybox"},tok||"이 기기에 저장된 열쇠가 없어요"),
+ h("div",{class:"shact",style:"margin-top:12px"},h("button",{class:"btn ghost",type:"button",onclick:()=>copy(tok)},"열쇠 복사"),h("button",{class:"cta",type:"button",onclick:closeSheet},"닫기")))}
 function transferSheet(tag,tok){const id=tag.id,codeKey="memtag-transfer-"+id,box=h("div",{style:"display:grid;gap:12px"});
  const start=b=>busy(b,async()=>{try{const code=await DB.startTransfer(id,tok);store.set(codeKey,code);tag.transfer_pending=true;paint()}catch(err){toast(errMsg(err))}});
  const paint=()=>{const saved=store.get(codeKey);
-  if(tag.transfer_pending){const cancel=h("button",{class:"btn ghost",type:"button"},"양도 취소"),renew=h("button",{class:"btn ghost",type:"button"},"새 코드 받기");
-   cancel.addEventListener("click",()=>busy(cancel,async()=>{try{await DB.cancelTransfer(id,tok);store.del(codeKey);tag.transfer_pending=false;paint();toast("양도를 취소했어요")}catch(err){toast(errMsg(err))}}));
+  if(tag.transfer_pending){const cancel=h("button",{class:"btn ghost",type:"button"},"취소"),renew=h("button",{class:"btn ghost",type:"button"},"새 코드 받기");
+   cancel.addEventListener("click",()=>busy(cancel,async()=>{try{await DB.cancelTransfer(id,tok);store.del(codeKey);tag.transfer_pending=false;paint();toast("넘겨주기를 취소했어요")}catch(err){toast(errMsg(err))}}));
    renew.addEventListener("click",()=>start(renew));
-   box.replaceChildren(h("p",{class:"small",style:"margin:0"},"새 주인에게 아래 코드를 알려 주세요. 새 주인이 이 태그를 찍고 코드를 넣으면 소유권이 넘어가요. 코드는 7일 동안 쓸 수 있어요."),
-    saved?h("div",{class:"bigcode"},saved):h("p",{class:"small soft"},"코드는 만든 기기에서만 다시 볼 수 있어요. 잃어버렸다면 새 코드를 받으세요."),
+   box.replaceChildren(h("p",{class:"small",style:"margin:0"},"새 주인에게 이 코드를 알려 주세요. 새 주인이 스티커를 찍고 코드를 넣으면 이어받아요. 7일 동안 쓸 수 있어요."),
+    saved?h("div",{class:"bigcode"},saved):h("p",{class:"small soft"},"코드는 만든 기기에서만 다시 볼 수 있어요. 새 코드를 받으세요."),
     h("div",{class:"row"},saved?h("button",{class:"btn",type:"button",onclick:()=>copy(saved)},"코드 복사"):null,renew,cancel))}
-  else{const go=h("button",{class:"cta",type:"button"},"양도 코드 만들기");go.addEventListener("click",()=>start(go));
-   box.replaceChildren(h("div",{class:"cp an-drift",style:"width:140px;margin:0 auto",html:nemori("miss",{stage:nstageOf(1)})}),
-    h("p",{class:"small soft",style:"margin:0"},"양도가 끝나면 이 기기의 주인 열쇠는 더 이상 쓸 수 없고, 내 이름은 기록에서 사라져요. 내가 남긴 사연과 노래, 사진은 네모리가 기억해요."),go)}};
- paint();sheet("양도하기",h("div",{class:"shh"},h("b",null,tag.transfer_pending?"양도 진행 중":"양도하기")),box,h("button",{class:"btn ghost",type:"button",style:"width:100%;margin-top:12px",onclick:()=>{closeSheet();renderTag(id)}},"닫기"))}
-function editSheet(tag,tok){const item=h("input",{id:"u-item",maxlength:"60",required:true,value:tag.item}),spec=h("input",{id:"u-spec",maxlength:"80",value:tag.spec||""}),msg=h("p",{class:"err",hidden:true}),btn=h("button",{class:"cta",type:"submit"},"저장");
- sheet("물건 정보",h("div",{class:"shh"},h("b",null,"물건 정보와 분위기")),h("form",{onsubmit:async e=>{e.preventDefault();const theme=($("#lay").querySelector("input[name=u-theme]:checked")||{}).value||"basic";
-  await busy(btn,async()=>{try{await DB.updateTag(tag.id,tok,{item:item.value,spec:spec.value,theme});closeSheet();toast("저장했어요");renderTag(tag.id)}catch(err){msg.hidden=false;msg.textContent=errMsg(err)}})}},
-  field("물건 이름",item,{req:true}),field("한 줄 설명",spec),h("div",{class:"field"},h("span",{class:"lbl"},"페이지 분위기"),choices("u-theme",[["basic","기본"],["xmas","크리스마스"]],tag.theme)),msg,
-  h("div",{class:"shact"},h("button",{class:"btn ghost",type:"button",onclick:closeSheet},"닫기"),btn)))}
+  else{const go=h("button",{class:"cta",type:"button"},"넘겨주기 코드 만들기");go.addEventListener("click",()=>start(go));
+   box.replaceChildren(h("div",{class:"cp an-drift",style:"width:130px;margin:0 auto",html:nemori("miss",{stage:1})}),
+    h("p",{class:"small soft",style:"margin:0"},"넘겨주면 이 기기의 열쇠는 더 이상 쓸 수 없어요. 그동안 남긴 추억은 네모리가 그대로 기억해요."),go)}};
+ paint();sheet("넘겨주기",h("div",{class:"shh"},h("b",null,"다른 사람에게 넘겨주기")),box,h("button",{class:"btn ghost",type:"button",style:"width:100%;margin-top:12px",onclick:()=>{closeSheet();renderTag(id)}},"닫기"))}
+function editSheet(tag,tok){const item=h("input",{id:"u-item",maxlength:"60",required:true,value:tag.item}),msg=h("p",{class:"err",hidden:true}),btn=h("button",{class:"cta",type:"submit"},"저장");
+ sheet("물건 이름",h("div",{class:"shh"},h("b",null,"물건 이름 바꾸기")),h("form",{onsubmit:async e=>{e.preventDefault();
+  await busy(btn,async()=>{try{await DB.updateTag(tag.id,tok,{item:item.value,spec:tag.spec||"",theme:"basic"});closeSheet();toast("바꿨어요");renderTag(tag.id)}catch(err){msg.hidden=false;msg.textContent=errMsg(err)}})}},
+  field("물건 이름",item),msg,h("div",{class:"shact"},h("button",{class:"btn ghost",type:"button",onclick:closeSheet},"닫기"),btn)))}
 function acceptSheet(tag){const code=h("input",{id:"a-code",maxlength:"8",required:true,placeholder:"예: 7KQ2M9XA",autocomplete:"off",autocapitalize:"characters",class:"mono"}),
- ownerIn=h("input",{id:"a-owner",maxlength:"30",required:true}),story=h("textarea",{id:"a-story",maxlength:"1000",placeholder:"이 물건을 어떻게 만나게 됐나요?"}),msg=h("p",{class:"err",hidden:true}),btn=h("button",{class:"cta",type:"submit"},"새 주인으로 받기");
+ story=h("textarea",{id:"a-story",maxlength:"1000",placeholder:"이 물건을 어떻게 만나게 됐나요? (선택)"}),msg=h("p",{class:"err",hidden:true}),btn=h("button",{class:"cta",type:"submit"},"이어받기");
  sheet("이어받기",h("div",{class:"shh"},h("b",null,"양도 코드로 이어받기")),h("form",{onsubmit:async e=>{e.preventDefault();const tok=randomToken();
-  await busy(btn,async()=>{try{const n=await DB.acceptTransfer(tag.id,code.value.trim().toUpperCase(),ownerIn.value,story.value,tok);setKey(tag.id,tok);closeSheet();renderTag(tag.id,{fresh:true,tok,n})}catch(err){msg.hidden=false;msg.textContent=errMsg(err)}})}},
-  h("div",{class:"two"},field("양도 코드",code,{req:true}),field("내 이름 또는 닉네임",ownerIn,{req:true})),field("나의 첫 이야기",story),msg,
-  h("div",{class:"shact"},h("button",{class:"btn ghost",type:"button",onclick:closeSheet},"닫기"),btn)))}
+  await busy(btn,async()=>{try{await DB.acceptTransfer(tag.id,code.value.trim().toUpperCase(),"주인",story.value,tok);setKey(tag.id,tok);closeSheet();renderTag(tag.id,{fresh:true})}catch(err){msg.hidden=false;msg.textContent=errMsg(err)}})}},
+  field("양도 코드",code),field("첫 한마디",story),msg,h("div",{class:"shact"},h("button",{class:"btn ghost",type:"button",onclick:closeSheet},"닫기"),btn)))}
 function keySheet(tag){const key=h("input",{id:"k-key",required:true,autocomplete:"off",autocapitalize:"off",spellcheck:"false",class:"mono"}),msg=h("p",{class:"err",hidden:true}),btn=h("button",{class:"cta",type:"submit"},"열쇠 확인");
- sheet("주인 열쇠",h("div",{class:"shh"},h("b",null,"이 물건의 주인인가요?")),h("p",{class:"small soft",style:"margin:0 0 10px"},"등록할 때 받은 주인 열쇠를 넣으면 이 기기에서도 기록을 남기고 양도할 수 있어요."),
+ sheet("주인 열쇠",h("div",{class:"shh"},h("b",null,"이 물건의 주인인가요?")),h("p",{class:"small soft",style:"margin:0 0 10px"},"⋯ 메뉴의 '내 주인 열쇠'에 있던 값을 넣으면 이 기기에서도 추억을 남길 수 있어요."),
   h("form",{onsubmit:async e=>{e.preventDefault();const tok=key.value.trim();
    await busy(btn,async()=>{try{if(await DB.isOwner(tag.id,tok)){setKey(tag.id,tok);closeSheet();toast("주인으로 확인됐어요");renderTag(tag.id)}else{msg.hidden=false;msg.textContent=ERR.bad_token}}catch(err){msg.hidden=false;msg.textContent=errMsg(err)}})}},
    field("주인 열쇠",key),msg,h("div",{class:"shact"},h("button",{class:"btn ghost",type:"button",onclick:closeSheet},"닫기"),btn)))}
 function renderFatal(text){setTheme("basic");app.className="wrap";
- mount(h("div",{class:"hd"},h("a",{class:"chip dk",href:homeUrl()},"네모리")),h("div",{class:"pair"},h("div",{class:"solo cp an-drift",html:nemori("ouch",{stage:1})})),
+ mount(h("div",{class:"hd"},h("a",{class:"chip dk",href:homeUrl()},"네모리")),h("div",{class:"wake cp an-sniff",html:nemori("cry",{stage:1})}),
   h("h1",{class:"big",style:"text-align:center"},"페이지를 열 수 없어요"),h("p",{class:"lead",style:"text-align:center"},text))}
 function topline(right){return h("div",{class:"hd"},h("a",{class:"chip dk",href:homeUrl()},"네모리 패밀리"),right)}
 function demoNotice(extra){if(DB.mode!=="demo")return null;return h("p",{class:"okmsg"},"체험 모드 · 이 브라우저에만 저장돼요."+(extra?" "+extra:""))}

@@ -38,7 +38,7 @@ alter table public.entries add constraint entries_kind_check check (kind in ('�
 alter table public.entries drop constraint if exists entries_youtube_check;
 alter table public.entries add constraint entries_youtube_check check (youtube is null or youtube ~ '^[A-Za-z0-9_-]{11}$');
 alter table public.entries drop constraint if exists entries_stamp_check;
-alter table public.entries add constraint entries_stamp_check check (stamp is null or stamp in ('smile', 'flutter', 'laugh', 'moved', 'proud', 'ouch', 'miss', 'sing'));
+alter table public.entries add constraint entries_stamp_check check (stamp is null or stamp in ('smile', 'joy', 'flutter', 'moved', 'miss', 'surprise', 'proud', 'cry', 'laugh', 'ouch', 'sing'));
 alter table public.entries drop constraint if exists entries_media_check;
 alter table public.entries add constraint entries_media_check check (jsonb_typeof(media) = 'array' and jsonb_array_length(media) <= 10);
 
@@ -243,7 +243,7 @@ begin
   if char_length(coalesce(p_body, '')) > 1000 then raise exception 'too_long'; end if;
   if p_youtube is not null and p_youtube !~ '^[A-Za-z0-9_-]{11}$' then raise exception 'bad_youtube'; end if;
   if p_kind = '노래' and p_youtube is null then raise exception 'bad_youtube'; end if;
-  if p_stamp is not null and p_stamp not in ('smile', 'flutter', 'laugh', 'moved', 'proud', 'ouch', 'miss', 'sing') then raise exception 'bad_kind'; end if;
+  if p_stamp is not null and p_stamp not in ('smile', 'joy', 'flutter', 'moved', 'miss', 'surprise', 'proud', 'cry', 'laugh', 'ouch', 'sing') then raise exception 'bad_kind'; end if;
   if p_media is null then p_media := '[]'::jsonb; end if;
   if jsonb_typeof(p_media) <> 'array' or jsonb_array_length(p_media) > 10 then raise exception 'bad_media'; end if;
 
